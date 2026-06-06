@@ -1332,6 +1332,26 @@ body.show-draft .anim-draft { display: block; }
   .section-head .title, .section-head .sub,
   .content-card, .project-row { opacity: 1 !important; transform: none !important; }
 }
+
+/* =================================================================
+   MOBILE: snap-scroll, compact nav, dot-grid 25%, skills 2-col
+   ================================================================= */
+@media (max-width: 859px) {
+  html { scroll-snap-type: y mandatory; scroll-padding-top: 64px; }
+  .hero, .section, .skills-software-split { scroll-snap-align: start; }
+  .nav-links { display: flex; gap: 2px; overflow-x: auto; flex: 1; justify-content: flex-end; }
+  .nav-link { padding: 6px 10px; font-size: 0.78rem; white-space: nowrap; }
+  .nav-cta { display: none; }
+  #dot-grid, #work-dot-grid { height: 25%; bottom: auto; }
+  #software { display: none !important; }
+  .skills-software-split { grid-template-columns: 1fr; gap: 0; }
+  .skills-software-split .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .skill-pill { min-height: auto; padding: 8px 12px; font-size: 0.8rem; }
+}
+.nav-link.is-active { color: var(--on-dark); background: rgba(255,255,255,0.12); }
+.nav-link.is-active:hover { color: var(--on-dark); background: rgba(255,255,255,0.15); }
+.topnav.is-scrolled .nav-link.is-active { color: var(--navy-700); background: var(--soft-blue); }
+.topnav.is-scrolled .nav-link.is-active:hover { color: var(--navy-700); background: var(--soft-blue); }
 </style>
 </head>
 <body>
@@ -1345,15 +1365,15 @@ body.show-draft .anim-draft { display: block; }
       <span class="brand-mark">JL</span>
       <span>
         <span class="brand-name">John Lomnicki</span>
-        <span class="brand-role">- Motion Designer</span>
+        <span class="brand-role">- Production Editor &amp; Motion Designer</span>
       </span>
     </a>
     <div class="nav-links" role="navigation">
-      <a class="nav-link" href="#skills">Skills</a>
-      <a class="nav-link" href="#animation-work">Work</a>
-      <a class="nav-link" href="#campaigns">Campaigns</a>
-      <a class="nav-link" href="#education">Education</a>
-      <a class="nav-link" href="#contact">Contact</a>
+      <a class="nav-link" href="#skills" data-section="skills">Skills</a>
+      <a class="nav-link" href="#animation-work" data-section="animation-work">Work</a>
+      <a class="nav-link" href="#campaigns" data-section="campaigns">Campaigns</a>
+      <a class="nav-link" href="#education" data-section="education">Education</a>
+      <a class="nav-link" href="#contact" data-section="contact">Contact</a>
     </div>
     <a class="nav-cta" href="https://drive.google.com/drive/folders/1_SLbZgKhBZWUzWbMosAAZ0lenxpSD07Q?usp=drive_link" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
@@ -1372,7 +1392,6 @@ body.show-draft .anim-draft { display: block; }
       <span class="pulse" aria-hidden="true"></span>
       Available for work · Canberra, Australia
     </div>
-    <div class="hero-year">2026</div>
     <h1 class="hero-name">
       <span class="first">John</span>
       <span class="surname">Lomnicki</span>
@@ -2164,15 +2183,39 @@ body.show-draft .anim-draft { display: block; }
   }
 
   /* =================================================================
-     NAV: solid-on-scroll
+     NAV: becomes white when half the hero is scrolled past
      ================================================================= */
   const nav = document.getElementById("topnav");
+  const heroNav = document.querySelector(".hero");
   const onScroll = () => {
-    if (window.scrollY > 80) nav.classList.add("is-scrolled");
-    else nav.classList.remove("is-scrolled");
+    if (heroNav) {
+      const rect = heroNav.getBoundingClientRect();
+      nav.classList.toggle("is-scrolled", rect.bottom < window.innerHeight * 0.5);
+    }
   };
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
+
+  /* =================================================================
+     NAV: active link tracking (highlight section in view)
+     ================================================================= */
+  const navLinks = document.querySelectorAll(".nav-link[data-section]");
+  const navSections = new Map();
+  navLinks.forEach(link => {
+    const id = link.dataset.section;
+    const el = document.getElementById(id);
+    if (el) navSections.set(id, { el, link });
+  });
+  if (navSections.size && "IntersectionObserver" in window) {
+    const navIo = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.toggle("is-active", l.dataset.section === entry.target.id));
+        }
+      }
+    }, { threshold: 0.25, rootMargin: "-64px 0px -40% 0px" });
+    navSections.forEach((v, id) => navIo.observe(v.el));
+  }
 
   /* =================================================================
      ADOBE APPS POP-UP
