@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 595 842">
+  <!-- Generator: Adobe Illustrator 29.8.4, SVG Export Plug-In . SVG Version: 2.1.1 Build 6)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #e8ecf1;
+      }
+
+      .st1 {
+        fill: #636366;
+        font-size: 8px;
+      }
+
+      .st1, .st2, .st3, .st4, .st5, .st6, .st7, .st8, .st9, .st10 {
+        isolation: isolate;
+      }
+
+      .st1, .st2, .st3, .st4, .st6, .st8, .st9, .st10 {
+        font-family: Arial-BoldMT, Arial;
+        font-weight: 700;
+      }
+
+      .st11 {
+        clip-path: url(#clippath-6);
+      }
+
+      .st12 {
+        clip-path: url(#clippath-7);
+      }
+
+      .st2 {
+        fill: #8b6308;
+      }
+
+      .st2, .st4, .st6, .st10 {
+        font-size: 7.5px;
+      }
+
+      .st13 {
+        clip-path: url(#clippath-4);
+      }
+
+      .st14 {
+        fill: #007aff;
+      }
+
+      .st15 {
+        stroke: #e5e5ea;
+      }
+
+      .st15, .st16 {
+        fill: none;
+      }
+
+      .st17 {
+        fill: #ffe8e6;
+      }
+
+      .st18 {
+        clip-path: url(#clippath-9);
+      }
+
+      .st3 {
+        font-size: 13px;
+      }
+
+      .st3, .st4, .st9 {
+        fill: #1c1c1e;
+      }
+
+      .st19, .st8 {
+        fill: #fff;
+      }
+
+      .st5 {
+        fill: #a0aab4;
+        font-size: 7px;
+      }
+
+      .st5, .st7 {
+        font-family: ArialMT, Arial;
+      }
+
+      .st20 {
+        clip-path: url(#clippath-1);
+      }
+
+      .st21 {
+        fill: #f2f2f7;
+      }
+
+      .st6 {
+        fill: #c0392b;
+      }
+
+      .st22 {
+        clip-path: url(#clippath-5);
+      }
+
+      .st23 {
+        fill: #e8f4ff;
+      }
+
+      .st24 {
+        clip-path: url(#clippath-8);
+      }
+
+      .st25 {
+        fill: #ff3b30;
+      }
+
+      .st26 {
+        clip-path: url(#clippath-3);
+      }
+
+      .st27 {
+        fill: #fff8e8;
+      }
+
+      .st7 {
+        fill: #3a3a3c;
+        font-size: 8.5px;
+      }
+
+      .st8 {
+        font-size: 9px;
+      }
+
+      .st28 {
+        fill: #30b0a8;
+      }
+
+      .st29 {
+        fill: #f5a623;
+      }
+
+      .st30 {
+        clip-path: url(#clippath-2);
+      }
+
+      .st9 {
+        font-size: 10px;
+      }
+
+      .st31 {
+        clip-path: url(#clippath);
+      }
+
+      .st10 {
+        fill: #0056b3;
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="st16" x="28" y="54" width="265.5" height="75" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="st16" x="301.5" y="54" width="265.5" height="75" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-2">
+      <rect class="st16" x="28" y="137" width="265.5" height="75" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-3">
+      <rect class="st16" x="301.5" y="137" width="265.5" height="150" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-4">
+      <rect class="st16" x="28" y="325" width="265.5" height="130" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-5">
+      <rect class="st16" x="301.5" y="325" width="265.5" height="175" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-6">
+      <rect class="st16" x="28" y="534" width="265.5" height="78" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-7">
+      <rect class="st16" x="28" y="620" width="265.5" height="68" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-8">
+      <rect class="st16" x="301.5" y="534" width="265.5" height="130" rx="10" ry="10"/>
+    </clipPath>
+    <clipPath id="clippath-9">
+      <rect class="st16" x="301.5" y="672" width="265.5" height="90" rx="10" ry="10"/>
+    </clipPath>
+  </defs>
+  <rect class="st0" width="595" height="842"/>
+  <path class="st14" d="M37,28h0c4.97,0,9,4.03,9,9h0c0,4.97-4.03,9-9,9h0c-4.97,0-9-4.03-9-9h0c0-4.97,4.03-9,9-9Z"/>
+  <text class="st8" transform="translate(34.5 41)"><tspan x="0" y="0">2</tspan></text>
+  <text class="st3" transform="translate(52 42)"><tspan x="0" y="0">Additional Animation Clients</tspan></text>
+  <rect class="st19" x="28" y="54" width="265.5" height="75" rx="10" ry="10"/>
+  <g class="st31">
+    <rect class="st14" x="28" y="54" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(102.05 74)"><tspan x="0" y="0">Logo &amp; Brand Animation</tspan></text>
+  <path class="st21" d="M61.38,82h84.62c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8H61.38c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(61.1 94)"><tspan x="0" y="0">Hands Across Canberra</tspan></text>
+  <path class="st21" d="M170,82h10.38c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-10.38c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(167.27 94)"><tspan x="0" y="0">RDE</tspan></text>
+  <path class="st21" d="M204.38,82h55.75c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-55.75c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(206.41 94)"><tspan x="0" y="0">Radio stations</tspan></text>
+  <path class="st21" d="M141.12,102h39.25c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-39.25c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(140.74 114)"><tspan x="0" y="0">Network 10</tspan></text>
+  <rect class="st19" x="301.5" y="54" width="265.5" height="75" rx="10" ry="10"/>
+  <g class="st20">
+    <rect class="st28" x="301.5" y="54" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(358.87 74)"><tspan x="0" y="0">Outdoor Advertising &amp; Displays</tspan></text>
+  <path class="st21" d="M366.5,82h72.25c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-72.25c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(363.11 94)"><tspan x="0" y="0">Domayne Wollongong</tspan></text>
+  <path class="st21" d="M462.75,82h39.25c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-39.25c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(462.17 94)"><tspan x="0" y="0">Toyota AFL</tspan></text>
+  <path class="st21" d="M370.62,102h72.25c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-72.25c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(371.95 114)"><tspan x="0" y="0">Coles x MasterChef</tspan></text>
+  <path class="st21" d="M466.88,102h31c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-31c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st4" transform="translate(463.82 114)"><tspan x="0" y="0">Marymead</tspan></text>
+  <rect class="st19" x="28" y="137" width="265.5" height="75" rx="10" ry="10"/>
+  <g class="st30">
+    <rect class="st29" x="28" y="137" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(90.55 157)"><tspan x="0" y="0">Storyboard &amp; Visual Planning</tspan></text>
+  <path class="st27" d="M57.25,165h10.38c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-10.38c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st2" transform="translate(53.9 177)"><tspan x="0" y="0">MHA</tspan></text>
+  <path class="st27" d="M91.62,165h64c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-64c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st2" transform="translate(91.05 177)"><tspan x="0" y="0">Alexander Watson</tspan></text>
+  <path class="st27" d="M179.62,165h84.62c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-84.62c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st2" transform="translate(179.43 177)"><tspan x="0" y="0">Greenwood Forest Glen</tspan></text>
+  <rect class="st19" x="301.5" y="137" width="265.5" height="150" rx="10" ry="10"/>
+  <g class="st26">
+    <rect class="st14" x="301.5" y="137" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(358.95 157)"><tspan x="0" y="0">Social Media Campaign Results</tspan></text>
+  <path class="st23" d="M319.5,165h72.25c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-72.25c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st10" transform="translate(321.39 177)"><tspan x="0" y="0">Kingsley&apos;s Chicken</tspan></text>
+  <path class="st23" d="M415.75,165h59.88c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-59.88c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st10" transform="translate(415.05 177)"><tspan x="0" y="0">My Seeker Loans</tspan></text>
+  <path class="st23" d="M319.5,185h68.12c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-68.12c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st10" transform="translate(318.55 197)"><tspan x="0" y="0">Network 10 Promos</tspan></text>
+  <circle class="st14" cx="311.5" cy="214" r="2.5"/>
+  <text class="st7" transform="translate(319.5 217)"><tspan x="0" y="0">Kingsley’s: YouTube grew 1k to 880k+ views</tspan></text>
+  <circle class="st14" cx="311.5" cy="238" r="2.5"/>
+  <text class="st7" transform="translate(319.5 241)"><tspan x="0" y="0">My Seeker Loans: Cut-edited podcast production for finance</tspan></text>
+  <circle class="st14" cx="311.5" cy="262" r="2.5"/>
+  <text class="st7" transform="translate(319.5 265)"><tspan x="0" y="0">Digital &amp; social promo adaptations</tspan></text>
+  <path class="st14" d="M37,299h0c4.97,0,9,4.03,9,9h0c0,4.97-4.03,9-9,9h0c-4.97,0-9-4.03-9-9h0c0-4.97,4.03-9,9-9Z"/>
+  <text class="st8" transform="translate(34.5 312)"><tspan x="0" y="0">3</tspan></text>
+  <text class="st3" transform="translate(52 313)"><tspan x="0" y="0">Adobe Creative Suite &amp; Broadcast</tspan></text>
+  <rect class="st19" x="28" y="325" width="265.5" height="130" rx="10" ry="10"/>
+  <g class="st13">
+    <rect class="st14" x="28" y="325" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(38 343)"><tspan x="0" y="0">Core Software</tspan></text>
+  <text class="st1" transform="translate(38 357)"><tspan x="0" y="0">After Effects</tspan></text>
+  <path class="st21" d="M110.5,351h165.5c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <path class="st14" d="M110.5,351h156.98c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <text class="st1" transform="translate(38 373)"><tspan x="0" y="0">Premiere Pro</tspan></text>
+  <path class="st21" d="M110.5,367h165.5c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <path class="st14" d="M110.5,367h151.86c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <text class="st1" transform="translate(38 389)"><tspan x="0" y="0">Illustrator</tspan></text>
+  <path class="st21" d="M110.5,383h165.5c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <path class="st14" d="M110.5,383h139.93c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <text class="st1" transform="translate(38 405)"><tspan x="0" y="0">Photoshop</tspan></text>
+  <path class="st21" d="M110.5,399h165.5c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <path class="st14" d="M110.5,399h145.04c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <text class="st1" transform="translate(38 421)"><tspan x="0" y="0">Audition</tspan></text>
+  <path class="st21" d="M110.5,415h165.5c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <path class="st14" d="M110.5,415h127.99c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5h-127.99c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <text class="st1" transform="translate(38 437)"><tspan x="0" y="0">Lightroom</tspan></text>
+  <path class="st21" d="M110.5,431h165.5c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5H110.5c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <path class="st14" d="M110.5,431h117.76c1.38,0,2.5,1.12,2.5,2.5h0c0,1.38-1.12,2.5-2.5,2.5h-117.76c-1.38,0-2.5-1.12-2.5-2.5h0c0-1.38,1.12-2.5,2.5-2.5Z"/>
+  <rect class="st19" x="301.5" y="325" width="265.5" height="175" rx="10" ry="10"/>
+  <g class="st22">
+    <rect class="st28" x="301.5" y="325" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(311.5 343)"><tspan x="0" y="0">Process &amp; Documentation</tspan></text>
+  <circle class="st14" cx="311.5" cy="366" r="2.5"/>
+  <text class="st7" transform="translate(319.5 369)"><tspan x="0" y="0">Authored team &quot;Editing Bible &amp; Production</tspan></text>
+  <text class="st7" transform="translate(319.5 381)"><tspan x="0" y="0">Processes&quot; guide for all editors</tspan></text>
+  <circle class="st14" cx="311.5" cy="402" r="2.5"/>
+  <text class="st7" transform="translate(319.5 405)"><tspan x="0" y="0">Standardised editing workflows and best-practice</tspan></text>
+  <text class="st7" transform="translate(319.5 417)"><tspan x="0" y="0">procedures</tspan></text>
+  <circle class="st14" cx="311.5" cy="438" r="2.5"/>
+  <text class="st7" transform="translate(319.5 441)"><tspan x="0" y="0">Improved consistency and efficiency across creative</tspan></text>
+  <text class="st7" transform="translate(319.5 453)"><tspan x="0" y="0">production teams</tspan></text>
+  <circle class="st14" cx="311.5" cy="474" r="2.5"/>
+  <text class="st7" transform="translate(319.5 477)"><tspan x="0" y="0">Established team-wide reference materials and</tspan></text>
+  <text class="st7" transform="translate(319.5 489)"><tspan x="0" y="0">quality standards</tspan></text>
+  <path class="st14" d="M37,508h0c4.97,0,9,4.03,9,9h0c0,4.97-4.03,9-9,9h0c-4.97,0-9-4.03-9-9h0c0-4.97,4.03-9,9-9Z"/>
+  <text class="st8" transform="translate(34.5 521)"><tspan x="0" y="0">4</tspan></text>
+  <text class="st3" transform="translate(52 522)"><tspan x="0" y="0">Major Television &amp; Media Campaigns</tspan></text>
+  <rect class="st19" x="28" y="534" width="265.5" height="78" rx="10" ry="10"/>
+  <g class="st11">
+    <rect class="st25" x="28" y="534" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(38 552)"><tspan x="0" y="0">Automotive</tspan></text>
+  <path class="st17" d="M46,560h10.38c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-10.38c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st6" transform="translate(44.73 572)"><tspan x="0" y="0">KIA</tspan></text>
+  <path class="st17" d="M80.38,560h6.25c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-6.25c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st6" transform="translate(77.46 572)"><tspan x="0" y="0">MG</tspan></text>
+  <path class="st17" d="M110.62,560h51.62c4.42,0,8,3.58,8,8h0c0,4.42-3.58,8-8,8h-51.62c-4.42,0-8-3.58-8-8h0c0-4.42,3.58-8,8-8Z"/>
+  <text class="st6" transform="translate(108.93 572)"><tspan x="0" y="0">Mercedes-Benz</tspan></text>
+  <text class="st7" transform="translate(45 590)"><tspan x="0" y="0">TVC post-production, graphics and campaign delivery</tspan></text>
+  <rect class="st19" x="28" y="620" width="265.5" height="68" rx="10" ry="10"/>
+  <g class="st12">
+    <rect class="st25" x="28" y="620" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(38 638)"><tspan x="0" y="0">BMW Black Friday</tspan></text>
+  <text class="st7" transform="translate(38 654)"><tspan x="0" y="0">On-set camera assistance, post-production editing,</tspan></text>
+  <text class="st7" transform="translate(38 666)"><tspan x="0" y="0">audio mixing, script refinement for campaign</tspan></text>
+  <text class="st7" transform="translate(38 678)"><tspan x="0" y="0">consistency</tspan></text>
+  <rect class="st19" x="301.5" y="534" width="265.5" height="130" rx="10" ry="10"/>
+  <g class="st24">
+    <rect class="st28" x="301.5" y="534" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(311.5 552)"><tspan x="0" y="0">Entertainment &amp; Media</tspan></text>
+  <circle class="st14" cx="311.5" cy="575" r="2.5"/>
+  <text class="st7" transform="translate(319.5 578)"><tspan x="0" y="0">LiSTNR: CAD compliance &amp; national media</tspan></text>
+  <text class="st7" transform="translate(319.5 590)"><tspan x="0" y="0">distribution</tspan></text>
+  <circle class="st14" cx="311.5" cy="611" r="2.5"/>
+  <text class="st7" transform="translate(319.5 614)"><tspan x="0" y="0">Disney x Gogglebox: End-tag edits and branded</tspan></text>
+  <text class="st7" transform="translate(319.5 626)"><tspan x="0" y="0">deliverables</tspan></text>
+  <circle class="st14" cx="311.5" cy="647" r="2.5"/>
+  <text class="st7" transform="translate(319.5 650)"><tspan x="0" y="0">Greenwood: 50+ lifestyle TVC production</tspan></text>
+  <rect class="st19" x="301.5" y="672" width="265.5" height="90" rx="10" ry="10"/>
+  <g class="st18">
+    <rect class="st29" x="301.5" y="672" width="265.5" height="3"/>
+  </g>
+  <text class="st9" transform="translate(311.5 690)"><tspan x="0" y="0">Sports &amp; Community</tspan></text>
+  <circle class="st14" cx="311.5" cy="713" r="2.5"/>
+  <text class="st7" transform="translate(319.5 716)"><tspan x="0" y="0">Canberra Raiders: TVCs &amp; Presentation Night</tspan></text>
+  <text class="st7" transform="translate(319.5 728)"><tspan x="0" y="0">packages</tspan></text>
+  <circle class="st14" cx="311.5" cy="749" r="2.5"/>
+  <text class="st7" transform="translate(319.5 752)"><tspan x="0" y="0">Foodbank Australia: National charity TVC production</tspan></text>
+  <line class="st15" x1="28" y1="804" x2="567" y2="804"/>
+  <text class="st5" transform="translate(221.64 814)"><tspan x="0" y="0">John Lomnicki - Relevant Experience Summary</tspan></text>
+</svg>

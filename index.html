@@ -1,0 +1,2362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="John Lomnicki - Production Editor & Motion Designer. 100+ commercials, animation, motion graphics, 2D animation, video editing. Canberra, Australia.">
+<title>John Lomnicki - Production Editor & Motion Designer</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* =================================================================
+   DESIGN TOKENS
+   Inspired by john_lomnicki-resume-2026.pdf (source of truth).
+   ================================================================= */
+:root {
+  /* DARK (hero / contact) */
+  --navy-900: #0F2A47;
+  --navy-800: #143258;
+  --navy-700: #1A3A5C;
+  --navy-600: #204872;
+  --navy-card: #16365A;
+
+  /* CYAN (primary accent) */
+  --cyan-500: #5DD4D4;
+  --cyan-400: #7FE5E5;
+  --cyan-300: #A3EDED;
+  --cyan-on-dark: #5DD4D4;
+
+  /* SECONDARY ACCENTS  (from 4-page A4 doc palette) */
+  --blue-500: #007AFF;
+  --blue-100: #E8F4FF;
+  --teal-500: #30B0A8;
+  --teal-100: #E6F7F5;
+  --gold-500: #F5A623;
+  --gold-100: #FFF8E8;
+  --red-500:  #FF3B30;
+  --red-100:  #FFE8E6;
+
+  /* LIGHT (sections) */
+  --bg:        #F5F7FA;
+  --surface:   #FFFFFF;
+  --soft-blue: #E8F4FF;
+  --soft-teal: #E6F7F5;
+  --soft-gold: #FFF8E8;
+  --soft-red:  #FFE8E6;
+  --chip:      #F2F2F7;
+  --border:    #E5E5EA;
+  --text:      #1C1C1E;
+  --muted:     #636366;
+
+  /* TEXT ON DARK */
+  --on-dark:        #FFFFFF;
+  --on-dark-soft:   rgba(255,255,255,0.72);
+  --on-dark-muted:  rgba(255,255,255,0.5);
+  --on-dark-line:   rgba(255,255,255,0.12);
+
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-h1:      clamp(1.75rem, 3vw, 2.5rem);
+  --text-h2:      1.5rem;
+  --text-h3:      1.125rem;
+  --text-body:    1rem;
+  --text-small:   0.875rem;
+  --text-micro:   0.75rem;
+
+  --space-xs:  0.25rem;
+  --space-sm:  0.5rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 6px 18px rgba(15, 23, 42, 0.10);
+  --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.14);
+  --shadow-xl: 0 24px 48px rgba(15, 23, 42, 0.18);
+
+  --container-max: 1200px;
+  --container-px:  clamp(1rem, 4vw, 2.5rem);
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 150ms;
+  --t-base: 200ms;
+  --t-slow: 400ms;
+}
+
+/* =================================================================
+   RESET
+   ================================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+img, svg { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+
+:focus-visible {
+  outline: 2px solid var(--cyan-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.container { max-width: var(--container-max); margin: 0 auto; padding-inline: var(--container-px); }
+.section   { padding-block: clamp(3rem, 6vw, 5rem); }
+
+/* Section heads: scroll-triggered slide-in (animated by .is-visible) */
+.section-head { text-align: center; margin-bottom: var(--space-2xl); }
+.section-head .eyebrow,
+.section-head .title,
+.section-head .sub {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+}
+.section-head.is-visible .eyebrow { opacity: 1; transform: none; transition-delay: 0ms; }
+.section-head.is-visible .title   { opacity: 1; transform: none; transition-delay: 120ms; }
+.section-head.is-visible .sub     { opacity: 1; transform: none; transition-delay: 240ms; }
+.section-eyebrow {
+  display: inline-block;
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy-700);
+  background: var(--soft-blue);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-md);
+}
+.section-title {
+  font-size: var(--text-h1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: var(--space-sm);
+}
+.section-sub { color: var(--muted); max-width: 60ch; margin: 0 auto; }
+
+/* =================================================================
+   TOP NAV
+   ================================================================= */
+.topnav {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 50;
+  background: rgba(15, 42, 71, 0.55);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  transition: background var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+}
+.topnav.is-scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: var(--border);
+}
+.topnav-inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: 10px 16px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--on-dark);
+  transition: color var(--t-base) var(--ease);
+}
+.topnav.is-scrolled .brand { color: var(--text); }
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--cyan-500);
+  color: var(--navy-900);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.brand-name { letter-spacing: -0.01em; }
+.brand-role { font-weight: 500; font-size: 0.8rem; margin-left: 4px; color: var(--on-dark-soft); display: none; }
+.topnav.is-scrolled .brand-role { color: var(--muted); }
+@media (min-width: 720px) { .brand-role { display: inline; } }
+
+.nav-links { display: none; gap: 4px; }
+@media (min-width: 860px) { .nav-links { display: flex; } }
+.nav-link {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  color: var(--on-dark-soft);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color var(--t-base) var(--ease), background var(--t-base) var(--ease);
+}
+.nav-link:hover { color: var(--on-dark); background: rgba(255, 255, 255, 0.08); }
+.topnav.is-scrolled .nav-link { color: var(--muted); }
+.topnav.is-scrolled .nav-link:hover { color: var(--text); background: var(--chip); }
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--cyan-500);
+  color: var(--navy-900);
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: background var(--t-base) var(--ease);
+}
+.nav-cta:hover { background: var(--cyan-400); }
+.nav-cta svg { width: 14px; height: 14px; }
+
+/* =================================================================
+   HERO  (dark, dot-grid canvas)
+   ================================================================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding-top: clamp(7rem, 14vw, 9rem);
+  padding-bottom: clamp(3rem, 6vw, 4.5rem);
+  background: var(--navy-700);
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--on-dark);
+}
+.hero::after {
+  /* Soft cyan radial accent - fixed in place, doesn't move with cursor */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(800px 500px at 80% -10%, rgba(93, 212, 212, 0.18), transparent 60%),
+    radial-gradient(600px 400px at 10% 110%, rgba(93, 212, 212, 0.10), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+#dot-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-inline: var(--container-px);
+  text-align: center;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-300);
+  background: rgba(93, 212, 212, 0.10);
+  border: 1px solid rgba(93, 212, 212, 0.25);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-lg);
+}
+.hero-eyebrow .pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan-500);
+  box-shadow: 0 0 0 0 rgba(93, 212, 212, 0.6);
+  animation: pulse 2.4s var(--ease) infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(93, 212, 212, 0.6); }
+  70%  { box-shadow: 0 0 0 10px rgba(93, 212, 212, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(93, 212, 212, 0); }
+}
+
+.hero-year {
+  font-family: var(--font-mono);
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  font-weight: 700;
+  color: var(--cyan-500);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: var(--space-sm);
+  opacity: 0.95;
+}
+.hero-name {
+  font-size: var(--text-display);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: var(--space-md);
+}
+.hero-name .first  { color: var(--on-dark); display: block; }
+.hero-name .surname { color: var(--cyan-500); display: block; }
+.hero-role {
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  font-weight: 500;
+  color: var(--on-dark-soft);
+  letter-spacing: 0.02em;
+  margin-bottom: var(--space-lg);
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-pill);
+}
+.hero-tagline {
+  font-size: clamp(0.98rem, 1.5vw, 1.1rem);
+  color: var(--on-dark-soft);
+  max-width: 56ch;
+  margin: 0 auto var(--space-xl);
+  line-height: 1.6;
+}
+.hero-tagline em {
+  font-style: normal;
+  color: var(--cyan-300);
+  font-weight: 500;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: var(--space-3xl);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background var(--t-base) var(--ease), color var(--t-base) var(--ease), border-color var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+.btn svg { width: 16px; height: 16px; }
+.btn-primary {
+  background: var(--cyan-500);
+  color: var(--navy-900);
+  box-shadow: 0 8px 24px rgba(93, 212, 212, 0.28);
+  font-weight: 700;
+}
+.btn-primary:hover { background: var(--cyan-400); }
+.btn-secondary {
+  background: transparent;
+  color: var(--on-dark);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.5); }
+
+/* Stats - 4-pill row, also: 2D Animation highlight slot */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+@media (min-width: 720px) { .hero-stats { grid-template-columns: repeat(4, 1fr); } }
+
+/* =================================================================
+   SCROLL-DOWN ARROW  (hero bottom, hides on click or when scrolled past)
+   ================================================================= */
+.hero-scroll {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 40;            /* below the topnav (z-50) but above the canvas */
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--on-dark);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: opacity 320ms var(--ease), transform 320ms var(--ease), background var(--t-base) var(--ease);
+  animation: hero-scroll-bounce 1.8s ease-in-out infinite;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.hero-scroll:hover { background: rgba(93, 212, 212, 0.18); border-color: rgba(93, 212, 212, 0.5); }
+.hero-scroll:focus-visible { outline: 2px solid var(--cyan-500); outline-offset: 3px; }
+.hero-scroll svg { width: 18px; height: 18px; }
+.hero-scroll.is-hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(8px); animation: none; }
+@keyframes hero-scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll { animation: none; }
+}
+.stat {
+  border-radius: var(--radius-lg);
+  padding: 18px 12px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+}
+.stat:hover { background: rgba(255, 255, 255, 0.08); transform: translateY(-2px); }
+.stat-value {
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+  font-weight: 800;
+  color: var(--cyan-500);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.stat-suffix { color: var(--cyan-500); }
+.stat-label {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--on-dark-soft);
+}
+
+/* =================================================================
+   PORTFOLIO CARDS  (used by Animation, Campaigns, Government, Edu)
+   ================================================================= */
+.card-grid {
+  display: grid;
+  gap: 14px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.card-grid--2 { grid-template-columns: 1fr; }
+@media (min-width: 720px) { .card-grid--2 { grid-template-columns: 1fr 1fr; } }
+.campaign-col { display: flex; flex-direction: column; gap: 14px; }
+
+.content-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  /* Scroll-trigger fade-up (will be added by JS reveal) */
+  opacity: 0;
+  transform: translateY(14px);
+}
+.content-card.is-visible { opacity: 1; transform: none; transition: opacity 600ms var(--ease), transform 600ms var(--ease); }
+.content-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent, var(--cyan-500));
+}
+.content-card--blue   { --accent: var(--blue-500); }
+.content-card--teal   { --accent: var(--teal-500); }
+.content-card--gold   { --accent: var(--gold-500); }
+.content-card--red    { --accent: var(--red-500); }
+.content-card--cyan   { --accent: var(--cyan-500); }
+.content-card--center { text-align: center; }
+.content-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.content-card__line {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+/* TAG ROWS (4-page doc style) */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+.tag-row--center { justify-content: center; }
+.content-tag {
+  display: inline-block;
+  background: var(--chip);
+  color: var(--text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
+}
+.content-tag--blue  { background: var(--soft-blue); color: #0056b3; }
+.content-tag--teal  { background: var(--soft-teal); color: #0d7c6b; }
+.content-tag--gold  { background: var(--soft-gold); color: #8b6308; }
+.content-tag--red   { background: var(--soft-red);  color: #c0392b; }
+
+/* CONTENT LIST (ul) - matches 4-page doc style */
+.content-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+}
+.content-list li {
+  position: relative;
+  padding-left: 14px;
+  margin-bottom: 4px;
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.content-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan-500);
+}
+.content-card--blue .content-list li::before { background: var(--blue-500); }
+.content-card--teal .content-list li::before { background: var(--teal-500); }
+.content-card--gold .content-list li::before { background: var(--gold-500); }
+.content-card--red  .content-list li::before { background: var(--red-500); }
+
+/* PROJECT LIST (4-page doc row style) */
+.project-list {
+  max-width: 980px;
+  margin: 0 auto 24px;
+  display: grid;
+  gap: 8px;
+}
+.project-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(10px);
+}
+.project-row.is-visible { opacity: 1; transform: none; transition: opacity 500ms var(--ease), transform 500ms var(--ease); }
+.project-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.project-dot--cyan { background: var(--cyan-500); }
+.project-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.project-meta {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 4px;
+}
+.project-desc {
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
+/* EDUCATION ENTRIES */
+.edu-entry { margin-top: 10px; }
+.edu-entry:first-of-type { margin-top: 4px; }
+.edu-degree {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.edu-school {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 2px;
+  padding-left: 8px;
+}
+
+/* =================================================================
+   SKILLS (matches the PDF's skill pill design)
+   ================================================================= */
+.skills-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+  max-width: 880px;
+  margin: 0 auto;
+}
+@media (min-width: 560px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .skills-grid { grid-template-columns: repeat(3, 1fr); } }
+.skill-pill {
+  --pill-bg: var(--cyan-500);
+  --pill-fg: var(--navy-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 20px;
+  border-radius: var(--radius-pill);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  border: 1.5px solid var(--pill-bg);
+  transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
+  /* Scroll-trigger stagger */
+  opacity: 0;
+  transform: translateY(16px) scale(0.96);
+}
+.skill-pill.is-visible { opacity: 1; transform: none; transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease); }
+.skill-pill:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+/* Primary (the two I lean on most) */
+.skill-pill--primary {
+  background: var(--cyan-500);
+  color: var(--navy-900);
+  border-color: var(--cyan-500);
+}
+.skill-pill--primary:hover { box-shadow: 0 6px 18px rgba(93, 212, 212, 0.35); }
+/* Animation & 3D - teal */
+.skill-pill--teal {
+  background: var(--soft-teal);
+  color: #0d7c6b;
+  border-color: rgba(48, 176, 168, 0.25);
+}
+.skill-pill--teal:hover { box-shadow: 0 6px 18px rgba(48, 176, 168, 0.22); }
+/* Editorial & post - blue */
+.skill-pill--blue {
+  background: var(--soft-blue);
+  color: #0056b3;
+  border-color: rgba(0, 122, 255, 0.22);
+}
+.skill-pill--blue:hover { box-shadow: 0 6px 18px rgba(0, 122, 255, 0.22); }
+/* Brand, web & workflow - gold */
+.skill-pill--gold {
+  background: var(--soft-gold);
+  color: #8b6308;
+  border-color: rgba(245, 166, 35, 0.28);
+}
+.skill-pill--gold:hover { box-shadow: 0 6px 18px rgba(245, 166, 35, 0.22); }
+
+/* =================================================================
+   2D ANIMATION  (short, user fills in copy)
+   ================================================================= */
+.anim-card {
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+.anim-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--cyan-500);
+}
+.anim-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: var(--space-md);
+}
+.anim-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.anim-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan-500);
+  background: rgba(93, 212, 212, 0.10);
+  border: 1px solid rgba(93, 212, 212, 0.3);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+.anim-body { color: var(--muted); font-size: 0.98rem; line-height: 1.6; margin-bottom: var(--space-lg); }
+.anim-body p { margin-bottom: 8px; }
+.anim-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.anim-tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--chip);
+  color: var(--text);
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+}
+.anim-tool svg { width: 14px; height: 14px; color: var(--cyan-500); }
+.anim-draft {
+  margin-top: var(--space-md);
+  padding: 10px 14px;
+  background: var(--soft-gold);
+  border: 1px dashed #e6c34a;
+  border-radius: var(--radius-md);
+  color: #6b4a08;
+  font-size: 0.82rem;
+  display: none;
+}
+/* show draft note only when ?draft=1 in URL */
+body.show-draft .anim-draft { display: block; }
+
+/* =================================================================
+   WORK  (timeline)
+   ================================================================= */
+.work-timeline {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.work-item {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  position: relative;
+  /* Stagger reveal */
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+  transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+}
+.work-item.is-visible { opacity: 1; transform: none; }
+.work-num {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--cyan-500);
+  color: var(--navy-900);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+.work-when {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.work-role {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+  color: var(--text);
+}
+.work-company { color: var(--cyan-500); font-weight: 600; font-size: 0.92rem; }
+.work-dash { color: var(--muted); margin: 0 6px; }
+.work-desc {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin-top: 8px;
+}
+@media (min-width: 720px) {
+  .work-item { grid-template-columns: 48px 1fr auto; align-items: start; }
+  .work-when { grid-column: 3; grid-row: 1; margin: 0; padding-top: 4px; }
+}
+
+/* Dark dot-pattern background on the Work section (mirrors the hero) */
+#work {
+  position: relative;
+  background-color: var(--navy-700);
+  color: var(--on-dark);
+  overflow: hidden;
+}
+#work .container { position: relative; z-index: 2; }
+#work-dot-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+#work .section-eyebrow { color: var(--navy-900); background: var(--cyan-300); }
+#work .section-title   { color: var(--on-dark); }
+#work .section-sub     { color: rgba(255, 255, 255, 0.75); }
+#work .work-num        { box-shadow: 0 0 0 4px rgba(93, 212, 212, 0.18); }
+/* Keep card-internal text dark (the cards are white) - the section's
+   default `color: var(--on-dark)` would otherwise render them invisible. */
+#work .work-item, #work .work-role, #work .work-when { color: var(--text); }
+#work .work-item .work-desc { color: var(--muted); }
+
+/* =================================================================
+   CONTACT (dark)
+   ================================================================= */
+.contact-section { background: var(--navy-700); color: var(--on-dark); position: relative; overflow: hidden; }
+.contact-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(600px 400px at 80% 0%, rgba(93, 212, 212, 0.14), transparent 60%),
+    radial-gradient(500px 300px at 0% 100%, rgba(93, 212, 212, 0.08), transparent 60%);
+  pointer-events: none;
+}
+.contact-card {
+  position: relative;
+  z-index: 1;
+  max-width: 980px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
+}
+.contact-head { text-align: center; margin-bottom: var(--space-2xl); }
+.contact-eyebrow {
+  display: inline-block;
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-500);
+  margin-bottom: 10px;
+}
+.contact-title {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--on-dark);
+  margin-bottom: 8px;
+}
+.contact-sub { color: var(--on-dark-soft); }
+.contact-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px) { .contact-grid { grid-template-columns: repeat(2, 1fr); } }
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--radius-lg);
+  transition: background var(--t-base) var(--ease), border-color var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+}
+.contact-item:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(93, 212, 212, 0.4); transform: translateY(-1px); }
+.contact-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(93, 212, 212, 0.12);
+  color: var(--cyan-500);
+  flex-shrink: 0;
+}
+.contact-icon svg { width: 20px; height: 20px; }
+.contact-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-dark-muted);
+  margin-bottom: 2px;
+}
+.contact-value { font-size: 0.98rem; font-weight: 600; color: var(--on-dark); word-break: break-word; }
+.availability {
+  margin-top: var(--space-2xl);
+  text-align: center;
+}
+.availability-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  background: rgba(93, 212, 212, 0.12);
+  border: 1px solid rgba(93, 212, 212, 0.32);
+  border-radius: var(--radius-pill);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--cyan-300);
+}
+.availability-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--cyan-500);
+  box-shadow: 0 0 12px rgba(93, 212, 212, 0.6);
+  flex-shrink: 0;
+}
+
+/* =================================================================
+   FOOTER
+   ================================================================= */
+.footer {
+  background: var(--navy-900);
+  color: var(--on-dark-soft);
+  padding: 24px 0;
+  font-size: 0.85rem;
+}
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.footer a { color: var(--cyan-300); }
+.footer a:hover { color: var(--cyan-400); }
+.footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
+
+/* =================================================================
+   CLICKABLE STAT  (Adobe apps button)
+   ================================================================= */
+.stat--clickable {
+  font: inherit;
+  color: inherit;
+  border: 1.5px solid var(--on-dark-line);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  padding: 14px 8px 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: background var(--t-base) var(--ease), border-color var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.stat--clickable:hover {
+  background: rgba(93, 212, 212, 0.10);
+  border-color: var(--cyan-500);
+  transform: translateY(-2px);
+}
+.stat--clickable:focus-visible {
+  outline: 2px solid var(--cyan-500);
+  outline-offset: 3px;
+}
+.stat--clickable[aria-expanded="true"] {
+  background: rgba(93, 212, 212, 0.12);
+  border-color: var(--cyan-500);
+}
+
+/* =================================================================
+   PAGE VIEWER  (single-page A4 SVG carousel)
+   ================================================================= */
+.page-viewer {
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+.page-viewer__stage {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  aspect-ratio: 1 / 1.414; /* A4 portrait */
+}
+.page-viewer__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+.page-viewer__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.page-viewer__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background var(--t-base) var(--ease), color var(--t-base) var(--ease), transform var(--t-base) var(--ease), opacity var(--t-base) var(--ease);
+}
+.page-viewer__btn:hover:not(:disabled) { background: var(--cyan-500); color: var(--navy-900); transform: scale(1.05); }
+.page-viewer__btn:focus-visible { outline: 2px solid var(--cyan-500); outline-offset: 2px; }
+.page-viewer__btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.page-viewer__btn svg { width: 16px; height: 16px; }
+.page-viewer__dots {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.page-viewer__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+}
+.page-viewer__dot:hover { background: var(--muted); }
+.page-viewer__dot.is-active { background: var(--cyan-500); transform: scale(1.4); }
+.page-viewer__dot:focus-visible { outline: 2px solid var(--cyan-500); outline-offset: 2px; }
+.page-viewer__label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  min-width: 90px;
+  text-align: center;
+  font-family: var(--font-mono);
+}
+
+/* =================================================================
+   SKILLS + SOFTWARE  (side-by-side split)
+   ================================================================= */
+.skills-software-split {
+  padding-block: clamp(3rem, 6vw, 5rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-inline: var(--container-px);
+}
+.skills-software-split > .section { padding-block: 0; }
+@media (min-width: 900px) {
+  .skills-software-split { grid-template-columns: 1fr 1fr; align-items: start; }
+  .skills-software-split > .section:first-child { padding-right: clamp(1rem, 2vw, 1.5rem); border-right: 1px solid var(--border); }
+  .skills-software-split > .section:last-child  { padding-left:  clamp(1rem, 2vw, 1.5rem); }
+}
+/* Skills grid in split: keep pills to 2 columns so they don't get cramped */
+.skills-software-split .skills-grid { max-width: 100%; }
+@media (min-width: 900px) {
+  .skills-software-split .skills-grid { grid-template-columns: repeat(2, 1fr); }
+}
+/* Skills sits inside a split with padding-block: 0, so when nav-clicked its
+   top edge aligns with the viewport top and the sticky nav covers the
+   eyebrow. scroll-margin-top makes the scroll target land below the nav.
+   (Other sections have natural padding-block so they clear the nav already.) */
+#skills { scroll-margin-top: 90px; }
+
+/* =================================================================
+   SKILL BARS  (single fill bar, matches the SVG style)
+   Slow fill animation: 1.8s per bar, staggered per row.
+   ================================================================= */
+.skill-bars {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.skill-bar {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.skill-bar__name {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+.skill-bar__track {
+  position: relative;
+  height: 12px;
+  background: var(--chip);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.skill-bar__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: var(--cyan-500);
+  border-radius: 6px;
+  transition: width 1800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Fills when the parent .skill-bars becomes visible.
+   Stagger so the list cascades top-to-bottom. */
+.skill-bars.is-visible .skill-bar__fill { width: var(--fill, 0%); }
+.skill-bars.is-visible .skill-bar:nth-child(1) .skill-bar__fill { transition-delay: 0ms; }
+.skill-bars.is-visible .skill-bar:nth-child(2) .skill-bar__fill { transition-delay: 250ms; }
+.skill-bars.is-visible .skill-bar:nth-child(3) .skill-bar__fill { transition-delay: 500ms; }
+.skill-bars.is-visible .skill-bar:nth-child(4) .skill-bar__fill { transition-delay: 750ms; }
+.skill-bars.is-visible .skill-bar:nth-child(5) .skill-bar__fill { transition-delay: 1000ms; }
+.skill-bars.is-visible .skill-bar:nth-child(6) .skill-bar__fill { transition-delay: 1250ms; }
+.skill-bars.is-visible .skill-bar:nth-child(7) .skill-bar__fill { transition-delay: 1500ms; }
+.skill-bars.is-visible .skill-bar:nth-child(8) .skill-bar__fill { transition-delay: 1750ms; }
+
+/* Pop-up variant: smaller rows, thinner bars. */
+.popup__list .skill-bar {
+  padding: 7px 12px;
+  box-shadow: none;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+}
+.popup__list .skill-bar::before { display: none; }
+.popup__list .skill-bar__name { font-size: 0.88rem; }
+.popup__list .skill-bar__track { height: 8px; border-radius: 4px; }
+.popup__list .skill-bar__fill { border-radius: 4px; transition: width 1500ms cubic-bezier(0.22, 1, 0.36, 1); }
+/* Pop-up bars fill when the pop-up is opened */
+.popup.is-open .popup__list .skill-bar__fill { width: var(--fill, 0%); }
+.popup.is-open .popup__list .skill-bar:nth-child(1) .skill-bar__fill { transition-delay: 0ms; }
+.popup.is-open .popup__list .skill-bar:nth-child(2) .skill-bar__fill { transition-delay: 180ms; }
+.popup.is-open .popup__list .skill-bar:nth-child(3) .skill-bar__fill { transition-delay: 360ms; }
+.popup.is-open .popup__list .skill-bar:nth-child(4) .skill-bar__fill { transition-delay: 540ms; }
+.popup.is-open .popup__list .skill-bar:nth-child(5) .skill-bar__fill { transition-delay: 720ms; }
+.popup.is-open .popup__list .skill-bar:nth-child(6) .skill-bar__fill { transition-delay: 900ms; }
+.popup.is-open .popup__list .skill-bar:nth-child(7) .skill-bar__fill { transition-delay: 1080ms; }
+.popup.is-open .popup__list .skill-bar:nth-child(8) .skill-bar__fill { transition-delay: 1260ms; }
+
+/* =================================================================
+   POP-UP  (Adobe apps modal)
+   ================================================================= */
+.popup[hidden] { display: none; }
+.popup {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 42, 71, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: popup-fade 200ms var(--ease);
+}
+.popup__panel {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 28px 28px 24px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.30);
+  animation: popup-pop 240ms var(--ease);
+}
+.popup__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  display: grid;
+  place-items: center;
+  transition: background var(--t-base) var(--ease), color var(--t-base) var(--ease);
+}
+.popup__close:hover { background: var(--chip); color: var(--text); }
+.popup__close:focus-visible { outline: 2px solid var(--cyan-500); outline-offset: 2px; }
+.popup__close svg { width: 18px; height: 18px; }
+.popup__eyebrow {
+  display: inline-block;
+  background: var(--soft-blue);
+  color: #0056b3;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 12px;
+}
+.popup__title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.popup__sub {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.popup__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.popup__list li {
+  position: relative;
+  padding: 10px 12px 10px 36px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  color: var(--text);
+}
+.popup__list li::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: var(--cyan-500);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'><path d='M9 16.2l-3.5-3.5a1 1 0 0 0-1.4 1.4l4.2 4.2a1 1 0 0 0 1.4 0l9.2-9.2a1 1 0 0 0-1.4-1.4z'/></svg>") center / contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'><path d='M9 16.2l-3.5-3.5a1 1 0 0 0-1.4 1.4l4.2 4.2a1 1 0 0 0 1.4 0l9.2-9.2a1 1 0 0 0-1.4-1.4z'/></svg>") center / contain no-repeat;
+}
+@keyframes popup-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes popup-pop  { from { opacity: 0; transform: translateY(8px) scale(0.97); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .popup__backdrop, .popup__panel { animation: none; }
+}
+
+/* =================================================================
+   REVEAL HELPERS (no-JS safe)
+   ================================================================= */
+.js-reveal .reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+}
+.js-reveal .reveal-stagger.is-visible > * {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);
+}
+.js-reveal .reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.js-reveal .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 60ms; }
+.js-reveal .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 120ms; }
+.js-reveal .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 180ms; }
+.js-reveal .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 240ms; }
+.js-reveal .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 300ms; }
+.js-reveal .reveal-stagger.is-visible > *:nth-child(7) { transition-delay: 360ms; }
+.js-reveal .reveal-stagger.is-visible > *:nth-child(8) { transition-delay: 420ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-stagger > *, .skill-pill, .work-item, .section-head .eyebrow,
+  .section-head .title, .section-head .sub,
+  .content-card, .project-row { opacity: 1 !important; transform: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAV
+     ============================================================ -->
+<nav class="topnav" id="topnav" aria-label="Primary">
+  <div class="topnav-inner">
+    <a href="#top" class="brand" aria-label="John Lomnicki - home">
+      <span class="brand-mark">JL</span>
+      <span>
+        <span class="brand-name">John Lomnicki</span>
+        <span class="brand-role">- Motion Designer</span>
+      </span>
+    </a>
+    <div class="nav-links" role="navigation">
+      <a class="nav-link" href="#skills">Skills</a>
+      <a class="nav-link" href="#animation-work">Work</a>
+      <a class="nav-link" href="#campaigns">Campaigns</a>
+      <a class="nav-link" href="#education">Education</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="https://drive.google.com/drive/folders/1_SLbZgKhBZWUzWbMosAAZ0lenxpSD07Q?usp=drive_link" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      Showreel
+    </a>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="hero" id="top">
+  <canvas id="dot-grid" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="pulse" aria-hidden="true"></span>
+      Available for work · Canberra, Australia
+    </div>
+    <div class="hero-year">2026</div>
+    <h1 class="hero-name">
+      <span class="first">John</span>
+      <span class="surname">Lomnicki</span>
+    </h1>
+    <div class="hero-role">Production Editor &amp; Motion Designer</div>
+    <p class="hero-tagline">
+      I think laterally and push assets to their absolute limit.
+      When something's missing, I use every tool at my disposal to make it real.
+      I don't deliever exactly what clients ask for - <em>I deliever what they couldn't have thought themselves.</em>
+    </p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="https://drive.google.com/drive/folders/1_SLbZgKhBZWUzWbMosAAZ0lenxpSD07Q?usp=drive_link" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Watch showreel
+      </a>
+      <a class="btn btn-secondary" href="mailto:lomjohn@pm.me">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Email me
+      </a>
+    </div>
+    <div class="hero-stats" id="hero-stats" role="list">
+      <div class="stat" role="listitem">
+        <div class="stat-value"><span data-count="100">0</span><span class="stat-suffix">+</span></div>
+        <div class="stat-label">Commercials on air</div>
+      </div>
+      <div class="stat" role="listitem">
+        <div class="stat-value"><span data-count="8">0</span><span class="stat-suffix">+</span></div>
+        <div class="stat-label">Govt campaigns</div>
+      </div>
+      <button class="stat stat--clickable" role="listitem" type="button" id="adobe-stat" aria-haspopup="dialog" aria-controls="adobe-popup">
+        <div class="stat-value"><span data-count="8">0</span></div>
+        <div class="stat-label">Adobe apps</div>
+      </button>
+      <div class="stat" role="listitem">
+        <div class="stat-value"><span data-count="3">0</span><span class="stat-suffix"> yrs</span></div>
+        <div class="stat-label">At SCA</div>
+      </div>
+    </div>
+  </div>
+  <button class="hero-scroll" id="hero-scroll" type="button" aria-label="Scroll to next section">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 9 L12 15 L18 9"/>
+    </svg>
+  </button>
+</header>
+
+<!-- ============================================================
+     SKILLS + SOFTWARE  (side-by-side on desktop)
+     ============================================================ -->
+<div class="skills-software-split">
+<section class="section" id="skills" aria-labelledby="skills-title">
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Skills</span>
+      <h2 class="title section-title" id="skills-title">What I do day-to-day</h2>
+    </div>
+    <div class="skills-grid reveal-stagger" id="skills-grid">
+      <div class="skill-pill skill-pill--primary" data-group="primary">After Effects</div>
+      <div class="skill-pill skill-pill--primary" data-group="primary">Premiere Pro</div>
+      <div class="skill-pill skill-pill--teal" data-group="anim-3d">2D Animation</div>
+      <div class="skill-pill skill-pill--teal" data-group="anim-3d">ToonBoom</div>
+      <div class="skill-pill skill-pill--teal" data-group="anim-3d">Blender</div>
+      <div class="skill-pill skill-pill--teal" data-group="anim-3d">Cinema 4D</div>
+      <div class="skill-pill skill-pill--blue" data-group="post">Motion Graphics</div>
+      <div class="skill-pill skill-pill--blue" data-group="post">VFX &amp; Compositing</div>
+      <div class="skill-pill skill-pill--blue" data-group="post">DaVinci Resolve</div>
+      <div class="skill-pill skill-pill--blue" data-group="post">Sound Design</div>
+      <div class="skill-pill skill-pill--gold" data-group="brand-web">Brand Identity</div>
+      <div class="skill-pill skill-pill--gold" data-group="brand-web">Camera / Lighting</div>
+      <div class="skill-pill skill-pill--gold" data-group="brand-web">HTML &amp; CSS</div>
+      <div class="skill-pill skill-pill--gold" data-group="brand-web">Frame.io</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SOFTWARE  (single-fill bars, slow fill on view)
+     ============================================================ -->
+<section class="section" id="software" aria-labelledby="software-title">
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Software</span>
+      <h2 class="title section-title" id="software-title">Adobe Creative Suite</h2>
+    </div>
+    <div class="skill-bars reveal-stagger" id="skill-bars">
+      <div class="skill-bar">
+        <span class="skill-bar__name">After Effects</span>
+        <div class="skill-bar__track" role="img" aria-label="After Effects proficiency">
+          <div class="skill-bar__fill" style="--fill: 95%"></div>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-bar__name">Premiere Pro</span>
+        <div class="skill-bar__track" role="img" aria-label="Premiere Pro proficiency">
+          <div class="skill-bar__fill" style="--fill: 95%"></div>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-bar__name">Photoshop</span>
+        <div class="skill-bar__track" role="img" aria-label="Photoshop proficiency">
+          <div class="skill-bar__fill" style="--fill: 80%"></div>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-bar__name">Illustrator</span>
+        <div class="skill-bar__track" role="img" aria-label="Illustrator proficiency">
+          <div class="skill-bar__fill" style="--fill: 75%"></div>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-bar__name">Animate</span>
+        <div class="skill-bar__track" role="img" aria-label="Animate proficiency">
+          <div class="skill-bar__fill" style="--fill: 90%"></div>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-bar__name">InDesign</span>
+        <div class="skill-bar__track" role="img" aria-label="InDesign proficiency">
+          <div class="skill-bar__fill" style="--fill: 65%"></div>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-bar__name">Audition</span>
+        <div class="skill-bar__track" role="img" aria-label="Audition proficiency">
+          <div class="skill-bar__fill" style="--fill: 70%"></div>
+        </div>
+      </div>
+      <div class="skill-bar">
+        <span class="skill-bar__name">Lightroom</span>
+        <div class="skill-bar__track" role="img" aria-label="Lightroom proficiency">
+          <div class="skill-bar__fill" style="--fill: 70%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<!-- end skills-software-split -->
+
+<!-- ============================================================
+     ANIMATION & MOTION GRAPHICS  (4-page doc, section 1)
+     ============================================================ -->
+
+<!-- ============================================================
+     ANIMATION & MOTION GRAPHICS  (4-page doc, section 1)
+     ============================================================ -->
+<section class="section" id="animation-work" aria-labelledby="anim-work-title">
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Animation &amp; Motion</span>
+      <h2 class="title section-title" id="anim-work-title">Broadcast animation, motion graphics &amp; VFX</h2>
+    </div>
+
+    <div class="project-list reveal-stagger">
+      <div class="project-row">
+        <div class="project-dot project-dot--cyan"></div>
+        <div>
+          <div class="project-name">Kirra Services</div>
+          <div class="project-meta">ICT provider, Indigenous-owned (Supply Nation Certified)</div>
+          <p class="project-desc">Dedicated animation project from concept to final production output.</p>
+        </div>
+      </div>
+      <div class="project-row">
+        <div class="project-dot project-dot--cyan"></div>
+        <div>
+          <div class="project-name">McGrath Leap Year Sale</div>
+          <div class="project-meta">Automotive dealer group</div>
+          <p class="project-desc">Frog-themed motion graphics and TVC animation assets delivered within campaign deadlines.</p>
+        </div>
+      </div>
+      <div class="project-row">
+        <div class="project-dot project-dot--cyan"></div>
+        <div>
+          <div class="project-name">Kingsley's Chicken</div>
+          <div class="project-meta">Fast food restaurant chain</div>
+          <p class="project-desc">Multi-platform social campaign motion graphics. YouTube video grew from under 1,000 views to 880,000+ views.</p>
+        </div>
+      </div>
+      <div class="project-row">
+        <div class="project-dot project-dot--cyan"></div>
+        <div>
+          <div class="project-name">Alexander Watson</div>
+          <div class="project-meta">Real estate agency</div>
+          <p class="project-desc">Led an eight-email stakeholder discussion on storyboard development and creative direction.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid--2 reveal-stagger">
+      <div class="content-card content-card--blue">
+        <h3 class="content-card__title">Logo Animation &amp; Motion Design</h3>
+        <div class="tag-row">
+          <span class="content-tag">My Seeker Loans</span>
+          <span class="content-tag">Xhibit Interiors</span>
+        </div>
+        <ul class="content-list">
+          <li>Animated logo assets and podcast production for a finance broker</li>
+          <li>Logo renders and sequences for digital and broadcast</li>
+          <li>Brand-consistent motion language across all deliverables</li>
+          <li>Logo reveals for social media and TVC campaigns</li>
+          <li>Reusable motion templates for streamlined delivery</li>
+        </ul>
+      </div>
+      <div class="content-card content-card--teal">
+        <h3 class="content-card__title">Visual Effects &amp; Motion Tracking</h3>
+        <ul class="content-list">
+          <li>Motion-tracking VFX: animated elements composited into live-action footage</li>
+          <li>After Effects track and composite onto filmed content</li>
+          <li>Rotoscoping and keying for seamless broadcast integration</li>
+          <li>Particle systems and dynamic simulations for visual impact</li>
+          <li>Broadcast-quality deliverables for all major networks</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid--2 reveal-stagger" style="margin-top: 14px;">
+      <div class="content-card content-card--gold">
+        <h3 class="content-card__title">Television Commercial Production</h3>
+        <div class="tag-row">
+          <span class="content-tag content-tag--gold">Hip Pocket Christmas</span>
+          <span class="content-tag content-tag--gold">Promotional Retail</span>
+          <span class="content-tag content-tag--gold">Brand Advertising</span>
+          <span class="content-tag content-tag--gold">End-tag Animations</span>
+        </div>
+        <p class="content-card__line">30 to 60 minute revision turnaround. 60 to 90 minute sessions for complex multi-revision work.</p>
+      </div>
+      <div class="content-card content-card--teal">
+        <h3 class="content-card__title">Process &amp; Documentation</h3>
+        <ul class="content-list">
+          <li>Authored the team "Editing Bible &amp; Production Processes" guide for all editors</li>
+          <li>Standardised editing workflows and best-practice procedures</li>
+          <li>Improved consistency and efficiency across creative production teams</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     MAJOR TV & MEDIA CAMPAIGNS  (4-page doc, section 4)
+     ============================================================ -->
+<section class="section" id="campaigns" aria-labelledby="campaigns-title">
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Campaigns</span>
+      <h2 class="title section-title" id="campaigns-title">Major TV &amp; media campaigns</h2>
+    </div>
+
+    <div class="card-grid card-grid--2 reveal-stagger">
+      <div class="campaign-col">
+        <div class="content-card content-card--red">
+          <h3 class="content-card__title">Automotive</h3>
+          <div class="tag-row">
+            <span class="content-tag content-tag--red">KIA</span>
+            <span class="content-tag content-tag--red">MG</span>
+            <span class="content-tag content-tag--red">Mercedes-Benz</span>
+          </div>
+          <p class="content-card__line">TVC post-production, graphics and campaign delivery.</p>
+        </div>
+        <div class="content-card content-card--red">
+          <h3 class="content-card__title">BMW Black Friday</h3>
+          <p class="content-card__line">On-set camera assistance, post-production editing, audio mixing, script refinement for campaign consistency.</p>
+        </div>
+      </div>
+      <div class="campaign-col">
+        <div class="content-card content-card--teal">
+          <h3 class="content-card__title">Entertainment &amp; Media</h3>
+          <ul class="content-list">
+            <li><strong>LiSTNR:</strong> Metropolitan CAD compliance and national media distribution</li>
+            <li><strong>Disney x Gogglebox:</strong> End-tag edits and branded deliverables</li>
+            <li><strong>Greenwood:</strong> Over 50s lifestyle TVC production with client preview alignment</li>
+          </ul>
+        </div>
+        <div class="content-card content-card--gold">
+          <h3 class="content-card__title">Sports &amp; Community</h3>
+          <ul class="content-list">
+            <li><strong>Canberra Raiders:</strong> Merchandise TVCs and Presentation Night video packages with custom song integration</li>
+            <li><strong>Foodbank Australia:</strong> TVC production and post-production support for a national charity</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid--2 reveal-stagger" style="margin-top: 14px;">
+      <div class="content-card content-card--blue content-card--center">
+        <h3 class="content-card__title">SCA Brandworks - multi-city internal campaign</h3>
+        <div class="tag-row tag-row--center">
+          <span class="content-tag">Canberra</span>
+          <span class="content-tag">Wagga Wagga</span>
+          <span class="content-tag">Wollongong</span>
+          <span class="content-tag">Port Macquarie</span>
+          <span class="content-tag">Mackay</span>
+        </div>
+        <p class="content-card__line">12 bookings across 6 cities. ~34 hours including full shoot days. Edited client testimonial content - clients discussing why they chose SCA. Campaign generated measurable new business for SCA.</p>
+      </div>
+      <div class="content-card content-card--blue content-card--center">
+        <h3 class="content-card__title">Broadcast network promotions</h3>
+        <div class="tag-row tag-row--center">
+          <span class="content-tag content-tag--blue">Network 10</span>
+          <span class="content-tag content-tag--blue">Nine Network</span>
+          <span class="content-tag content-tag--blue">Seven Network</span>
+        </div>
+        <div class="tag-row tag-row--center">
+          <span class="content-tag">AFL</span>
+          <span class="content-tag">AFLW</span>
+          <span class="content-tag">NRL</span>
+          <span class="content-tag">Cricket</span>
+          <span class="content-tag">BBL</span>
+          <span class="content-tag">NFL</span>
+        </div>
+        <p class="content-card__line">Short-form editing, promo cutdowns, channel branding across all three networks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     GOVERNMENT & PUBLIC SECTOR  (4-page doc, section 5)
+     ============================================================ -->
+<section class="section" id="government" aria-labelledby="gov-title">
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Government</span>
+      <h2 class="title section-title" id="gov-title">Public sector &amp; government campaigns</h2>
+    </div>
+
+    <div class="card-grid card-grid--2 reveal-stagger">
+      <div class="campaign-col">
+        <div class="content-card content-card--teal">
+          <h3 class="content-card__title">Taronga Zoo</h3>
+          <p class="content-card__line">Advertising and content production for the NSW Government wildlife conservation authority.</p>
+        </div>
+        <div class="content-card content-card--teal">
+          <h3 class="content-card__title">Motorcycle Council of NSW</h3>
+          <p class="content-card__line">Advertising and promotional content for the peak rider advocacy body.</p>
+        </div>
+        <div class="content-card content-card--teal">
+          <h3 class="content-card__title">ActewAGL</h3>
+          <p class="content-card__line">Campaign coordination for the ACT Government electricity and gas utility provider.</p>
+        </div>
+      </div>
+      <div class="campaign-col">
+        <div class="content-card content-card--red">
+          <h3 class="content-card__title">Local government</h3>
+          <div class="tag-row">
+            <span class="content-tag content-tag--red">Flinders</span>
+            <span class="content-tag content-tag--red">Forbes</span>
+            <span class="content-tag content-tag--red">Cloncurry</span>
+            <span class="content-tag content-tag--red">Carpentaria</span>
+          </div>
+          <p class="content-card__line">TV &amp; PAX advertising for four shire councils.</p>
+        </div>
+        <div class="content-card content-card--gold">
+          <h3 class="content-card__title">Political advertising</h3>
+          <p class="content-card__line">Canberra Liberal Campaign - content and PAX materials delivered within strict deadlines.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WORK
+     ============================================================ -->
+<section class="section" id="work" aria-labelledby="work-title">
+  <canvas id="work-dot-grid" aria-hidden="true"></canvas>
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Work</span>
+      <h2 class="title section-title" id="work-title">Where I've worked</h2>
+    </div>
+    <div class="work-timeline reveal-stagger" id="work-timeline">
+      <article class="work-item">
+        <div class="work-num">01</div>
+        <div>
+          <div class="work-role">Freelance Editor / Contractor</div>
+          <div class="work-company">Self-employed</div>
+          <p class="work-desc">Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.</p>
+        </div>
+        <div class="work-when">Feb 2026 - Present</div>
+      </article>
+      <article class="work-item">
+        <div class="work-num">02</div>
+        <div>
+          <div class="work-role">Senior Production Editor</div>
+          <div class="work-company">Southern Cross Austereo <span class="work-dash">-</span> Channel 10</div>
+          <p class="work-desc">Sole editor. 100+ commercials. Editing, sound design, motion graphics, client revisions and scripting. Trained my own successor before I left.</p>
+        </div>
+        <div class="work-when">Apr 2023 - Dec 2025</div>
+      </article>
+      <article class="work-item">
+        <div class="work-num">03</div>
+        <div>
+          <div class="work-role">Produce Team Member</div>
+          <div class="work-company">Woolworths Metro <span class="work-dash">-</span> Pyrmont</div>
+          <p class="work-desc">Night shift, customer service, stocktake, cleaning. Fast-paced environment.</p>
+        </div>
+        <div class="work-when">Oct 2019 - Aug 2020</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EDUCATION & RECOGNITION  (4-page doc, section 9)
+     ============================================================ -->
+<section class="section" id="education" aria-labelledby="edu-title">
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Education &amp; Recognition</span>
+      <h2 class="title section-title" id="edu-title">Background &amp; awards</h2>
+    </div>
+    <div class="card-grid card-grid--2 reveal-stagger">
+      <div class="content-card content-card--blue">
+        <h3 class="content-card__title">Education</h3>
+        <div class="edu-entry">
+          <div class="edu-degree">Bachelor of Interactive Media</div>
+          <div class="edu-school">Academy of Interactive Technology &middot; 2019–2022</div>
+        </div>
+        <div class="edu-entry">
+          <div class="edu-degree">Higher School Certificate</div>
+          <div class="edu-school">Batemans Bay High School &middot; 2013–2018</div>
+        </div>
+      </div>
+      <div class="content-card content-card--gold">
+        <h3 class="content-card__title">Recognition</h3>
+        <ul class="content-list">
+          <li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong> - Bachelor of Interactive Media</li>
+          <li>Taught Adobe Animate to a Year 10 IT class at Batemans Bay High School</li>
+          <li><em>Dream Dome</em> - university short film (AIT 2022)</li>
+          <li>Youth Frontiers Award - animated mental health film</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RESUME PAGES  (4-page A4 SVG, single-page viewer)
+     ============================================================ -->
+<section class="section" id="resume-pages" aria-labelledby="pages-title">
+  <div class="container">
+    <div class="section-head reveal-stagger">
+      <span class="eyebrow section-eyebrow">Full summary</span>
+      <h2 class="title section-title" id="pages-title">The 4-page A4 version</h2>
+      <p class="sub section-sub">Relevant experience summary. Use the arrows or dots to browse each page.</p>
+    </div>
+    <div class="page-viewer reveal-stagger">
+      <div class="page-viewer__stage">
+        <img class="page-viewer__img" id="page-viewer-img" src="resume-page-1.svg" alt="Resume page 1" decoding="async">
+      </div>
+      <div class="page-viewer__nav" role="group" aria-label="Page navigation">
+        <button class="page-viewer__btn" id="page-viewer-prev" type="button" aria-label="Previous page">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 L5 8 L10 13"/></svg>
+        </button>
+        <div class="page-viewer__dots" id="page-viewer-dots" role="tablist" aria-label="Page selector"></div>
+        <span class="page-viewer__label" id="page-viewer-label">Page 1 of 4</span>
+        <button class="page-viewer__btn" id="page-viewer-next" type="button" aria-label="Next page">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3 L11 8 L6 13"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section class="section contact-section" id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="contact-card">
+      <div class="contact-head">
+        <span class="contact-eyebrow">Contact</span>
+        <h2 class="contact-title" id="contact-title">Get in touch</h2>
+      </div>
+      <div class="contact-grid">
+        <a class="contact-item" href="mailto:lomjohn@pm.me">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">lomjohn@pm.me</div>
+          </div>
+        </a>
+        <a class="contact-item" href="tel:+61406012354">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">Mobile</div>
+            <div class="contact-value">0406 012 354</div>
+          </div>
+        </a>
+        <a class="contact-item" href="https://linkedin.com/in/johnlom" target="_blank" rel="noopener">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-label">LinkedIn</div>
+            <div class="contact-value">linkedin.com/in/johnlom</div>
+          </div>
+        </a>
+        <a class="contact-item" href="https://drive.google.com/drive/folders/1_SLbZgKhBZWUzWbMosAAZ0lenxpSD07Q?usp=drive_link" target="_blank" rel="noopener">
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div>
+            <div class="contact-label">Showreel</div>
+            <div class="contact-value">Watch on Google Drive</div>
+          </div>
+        </a>
+      </div>
+      <div class="availability">
+        <div class="availability-pill">
+          <span class="availability-dot" aria-hidden="true"></span>
+          Available within short notice
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer" role="contentinfo">
+  <div class="container footer-row">
+    <div>© 2026 John Lomnicki</div>
+    <div class="footer-links">
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     ADOBE APPS POP-UP  (triggered by the "6" stat button)
+     ============================================================ -->
+<div class="popup" id="adobe-popup" role="dialog" aria-modal="true" aria-labelledby="adobe-popup-title" hidden>
+  <div class="popup__backdrop" data-popup-close></div>
+  <div class="popup__panel" role="document">
+    <button class="popup__close" type="button" data-popup-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <span class="popup__eyebrow">8 Adobe apps</span>
+    <h3 class="popup__title" id="adobe-popup-title">The Creative Cloud stack</h3>
+    <p class="popup__sub">Daily-driver apps for editing, motion and brand work.</p>
+    <ul class="popup__list">
+      <li class="skill-bar">
+        <span class="skill-bar__name">After Effects</span>
+        <div class="skill-bar__track" role="img" aria-label="After Effects proficiency">
+          <div class="skill-bar__fill" style="--fill: 95%"></div>
+        </div>
+      </li>
+      <li class="skill-bar">
+        <span class="skill-bar__name">Premiere Pro</span>
+        <div class="skill-bar__track" role="img" aria-label="Premiere Pro proficiency">
+          <div class="skill-bar__fill" style="--fill: 95%"></div>
+        </div>
+      </li>
+      <li class="skill-bar">
+        <span class="skill-bar__name">Photoshop</span>
+        <div class="skill-bar__track" role="img" aria-label="Photoshop proficiency">
+          <div class="skill-bar__fill" style="--fill: 80%"></div>
+        </div>
+      </li>
+      <li class="skill-bar">
+        <span class="skill-bar__name">Illustrator</span>
+        <div class="skill-bar__track" role="img" aria-label="Illustrator proficiency">
+          <div class="skill-bar__fill" style="--fill: 75%"></div>
+        </div>
+      </li>
+      <li class="skill-bar">
+        <span class="skill-bar__name">Animate</span>
+        <div class="skill-bar__track" role="img" aria-label="Animate proficiency">
+          <div class="skill-bar__fill" style="--fill: 90%"></div>
+        </div>
+      </li>
+      <li class="skill-bar">
+        <span class="skill-bar__name">InDesign</span>
+        <div class="skill-bar__track" role="img" aria-label="InDesign proficiency">
+          <div class="skill-bar__fill" style="--fill: 65%"></div>
+        </div>
+      </li>
+      <li class="skill-bar">
+        <span class="skill-bar__name">Audition</span>
+        <div class="skill-bar__track" role="img" aria-label="Audition proficiency">
+          <div class="skill-bar__fill" style="--fill: 70%"></div>
+        </div>
+      </li>
+      <li class="skill-bar">
+        <span class="skill-bar__name">Lightroom</span>
+        <div class="skill-bar__track" role="img" aria-label="Lightroom proficiency">
+          <div class="skill-bar__fill" style="--fill: 70%"></div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Show draft note if ?draft=1 in URL */
+  if (/[?&]draft=1\b/.test(location.search)) document.body.classList.add("show-draft");
+  /* Skip all reveal animations if ?nofx=1 in URL (for screenshot tests) */
+  const skipFx = /[?&]nofx=1\b/.test(location.search);
+  /* Shared motion preference - referenced by both the dot-grid and the stat counter */
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* =================================================================
+     DOT GRID CANVAS  (cursor-tracking, reusable for any section)
+     ================================================================= */
+  function initDotGrid(canvas, opts) {
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const o = opts || {};
+    const tile    = o.tile    != null ? o.tile    : 32;
+    const radius  = o.radius  != null ? o.radius  : 160;
+    const push    = o.push    != null ? o.push    : 28;
+    const lerp    = o.lerp    != null ? o.lerp    : 0.10;
+    const ambient = o.ambient != null ? o.ambient : 1.6;
+    const dotR    = o.dotR    != null ? o.dotR    : [1.6, 2.4];
+    const fill    = o.fill    != null ? o.fill    : "rgba(255,255,255,0.18)";
+
+    const isCoarse = matchMedia("(pointer: coarse)").matches;
+
+    let W = 0, H = 0, DPR = 1;
+    let dots = [];
+    const mouse = { x: -9999, y: -9999, active: false };
+    let rafId = 0;
+
+    function makeDots() {
+      const cols = Math.ceil(W / tile) + 1;
+      const rows = Math.ceil(H / tile) + 1;
+      dots = [];
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const baseX = c * tile + (r % 2 === 0 ? 0 : tile / 2);
+          const baseY = r * tile;
+          if (baseX > W + 4 || baseY > H + 4) continue;
+          const ox = (Math.random() - 0.5) * 6;
+          const oy = (Math.random() - 0.5) * 6;
+          dots.push({
+            bx: baseX + ox, by: baseY + oy,
+            x:  baseX + ox, y:  baseY + oy,
+            phase: Math.random() * Math.PI * 2,
+            r: dotR[0] + Math.random() * (dotR[1] - dotR[0])
+          });
+        }
+      }
+    }
+
+    function resize() {
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      const r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width  = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      makeDots();
+    }
+
+    function frame(t) {
+      ctx.clearRect(0, 0, W, H);
+      const tt = t * 0.001;
+
+      for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+        let tx = d.bx, ty = d.by;
+
+        if (mouse.active && !isCoarse) {
+          const dx = d.x - mouse.x;
+          const dy = d.y - mouse.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < radius && dist > 0.5) {
+            const f = 1 - dist / radius;
+            const inf = f * f;
+            const ux = dx / dist, uy = dy / dist;
+            tx = d.bx + ux * push * inf;
+            ty = d.by + uy * push * inf;
+          }
+        }
+
+        if (!reduced) {
+          tx += Math.sin(tt * 0.6 + d.phase) * ambient;
+          ty += Math.cos(tt * 0.5 + d.phase * 1.3) * ambient;
+        }
+
+        d.x += (tx - d.x) * lerp;
+        d.y += (ty - d.y) * lerp;
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = fill;
+        ctx.fill();
+      }
+
+      rafId = requestAnimationFrame(frame);
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    const surface = canvas.parentElement;
+    surface.addEventListener("mousemove", (e) => {
+      const r = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - r.left;
+      mouse.y = e.clientY - r.top;
+      mouse.active = true;
+    });
+    surface.addEventListener("mouseleave", () => {
+      mouse.active = false;
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+    surface.addEventListener("touchmove", (e) => {
+      if (!e.touches[0]) return;
+      const r = canvas.getBoundingClientRect();
+      mouse.x = e.touches[0].clientX - r.left;
+      mouse.y = e.touches[0].clientY - r.top;
+      mouse.active = true;
+    }, { passive: true });
+    surface.addEventListener("touchend", () => { mouse.active = false; });
+
+    rafId = requestAnimationFrame(frame);
+    return { resize, stop: () => cancelAnimationFrame(rafId) };
+  }
+
+  // Hero dot grid
+  initDotGrid(document.getElementById("dot-grid"));
+  // Work section dot grid (mirrors the hero)
+  initDotGrid(document.getElementById("work-dot-grid"), {
+    tile: 28, radius: 140, push: 24, ambient: 1.2,
+    dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
+  });
+
+  /* =================================================================
+     HERO SCROLL-DOWN ARROW
+     - Click: smooth-scroll to first section after the hero, hide permanently
+     - Auto-hide once the user scrolls out of the hero (re-shows on scroll back)
+     ================================================================= */
+  const heroEl     = document.querySelector(".hero");
+  const heroScroll = document.getElementById("hero-scroll");
+  if (heroEl && heroScroll) {
+    // Once the user clicks the arrow, they have acknowledged the hint and
+    // it should not reappear if they scroll back to the top.
+    let dismissed = false;
+
+    heroScroll.addEventListener("click", () => {
+      dismissed = true;
+      heroScroll.classList.add("is-hidden");
+      const next = heroEl.nextElementSibling;
+      const target = (next && next.id) ? next : document.querySelector("#skills");
+      if (target) target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    });
+
+    // Show/hide the arrow based on whether the hero is in view.
+    // IO threshold 0 fires whenever the intersection state changes:
+    //   any pixel of hero in viewport  -> isIntersecting = true  -> show
+    //   hero fully above the viewport   -> isIntersecting = false -> hide
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver((entries) => {
+        const e = entries[entries.length - 1];
+        if (dismissed) {
+          heroScroll.classList.add("is-hidden");
+        } else if (e && e.isIntersecting) {
+          heroScroll.classList.remove("is-hidden");
+        } else {
+          heroScroll.classList.add("is-hidden");
+        }
+      }, { threshold: 0 }).observe(heroEl);
+    }
+  }
+
+  /* =================================================================
+     NAV: solid-on-scroll
+     ================================================================= */
+  const nav = document.getElementById("topnav");
+  const onScroll = () => {
+    if (window.scrollY > 80) nav.classList.add("is-scrolled");
+    else nav.classList.remove("is-scrolled");
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* =================================================================
+     ADOBE APPS POP-UP
+     ================================================================= */
+  (function popup() {
+    const trigger = document.getElementById("adobe-stat");
+    const popup   = document.getElementById("adobe-popup");
+    if (!trigger || !popup) return;
+    let lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      popup.hidden = false;
+      // Restart the bar-fill animation on each open (force reflow first)
+      popup.classList.remove("is-open");
+      // eslint-disable-next-line no-unused-expressions
+      void popup.offsetWidth;
+      requestAnimationFrame(() => popup.classList.add("is-open"));
+      trigger.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+      const closeBtn = popup.querySelector(".popup__close");
+      if (closeBtn) closeBtn.focus();
+    }
+    function close() {
+      popup.hidden = true;
+      popup.classList.remove("is-open");
+      trigger.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+    trigger.addEventListener("click", open);
+    trigger.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+    });
+    popup.addEventListener("click", (e) => {
+      if (e.target && e.target.closest("[data-popup-close]")) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !popup.hidden) close();
+    });
+  })();
+
+  /* =================================================================
+     PAGE VIEWER  (4-page A4 SVG, one at a time)
+     ================================================================= */
+  (function pageViewer() {
+    const total = 4;
+    const img   = document.getElementById("page-viewer-img");
+    const prev  = document.getElementById("page-viewer-prev");
+    const next  = document.getElementById("page-viewer-next");
+    const dots  = document.getElementById("page-viewer-dots");
+    const label = document.getElementById("page-viewer-label");
+    if (!img || !dots) return;
+    let current = 1;
+
+    for (let i = 1; i <= total; i++) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "page-viewer__dot";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-label", "Go to page " + i);
+      if (i === 1) b.classList.add("is-active");
+      b.dataset.page = String(i);
+      dots.appendChild(b);
+    }
+
+    function show(n) {
+      current = Math.max(1, Math.min(total, n));
+      img.src = "resume-page-" + current + ".svg";
+      img.alt = "Resume page " + current;
+      if (label) label.textContent = "Page " + current + " of " + total;
+      dots.querySelectorAll(".page-viewer__dot").forEach((d, idx) => {
+        d.classList.toggle("is-active", idx + 1 === current);
+      });
+      if (prev) prev.disabled = current === 1;
+      if (next) next.disabled = current === total;
+    }
+
+    if (prev) prev.addEventListener("click", () => show(current - 1));
+    if (next) next.addEventListener("click", () => show(current + 1));
+    dots.addEventListener("click", (e) => {
+      const b = e.target && e.target.closest(".page-viewer__dot");
+      if (b && b.dataset.page) show(Number(b.dataset.page));
+    });
+    document.addEventListener("keydown", (e) => {
+      const t = e.target;
+      if (t && (t.matches("input, textarea, [contenteditable]"))) return;
+      if (e.key === "ArrowLeft")  show(current - 1);
+      else if (e.key === "ArrowRight") show(current + 1);
+    });
+    show(1);
+  })();
+
+  /* =================================================================
+     SCROLL REVEAL  (IntersectionObserver, JS-enhanced only)
+     ================================================================= */
+  const supportsIO = "IntersectionObserver" in window;
+  if (supportsIO) {
+    document.documentElement.classList.add("js-reveal");
+  }
+
+  // We observe the .reveal-stagger PARENT containers; when one enters view,
+  // its children animate in via the existing CSS stagger rule.
+  // Elements already inside the viewport on page load are marked visible
+  // immediately (no animation) so the page doesn't pop-in everything at once.
+  const staggerParents = document.querySelectorAll(".reveal-stagger");
+  const vh = window.innerHeight;
+  const initiallyVisible = new Set();
+  staggerParents.forEach((el) => {
+    const r = el.getBoundingClientRect();
+    if (r.top < vh * 0.95 && r.bottom > 0) initiallyVisible.add(el);
+  });
+
+  function revealParent(el) {
+    if (!el) return;
+    if (!el.classList.contains("is-visible")) el.classList.add("is-visible");
+    // The CSS stagger rule only targets direct children of .reveal-stagger,
+    // so for nested layouts (e.g. .card-grid > .campaign-col > .content-card)
+    // we also need to mark the inner cards visible. The CSS already defines
+    // a transition for .content-card.is-visible.
+    el.querySelectorAll(".content-card, .project-row").forEach((c) => {
+      if (!c.classList.contains("is-visible")) c.classList.add("is-visible");
+    });
+  }
+
+  if (skipFx) {
+    staggerParents.forEach(revealParent);
+  } else if (supportsIO) {
+    // Show initially-visible sections right away (no animation)
+    initiallyVisible.forEach(revealParent);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          revealParent(e.target);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+    staggerParents.forEach((el) => { if (!initiallyVisible.has(el)) io.observe(el); });
+    // Safety net for very fast scrolls / hidden tabs
+    setTimeout(() => staggerParents.forEach(revealParent), 4000);
+  } else {
+    staggerParents.forEach(revealParent);
+  }
+
+  /* =================================================================
+     STAT COUNTERS
+     ================================================================= */
+  function setFinal(el) {
+    const target = parseFloat(el.dataset.count);
+    const decimals = parseInt(el.dataset.decimals || "0", 10);
+    el.textContent = target.toFixed(decimals);
+  }
+
+  if (skipFx || !supportsIO || reduced) {
+    document.querySelectorAll("[data-count]").forEach(setFinal);
+  } else {
+    const counters = document.querySelectorAll("[data-count]");
+    const animate = (el) => {
+      const target = parseFloat(el.dataset.count);
+      const decimals = parseInt(el.dataset.decimals || "0", 10);
+      const duration = 1200;
+      const t0 = performance.now();
+      const ease = (k) => 1 - Math.pow(1 - k, 3); // easeOutCubic
+      function tick(now) {
+        const k = Math.min(1, (now - t0) / duration);
+        el.textContent = (target * ease(k)).toFixed(decimals);
+        if (k < 1) requestAnimationFrame(tick);
+        else el.textContent = target.toFixed(decimals);
+      }
+      requestAnimationFrame(tick);
+    };
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          animate(e.target);
+          cio.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(c => cio.observe(c));
+  }
+})();
+</script>
+
+</body>
+</html>
