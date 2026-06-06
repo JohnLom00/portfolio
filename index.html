@@ -1334,19 +1334,131 @@ body.show-draft .anim-draft { display: block; }
 }
 
 /* =================================================================
-   MOBILE: snap-scroll, compact nav, dot-grid 25%, skills 2-col
+   MOBILE: snap-scroll, compact nav, dot-grid 25%, skills 2-col,
+           no-scroll pages, tappable detail pop-ups
    ================================================================= */
 @media (max-width: 859px) {
-  html { scroll-snap-type: y mandatory; scroll-padding-top: 64px; }
-  .hero, .section, .skills-software-split { scroll-snap-align: start; }
+  /* Snap + no internal scroll */
+  html { scroll-snap-type: y mandatory; scroll-padding-top: 60px; }
+  .hero, .section, .skills-software-split { scroll-snap-align: start; height: 100dvh; overflow: hidden; }
+  .hero-inner, .section > .container, .skills-software-split > .section > .container { height: 100%; display: flex; flex-direction: column; }
+
+  /* Nav: hide name, keep JL icon only */
+  .brand-name { display: none; }
+
+  /* Nav links always visible */
   .nav-links { display: flex; gap: 2px; overflow-x: auto; flex: 1; justify-content: flex-end; }
-  .nav-link { padding: 6px 10px; font-size: 0.78rem; white-space: nowrap; }
+  .nav-link { padding: 5px 8px; font-size: 0.7rem; white-space: nowrap; }
   .nav-cta { display: none; }
+
+  /* Dot grid: quarter height */
   #dot-grid, #work-dot-grid { height: 25%; bottom: auto; }
+
+  /* Software section hidden on mobile */
   #software { display: none !important; }
   .skills-software-split { grid-template-columns: 1fr; gap: 0; }
-  .skills-software-split .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .skill-pill { min-height: auto; padding: 8px 12px; font-size: 0.8rem; }
+  .skills-software-split .skills-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+  .skill-pill { min-height: auto; padding: 6px 10px; font-size: 0.72rem; }
+
+  /* Compact section heads */
+  .section-head { margin-bottom: var(--space-md); }
+  .section-head .section-eyebrow { margin-bottom: 6px; padding: 4px 10px; font-size: 0.65rem; }
+  .section-head .section-title { font-size: 1rem; margin-bottom: 4px; }
+  .section-head .section-sub { font-size: 0.78rem; }
+
+  /* --- Project rows: compact, tappable --- */
+  .project-row {
+    cursor: pointer; padding: 6px 32px 6px 10px; gap: 8px;
+    position: relative; border-radius: var(--radius-pill);
+  }
+  .project-row .project-meta,
+  .project-row .project-desc { display: none; }
+  .project-row::after {
+    content: "+"; position: absolute; right: 10px; top: 50%;
+    transform: translateY(-50%); font-size: 1rem;
+    color: var(--cyan-500); font-weight: 700; line-height: 1;
+  }
+  .project-row:active { background: var(--chip); }
+  .project-list { gap: 4px; margin-bottom: 8px; }
+
+  /* --- Project dot inline with name on mobile --- */
+  .project-dot { width: 7px; height: 7px; margin-top: 5px; }
+
+  /* --- Card grids: single column, compact --- */
+  .card-grid--2 { grid-template-columns: 1fr; gap: 6px; }
+
+  /* --- Content cards: compact tappable title bars --- */
+  .content-card {
+    cursor: pointer; padding: 8px 32px 8px 12px;
+    position: relative;
+  }
+  .content-card .content-card__line,
+  .content-card .content-list { display: none; }
+  .content-card .tag-row { display: none; }
+  .content-card::after {
+    content: "+"; position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%); font-size: 1rem;
+    color: var(--accent, var(--cyan-500)); font-weight: 700; line-height: 1;
+  }
+  .content-card:active { background: var(--chip); }
+  .content-card__title { font-size: 0.85rem; margin-bottom: 0; }
+
+  /* --- Work items: compact, tappable --- */
+  .work-item {
+    padding: 8px 32px 8px 12px; grid-template-columns: 28px 1fr;
+    gap: 8px; cursor: pointer;
+  }
+  .work-item .work-num { width: 28px; height: 28px; font-size: 0.65rem; }
+  .work-role { font-size: 0.85rem; }
+  .work-company { font-size: 0.75rem; }
+  .work-when { font-size: 0.7rem; }
+  .work-item .work-desc { display: none; }
+  .work-item::after {
+    content: "+"; position: absolute; right: 12px; top: 50%;
+    transform: translateY(-50%); font-size: 1rem;
+    color: var(--cyan-500); font-weight: 700; line-height: 1;
+  }
+  .work-timeline { gap: 6px; }
+
+  /* --- Education: compact tappable cards --- */
+  #education .content-card { padding: 8px 12px; }
+  #education .edu-entry { margin-top: 4px; }
+  .edu-degree { font-size: 0.82rem; }
+  .edu-school { font-size: 0.72rem; }
+  #education .content-list { display: none; }
+  #education .content-card::after { content: "+"; }
+
+  /* --- Resume pages: compact --- */
+  #resume-pages .section-head { margin-bottom: 8px; }
+  .page-viewer__stage { aspect-ratio: auto; height: 60%; }
+
+  /* --- Contact: compact --- */
+  .contact-card { padding: 12px; }
+  .contact-grid { gap: 8px; }
+  .contact-item { padding: 10px 14px; gap: 10px; }
+  .contact-icon { width: 32px; height: 32px; }
+  .contact-icon svg { width: 16px; height: 16px; }
+  .contact-value { font-size: 0.82rem; }
+  .availability-pill { padding: 8px 14px; font-size: 0.78rem; }
+}
+
+/* Mobile detail popup styles (same for desktop but behaves differently via JS) */
+.mobile-detail-popup .popup__panel {
+  max-width: 480px; max-height: 80vh; overflow-y: auto;
+}
+.mobile-detail-popup .popup__eyebrow {
+  margin-bottom: 8px;
+}
+.mobile-detail-popup .content-list {
+  list-style: none; padding: 0; margin: 8px 0 0;
+}
+.mobile-detail-popup .content-list li {
+  position: relative; padding-left: 14px; margin-bottom: 6px;
+  font-size: 0.9rem; color: var(--text); line-height: 1.5;
+}
+.mobile-detail-popup .content-list li::before {
+  content: ""; position: absolute; left: 0; top: 0.55em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--cyan-500);
 }
 .nav-link.is-active { color: var(--on-dark); background: rgba(255,255,255,0.12); }
 .nav-link.is-active:hover { color: var(--on-dark); background: rgba(255,255,255,0.15); }
@@ -1548,8 +1660,8 @@ body.show-draft .anim-draft { display: block; }
       <h2 class="title section-title" id="anim-work-title">Broadcast animation, motion graphics &amp; VFX</h2>
     </div>
 
-    <div class="project-list reveal-stagger">
-      <div class="project-row">
+    <div class="project-list reveal-stagger" id="anim-project-list">
+      <div class="project-row" data-mobile-detail='{"title":"Kirra Services","sub":"ICT provider, Indigenous-owned (Supply Nation Certified)","body":"Dedicated animation project from concept to final production output.","eyebrow":"Project"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">Kirra Services</div>
@@ -1557,7 +1669,7 @@ body.show-draft .anim-draft { display: block; }
           <p class="project-desc">Dedicated animation project from concept to final production output.</p>
         </div>
       </div>
-      <div class="project-row">
+      <div class="project-row" data-mobile-detail='{"title":"McGrath Leap Year Sale","sub":"Automotive dealer group","body":"Frog-themed motion graphics and TVC animation assets delivered within campaign deadlines.","eyebrow":"Project"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">McGrath Leap Year Sale</div>
@@ -1565,7 +1677,7 @@ body.show-draft .anim-draft { display: block; }
           <p class="project-desc">Frog-themed motion graphics and TVC animation assets delivered within campaign deadlines.</p>
         </div>
       </div>
-      <div class="project-row">
+      <div class="project-row" data-mobile-detail='{"title":"Kingsley&#39;s Chicken","sub":"Fast food restaurant chain","body":"Multi-platform social campaign motion graphics. YouTube video grew from under 1,000 views to 880,000+ views.","eyebrow":"Project"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">Kingsley's Chicken</div>
@@ -1573,7 +1685,7 @@ body.show-draft .anim-draft { display: block; }
           <p class="project-desc">Multi-platform social campaign motion graphics. YouTube video grew from under 1,000 views to 880,000+ views.</p>
         </div>
       </div>
-      <div class="project-row">
+      <div class="project-row" data-mobile-detail='{"title":"Alexander Watson","sub":"Real estate agency","body":"Led an eight-email stakeholder discussion on storyboard development and creative direction.","eyebrow":"Project"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">Alexander Watson</div>
@@ -1584,7 +1696,7 @@ body.show-draft .anim-draft { display: block; }
     </div>
 
     <div class="card-grid card-grid--2 reveal-stagger">
-      <div class="content-card content-card--blue">
+      <div class="content-card content-card--blue" data-mobile-detail='{"title":"Logo Animation &amp; Motion Design","body":"<ul class=\"content-list\"><li>Animated logo assets and podcast production for a finance broker</li><li>Logo renders and sequences for digital and broadcast</li><li>Brand-consistent motion language across all deliverables</li><li>Logo reveals for social media and TVC campaigns</li><li>Reusable motion templates for streamlined delivery</li></ul>","eyebrow":"Service"}'>
         <h3 class="content-card__title">Logo Animation &amp; Motion Design</h3>
         <div class="tag-row">
           <span class="content-tag">My Seeker Loans</span>
@@ -1598,7 +1710,7 @@ body.show-draft .anim-draft { display: block; }
           <li>Reusable motion templates for streamlined delivery</li>
         </ul>
       </div>
-      <div class="content-card content-card--teal">
+      <div class="content-card content-card--teal" data-mobile-detail='{"title":"Visual Effects &amp; Motion Tracking","body":"<ul class=\"content-list\"><li>Motion-tracking VFX: animated elements composited into live-action footage</li><li>After Effects track and composite onto filmed content</li><li>Rotoscoping and keying for seamless broadcast integration</li><li>Particle systems and dynamic simulations for visual impact</li><li>Broadcast-quality deliverables for all major networks</li></ul>","eyebrow":"Service"}'>
         <h3 class="content-card__title">Visual Effects &amp; Motion Tracking</h3>
         <ul class="content-list">
           <li>Motion-tracking VFX: animated elements composited into live-action footage</li>
@@ -1611,7 +1723,7 @@ body.show-draft .anim-draft { display: block; }
     </div>
 
     <div class="card-grid card-grid--2 reveal-stagger" style="margin-top: 14px;">
-      <div class="content-card content-card--gold">
+      <div class="content-card content-card--gold" data-mobile-detail='{"title":"Television Commercial Production","sub":"Hip Pocket Christmas, Promotional Retail, Brand Advertising, End-tag Animations","body":"30 to 60 minute revision turnaround. 60 to 90 minute sessions for complex multi-revision work.","eyebrow":"Service"}'>
         <h3 class="content-card__title">Television Commercial Production</h3>
         <div class="tag-row">
           <span class="content-tag content-tag--gold">Hip Pocket Christmas</span>
@@ -1621,7 +1733,7 @@ body.show-draft .anim-draft { display: block; }
         </div>
         <p class="content-card__line">30 to 60 minute revision turnaround. 60 to 90 minute sessions for complex multi-revision work.</p>
       </div>
-      <div class="content-card content-card--teal">
+      <div class="content-card content-card--teal" data-mobile-detail='{"title":"Process &amp; Documentation","body":"<ul class=\"content-list\"><li>Authored the team &ldquo;Editing Bible &amp; Production Processes&rdquo; guide for all editors</li><li>Standardised editing workflows and best-practice procedures</li><li>Improved consistency and efficiency across creative production teams</li></ul>","eyebrow":"Service"}'>
         <h3 class="content-card__title">Process &amp; Documentation</h3>
         <ul class="content-list">
           <li>Authored the team "Editing Bible &amp; Production Processes" guide for all editors</li>
@@ -1645,7 +1757,7 @@ body.show-draft .anim-draft { display: block; }
 
     <div class="card-grid card-grid--2 reveal-stagger">
       <div class="campaign-col">
-        <div class="content-card content-card--red">
+        <div class="content-card content-card--red" data-mobile-detail='{"title":"Automotive","sub":"KIA, MG, Mercedes-Benz","body":"TVC post-production, graphics and campaign delivery.","eyebrow":"Campaign"}'>
           <h3 class="content-card__title">Automotive</h3>
           <div class="tag-row">
             <span class="content-tag content-tag--red">KIA</span>
@@ -1654,13 +1766,13 @@ body.show-draft .anim-draft { display: block; }
           </div>
           <p class="content-card__line">TVC post-production, graphics and campaign delivery.</p>
         </div>
-        <div class="content-card content-card--red">
+        <div class="content-card content-card--red" data-mobile-detail='{"title":"BMW Black Friday","body":"On-set camera assistance, post-production editing, audio mixing, script refinement for campaign consistency.","eyebrow":"Campaign"}'>
           <h3 class="content-card__title">BMW Black Friday</h3>
           <p class="content-card__line">On-set camera assistance, post-production editing, audio mixing, script refinement for campaign consistency.</p>
         </div>
       </div>
       <div class="campaign-col">
-        <div class="content-card content-card--teal">
+        <div class="content-card content-card--teal" data-mobile-detail='{"title":"Entertainment &amp; Media","body":"<ul class=\"content-list\"><li><strong>LiSTNR:</strong> Metropolitan CAD compliance and national media distribution</li><li><strong>Disney x Gogglebox:</strong> End-tag edits and branded deliverables</li><li><strong>Greenwood:</strong> Over 50s lifestyle TVC production with client preview alignment</li></ul>","eyebrow":"Campaign"}'>
           <h3 class="content-card__title">Entertainment &amp; Media</h3>
           <ul class="content-list">
             <li><strong>LiSTNR:</strong> Metropolitan CAD compliance and national media distribution</li>
@@ -1668,7 +1780,7 @@ body.show-draft .anim-draft { display: block; }
             <li><strong>Greenwood:</strong> Over 50s lifestyle TVC production with client preview alignment</li>
           </ul>
         </div>
-        <div class="content-card content-card--gold">
+        <div class="content-card content-card--gold" data-mobile-detail='{"title":"Sports &amp; Community","body":"<ul class=\"content-list\"><li><strong>Canberra Raiders:</strong> Merchandise TVCs and Presentation Night video packages with custom song integration</li><li><strong>Foodbank Australia:</strong> TVC production and post-production support for a national charity</li></ul>","eyebrow":"Campaign"}'>
           <h3 class="content-card__title">Sports &amp; Community</h3>
           <ul class="content-list">
             <li><strong>Canberra Raiders:</strong> Merchandise TVCs and Presentation Night video packages with custom song integration</li>
@@ -1679,7 +1791,7 @@ body.show-draft .anim-draft { display: block; }
     </div>
 
     <div class="card-grid card-grid--2 reveal-stagger" style="margin-top: 14px;">
-      <div class="content-card content-card--blue content-card--center">
+      <div class="content-card content-card--blue content-card--center" data-mobile-detail='{"title":"SCA Brandworks &mdash; multi-city internal campaign","sub":"Canberra, Wagga Wagga, Wollongong, Port Macquarie, Mackay","body":"12 bookings across 6 cities. ~34 hours including full shoot days. Edited client testimonial content &mdash; clients discussing why they chose SCA. Campaign generated measurable new business for SCA.","eyebrow":"Campaign"}'>
         <h3 class="content-card__title">SCA Brandworks - multi-city internal campaign</h3>
         <div class="tag-row tag-row--center">
           <span class="content-tag">Canberra</span>
@@ -1690,7 +1802,7 @@ body.show-draft .anim-draft { display: block; }
         </div>
         <p class="content-card__line">12 bookings across 6 cities. ~34 hours including full shoot days. Edited client testimonial content - clients discussing why they chose SCA. Campaign generated measurable new business for SCA.</p>
       </div>
-      <div class="content-card content-card--blue content-card--center">
+      <div class="content-card content-card--blue content-card--center" data-mobile-detail='{"title":"Broadcast network promotions","sub":"Network 10, Nine Network, Seven Network, AFL, AFLW, NRL, Cricket, BBL, NFL","body":"Short-form editing, promo cutdowns, channel branding across all three networks.","eyebrow":"Campaign"}'>
         <h3 class="content-card__title">Broadcast network promotions</h3>
         <div class="tag-row tag-row--center">
           <span class="content-tag content-tag--blue">Network 10</span>
@@ -1723,21 +1835,21 @@ body.show-draft .anim-draft { display: block; }
 
     <div class="card-grid card-grid--2 reveal-stagger">
       <div class="campaign-col">
-        <div class="content-card content-card--teal">
+        <div class="content-card content-card--teal" data-mobile-detail='{"title":"Taronga Zoo","body":"Advertising and content production for the NSW Government wildlife conservation authority.","eyebrow":"Government"}'>
           <h3 class="content-card__title">Taronga Zoo</h3>
           <p class="content-card__line">Advertising and content production for the NSW Government wildlife conservation authority.</p>
         </div>
-        <div class="content-card content-card--teal">
+        <div class="content-card content-card--teal" data-mobile-detail='{"title":"Motorcycle Council of NSW","body":"Advertising and promotional content for the peak rider advocacy body.","eyebrow":"Government"}'>
           <h3 class="content-card__title">Motorcycle Council of NSW</h3>
           <p class="content-card__line">Advertising and promotional content for the peak rider advocacy body.</p>
         </div>
-        <div class="content-card content-card--teal">
+        <div class="content-card content-card--teal" data-mobile-detail='{"title":"ActewAGL","body":"Campaign coordination for the ACT Government electricity and gas utility provider.","eyebrow":"Government"}'>
           <h3 class="content-card__title">ActewAGL</h3>
           <p class="content-card__line">Campaign coordination for the ACT Government electricity and gas utility provider.</p>
         </div>
       </div>
       <div class="campaign-col">
-        <div class="content-card content-card--red">
+        <div class="content-card content-card--red" data-mobile-detail='{"title":"Local government","sub":"Flinders, Forbes, Cloncurry, Carpentaria","body":"TV &amp; PAX advertising for four shire councils.","eyebrow":"Government"}'>
           <h3 class="content-card__title">Local government</h3>
           <div class="tag-row">
             <span class="content-tag content-tag--red">Flinders</span>
@@ -1747,7 +1859,7 @@ body.show-draft .anim-draft { display: block; }
           </div>
           <p class="content-card__line">TV &amp; PAX advertising for four shire councils.</p>
         </div>
-        <div class="content-card content-card--gold">
+        <div class="content-card content-card--gold" data-mobile-detail='{"title":"Political advertising","body":"Canberra Liberal Campaign - content and PAX materials delivered within strict deadlines.","eyebrow":"Government"}'>
           <h3 class="content-card__title">Political advertising</h3>
           <p class="content-card__line">Canberra Liberal Campaign - content and PAX materials delivered within strict deadlines.</p>
         </div>
@@ -1767,7 +1879,7 @@ body.show-draft .anim-draft { display: block; }
       <h2 class="title section-title" id="work-title">Where I've worked</h2>
     </div>
     <div class="work-timeline reveal-stagger" id="work-timeline">
-      <article class="work-item">
+      <article class="work-item" data-mobile-detail='{"title":"Freelance Editor / Contractor","sub":"Self-employed &#183; Feb 2026 - Present","body":"Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.","eyebrow":"Work"}'>
         <div class="work-num">01</div>
         <div>
           <div class="work-role">Freelance Editor / Contractor</div>
@@ -1776,7 +1888,7 @@ body.show-draft .anim-draft { display: block; }
         </div>
         <div class="work-when">Feb 2026 - Present</div>
       </article>
-      <article class="work-item">
+      <article class="work-item" data-mobile-detail='{"title":"Senior Production Editor","sub":"Southern Cross Austereo / Channel 10 &#183; Apr 2023 - Dec 2025","body":"Sole editor. 100+ commercials. Editing, sound design, motion graphics, client revisions and scripting. Trained my own successor before I left.","eyebrow":"Work"}'>
         <div class="work-num">02</div>
         <div>
           <div class="work-role">Senior Production Editor</div>
@@ -1785,7 +1897,7 @@ body.show-draft .anim-draft { display: block; }
         </div>
         <div class="work-when">Apr 2023 - Dec 2025</div>
       </article>
-      <article class="work-item">
+      <article class="work-item" data-mobile-detail='{"title":"Produce Team Member","sub":"Woolworths Metro Pyrmont &#183; Oct 2019 - Aug 2020","body":"Night shift, customer service, stocktake, cleaning. Fast-paced environment.","eyebrow":"Work"}'>
         <div class="work-num">03</div>
         <div>
           <div class="work-role">Produce Team Member</div>
@@ -1808,7 +1920,7 @@ body.show-draft .anim-draft { display: block; }
       <h2 class="title section-title" id="edu-title">Background &amp; awards</h2>
     </div>
     <div class="card-grid card-grid--2 reveal-stagger">
-      <div class="content-card content-card--blue">
+      <div class="content-card content-card--blue" data-mobile-detail='{"title":"Education","body":"<div class=\"edu-entry\"><div class=\"edu-degree\">Bachelor of Interactive Media</div><div class=\"edu-school\">Academy of Interactive Technology &#183; 2019&#8211;2022</div></div><div class=\"edu-entry\"><div class=\"edu-degree\">Higher School Certificate</div><div class=\"edu-school\">Batemans Bay High School &#183; 2013&#8211;2018</div></div>","eyebrow":"Background"}'>
         <h3 class="content-card__title">Education</h3>
         <div class="edu-entry">
           <div class="edu-degree">Bachelor of Interactive Media</div>
@@ -1819,7 +1931,7 @@ body.show-draft .anim-draft { display: block; }
           <div class="edu-school">Batemans Bay High School &middot; 2013–2018</div>
         </div>
       </div>
-      <div class="content-card content-card--gold">
+      <div class="content-card content-card--gold" data-mobile-detail='{"title":"Recognition","body":"<ul class=\"content-list\"><li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong> &#8211; Bachelor of Interactive Media</li><li>Taught Adobe Animate to a Year 10 IT class at Batemans Bay High School</li><li><em>Dream Dome</em> &#8211; university short film (AIT 2022)</li><li>Youth Frontiers Award &#8211; animated mental health film</li></ul>","eyebrow":"Background"}'>
         <h3 class="content-card__title">Recognition</h3>
         <ul class="content-list">
           <li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong> - Bachelor of Interactive Media</li>
@@ -2002,6 +2114,25 @@ body.show-draft .anim-draft { display: block; }
         </div>
       </li>
     </ul>
+  </div>
+</div>
+
+<!-- ============================================================
+     MOBILE DETAIL POP-UP  (tappable project/card details)
+     ============================================================ -->
+<div class="popup mobile-detail-popup" id="mobile-detail-popup" role="dialog" aria-modal="true" hidden>
+  <div class="popup__backdrop" data-popup-close></div>
+  <div class="popup__panel" role="document">
+    <button class="popup__close" type="button" data-popup-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <span class="popup__eyebrow" id="mobile-detail-eyebrow"></span>
+    <h3 class="popup__title" id="mobile-detail-title"></h3>
+    <div class="popup__sub" id="mobile-detail-sub"></div>
+    <div id="mobile-detail-body"></div>
   </div>
 </div>
 
@@ -2216,6 +2347,61 @@ body.show-draft .anim-draft { display: block; }
     }, { threshold: 0.25, rootMargin: "-64px 0px -40% 0px" });
     navSections.forEach((v, id) => navIo.observe(v.el));
   }
+
+  /* =================================================================
+     MOBILE DETAIL POP-UP  (tappable project rows, content cards, work items)
+     ================================================================= */
+  (function mobileDetail() {
+    const popup   = document.getElementById("mobile-detail-popup");
+    const titleEl = document.getElementById("mobile-detail-title");
+    const subEl   = document.getElementById("mobile-detail-sub");
+    const bodyEl  = document.getElementById("mobile-detail-body");
+    const eyeEl   = document.getElementById("mobile-detail-eyebrow");
+    if (!popup) return;
+    let lastFocus = null;
+
+    function show(data) {
+      if (!data) return;
+      if (eyeEl)  eyeEl.textContent = data.eyebrow || "";
+      if (titleEl) titleEl.innerHTML = data.title || "";
+      if (subEl)  subEl.innerHTML  = data.sub || "";
+      if (bodyEl) bodyEl.innerHTML = data.body || "";
+      lastFocus = document.activeElement;
+      popup.hidden = false;
+      popup.classList.remove("is-open");
+      void popup.offsetWidth;
+      requestAnimationFrame(() => popup.classList.add("is-open"));
+      document.body.style.overflow = "hidden";
+      const closeBtn = popup.querySelector(".popup__close");
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function close() {
+      popup.hidden = true;
+      popup.classList.remove("is-open");
+      document.body.style.overflow = "";
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+
+    // Delegate clicks on [data-mobile-detail] elements
+    document.addEventListener("click", (e) => {
+      const target = e.target && e.target.closest("[data-mobile-detail]");
+      if (!target) return;
+      // Only activate on touch/click, not on desktop hover
+      if (matchMedia("(pointer: fine)").matches && matchMedia("(min-width: 860px)").matches) return;
+      e.preventDefault();
+      try {
+        show(JSON.parse(target.getAttribute("data-mobile-detail")));
+      } catch (_) {}
+    });
+
+    popup.addEventListener("click", (e) => {
+      if (e.target && e.target.closest("[data-popup-close]")) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !popup.hidden) close();
+    });
+  })();
 
   /* =================================================================
      ADOBE APPS POP-UP
