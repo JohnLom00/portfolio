@@ -473,6 +473,7 @@ ul { list-style: none; }
 .card-grid--2 { grid-template-columns: 1fr; }
 @media (min-width: 720px) { .card-grid--2 { grid-template-columns: 1fr 1fr; } }
 .campaign-col { display: flex; flex-direction: column; gap: 14px; }
+.anim-split { display: contents; }
 
 .content-card {
   background: var(--surface);
@@ -858,6 +859,20 @@ body.show-draft .anim-draft { display: block; }
    default `color: var(--on-dark)` would otherwise render them invisible. */
 #work .work-item, #work .work-role, #work .work-when { color: var(--text); }
 #work .work-item .work-desc { color: var(--muted); }
+
+/* Desktop: 2 columns - work-timeline left, work-edu right */
+.work-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.work-edu { display: flex; flex-direction: column; gap: 14px; }
+
+/* Campaigns + Government sub-head (Government merged into Campaigns) */
+.campaigns-subhead { text-align: center; margin: 20px 0 12px; }
+.campaigns-subhead .section-eyebrow { margin-bottom: 0; padding: 4px 12px; font-size: 0.78rem; }
 
 /* =================================================================
    CONTACT (dark)
@@ -1340,7 +1355,7 @@ body.show-draft .anim-draft { display: block; }
 @media (max-width: 859px) {
   /* Snap + no internal scroll */
   html { scroll-snap-type: y mandatory; scroll-padding-top: 60px; }
-  .hero, .section, .skills-software-split { scroll-snap-align: start; height: 100dvh; overflow: hidden; }
+  .hero, .section, .skills-software-split { scroll-snap-align: start; height: 100dvh; overflow: hidden; scroll-snap-stop: always; }
   .hero-inner, .section > .container, .skills-software-split > .section > .container { height: 100%; display: flex; flex-direction: column; }
   /* Content blocks (project-list, card-grid, work-timeline, skills-grid) expand to fill remaining space */
   .section > .container > *:not(.section-head) { flex: 1 1 0; min-height: 0; overflow: hidden; }
@@ -1349,27 +1364,75 @@ body.show-draft .anim-draft { display: block; }
   .brand-name { display: none; }
 
   /* Nav links always visible */
-  .nav-links { display: flex; gap: 2px; overflow-x: auto; flex: 1; justify-content: flex-end; }
+  .nav-links { display: flex; gap: 4px; overflow-x: auto; flex: 1; justify-content: flex-end; }
   .nav-link { padding: 5px 8px; font-size: 0.7rem; white-space: nowrap; }
+  .nav-link[href="#campaigns"] { display: none; }
   .nav-cta { display: none; }
 
-  /* Dot grid: quarter height */
-  #dot-grid, #work-dot-grid { height: 25%; bottom: auto; }
+  /* Dot grid: fill entire dark section */
+  #dot-grid { height: 100%; bottom: auto; }
+  #work-dot-grid { height: 100%; bottom: auto; }
 
-  .skills-software-split { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
-  .skills-software-split > .section { flex: 1 1 0; min-height: 0; overflow: hidden; }
-  .skills-software-split .skills-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: auto; gap: 4px; align-content: center; min-height: auto !important; }
-  .skills-software-split .skills-grid .skill-pill { min-height: 0; padding: 6px 6px; font-size: 0.7rem; line-height: 1.1; }
-  #software .section-head { display: none; }
-  #software .skill-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; padding: 0; width: 100%; max-width: 100%; min-height: auto !important; flex: 0 0 auto !important; }
-  #software .skill-bar { display: block; width: 100%; flex: 0 0 auto !important; min-height: 0; padding: 6px 8px; background: transparent; border: none; overflow: visible; text-align: center; }
-  #software .skill-bar__name { font-size: 0.72rem; font-weight: 600; }
-  #software .skill-bar__track, #software .skill-bar__fill { display: none; }
+  .skills-software-split { display: flex; flex-direction: column; gap: 6px; min-height: 0; padding-block: 0; }
+  .skills-software-split > .section { flex: 0 0 auto; min-height: 0; overflow: hidden; height: auto; }
+  .skills-software-split > .section > .container { height: auto; min-height: 0; }
+  .skills-software-split > #skills { padding-top: 56px; }
+  .skills-software-split .skills-grid { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 4px; min-height: auto !important; align-items: flex-start; flex: 0 0 auto !important; }
+  .skills-software-split .skills-grid .skill-pill { flex: 0 0 calc(33.33% - 4px); min-width: 80px; transition: opacity 800ms var(--ease), transform 800ms var(--ease); }
+  .skills-software-split .skills-grid .skill-pill:nth-child(1) { transition-delay: 0ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(2) { transition-delay: 100ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(3) { transition-delay: 200ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(4) { transition-delay: 300ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(5) { transition-delay: 400ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(6) { transition-delay: 500ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(7) { transition-delay: 600ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(8) { transition-delay: 700ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(9) { transition-delay: 800ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(10) { transition-delay: 900ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(11) { transition-delay: 1000ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(12) { transition-delay: 1100ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(13) { transition-delay: 1200ms; }
+  .skills-software-split .skills-grid .skill-pill:nth-child(14) { transition-delay: 1300ms; }
+  #software .section-head { margin-bottom: 6px; }
+  #software .section-eyebrow { font-size: 0.72rem; padding: 3px 10px; margin-bottom: 4px; }
+  #software .section-title { font-size: 1.15rem; margin-bottom: 0; }
+  #software .skill-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; width: 100%; min-height: auto !important; flex: 0 0 auto !important; }
+  #software .skill-bar { position: relative; display: flex; align-items: center; justify-content: center; padding: 4px 12px; background: #E0E5EC; border-radius: 20px; overflow: hidden; width: 100%; min-height: 32px; flex: 0 0 auto !important; }
+  #software .skill-bar__name { position: relative; z-index: 2; font-size: 1rem; font-weight: 700; color: var(--navy-900); text-align: center; line-height: 1.1; }
+  #software .skill-bar__track { position: absolute; inset: 0; background: transparent; height: 100%; border-radius: 20px; overflow: hidden; }
+  #software .skill-bar__fill { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--cyan-500); border-radius: 20px; transition: width 1500ms cubic-bezier(0.22, 1, 0.36, 1); }
+  #software .skill-bar[data-name]::after {
+    content: attr(data-name);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1rem; font-weight: 700;
+    z-index: 3; pointer-events: none; text-align: center; line-height: 1.1;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 1500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #software .skill-bars.is-visible .skill-bar__fill { width: var(--fill, 0%); }
+  #software .skill-bars.is-visible .skill-bar[data-name]::after { clip-path: inset(0 calc(100% - var(--fill, 0%)) 0 0); }
+  #software .skill-bars.is-visible .skill-bar:nth-child(1) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(1)::after { transition-delay: 0ms; }
+  #software .skill-bars.is-visible .skill-bar:nth-child(2) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(2)::after { transition-delay: 180ms; }
+  #software .skill-bars.is-visible .skill-bar:nth-child(3) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(3)::after { transition-delay: 360ms; }
+  #software .skill-bars.is-visible .skill-bar:nth-child(4) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(4)::after { transition-delay: 540ms; }
+  #software .skill-bars.is-visible .skill-bar:nth-child(5) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(5)::after { transition-delay: 720ms; }
+  #software .skill-bars.is-visible .skill-bar:nth-child(6) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(6)::after { transition-delay: 900ms; }
+  #software .skill-bars.is-visible .skill-bar:nth-child(7) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(7)::after { transition-delay: 1080ms; }
+  #software .skill-bars.is-visible .skill-bar:nth-child(8) .skill-bar__fill,
+  #software .skill-bars.is-visible .skill-bar:nth-child(8)::after { transition-delay: 1260ms; }
 
   /* Compact section heads */
   .section-head { margin-bottom: var(--space-md); flex: 0 0 auto; }
-  .section-head .section-eyebrow { margin-bottom: 6px; padding: 4px 10px; font-size: 0.65rem; }
-  .section-head .section-title { font-size: 1rem; margin-bottom: 4px; }
+  .section-head .section-eyebrow { margin-bottom: 6px; padding: 4px 10px; font-size: 0.8rem; }
+  .section-head .section-title { font-size: 1.15rem; margin-bottom: 4px; }
   .section-head .section-sub { font-size: 0.78rem; }
 
   /* --- Project rows: compact, tappable, taller to fill space --- */
@@ -1396,8 +1459,17 @@ body.show-draft .anim-draft { display: block; }
   .card-grid { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
   .card-grid--2 { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
   .campaign-col { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
-  #animation-work .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex: 1 1 0; min-height: 0; align-content: start; }
-  #animation-work .content-card { flex: 0 0 auto; min-height: 0; }
+  #animation-work .container > .project-list { flex: 0 0 auto !important; min-height: 0; height: auto !important; }
+  #animation-work .container > .card-grid { flex: 0 0 auto !important; min-height: 0; height: auto !important; overflow: hidden; margin-top: 14px; }
+  #animation-work .project-list { display: grid !important; grid-template-columns: 1fr 1fr; grid-template-rows: 36px 36px !important; gap: 6px; height: auto !important; }
+  #animation-work .card-grid { display: flex; flex-direction: column; gap: 8px; height: auto; }
+  #animation-work .project-row { flex: 0 0 auto; min-height: 36px; padding: 3px 28px 3px 10px; display: flex; align-items: center; }
+  #animation-work .content-card { flex: 0 0 auto; min-height: 44px; padding: 6px 28px 6px 12px; height: auto; }
+  #animation-work .section-head { margin-bottom: 6px; }
+  #animation-work .section-sub { font-size: 0.62rem; line-height: 1.3; }
+  #animation-work .project-name { font-size: 0.78rem; }
+  #animation-work .content-card__title { font-size: 0.9rem; line-height: 1.2; }
+  #animation-work .project-row::after, #animation-work .content-card::after { right: 10px; font-size: 0.9rem; }
 
   /* --- Content cards: compact tappable title bars, grow to fill --- */
   .content-card {
@@ -1417,26 +1489,30 @@ body.show-draft .anim-draft { display: block; }
   .content-card__title { font-size: 0.85rem; margin-bottom: 0; }
 
   /* --- Work items: compact, date below role --- */
-  .work-timeline { gap: 6px; display: flex; flex-direction: column; height: 100%; justify-content: space-evenly; }
+  .work-split { display: flex; flex-direction: column; gap: 6px; flex: 1 1 0; min-height: 0; overflow: hidden; }
+  .work-timeline { gap: 6px; display: flex; flex-direction: column; flex: 0 0 auto; min-height: 0; }
+  .work-edu { gap: 6px; display: flex; flex-direction: column; flex: 0 0 auto; min-height: 0; }
   .work-item {
     padding: 8px 12px; grid-template-columns: 28px 1fr; grid-template-rows: auto auto;
     gap: 4px; cursor: pointer; flex: 0 0 auto; min-height: 0;
-    display: grid; align-items: center;
+    display: grid; align-items: center; position: relative;
+    overflow: hidden;
   }
+  .work-item::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--cyan-500);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .work-item--edu::before, .work-item--rec::before { background: var(--gold-500); }
+  .work-timeline { padding-bottom: 10px; }
   .work-item .work-num { width: 28px; height: 28px; font-size: 0.65rem; }
+  .work-item--edu, .work-item--rec { grid-template-columns: 1fr; }
+  .work-item--edu .work-when, .work-item--rec .work-when { padding-left: 0; }
   .work-role { font-size: 0.88rem; }
   .work-company { font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .work-when { font-size: 0.65rem; white-space: nowrap; grid-column: 1 / 3; grid-row: 2; padding-left: 36px; }
   .work-item .work-desc { display: none; }
   .work-item::after { display: none; }
-
-  /* --- Education: full-width cards, fill height --- */
-  #education .content-card .edu-entry,
-  #education .content-card .content-list { display: none; }
-  #education .content-card { padding: 16px 36px 16px 16px; flex: 1 1 0; min-height: 0; }
-  .edu-degree { font-size: 0.95rem; }
-  .edu-school { font-size: 0.72rem; }
-  #education .card-grid { gap: 10px; }
 
   /* --- Resume pages: compact --- */
   #resume-pages .section-head { margin-bottom: 8px; }
@@ -1456,44 +1532,45 @@ body.show-draft .anim-draft { display: block; }
   .availability-pill { padding: 8px 14px; font-size: 0.78rem; }
 
   /* --- Hero: stats grid 2x2 on mobile, fills space --- */
+  .hero { padding-top: 76px; }
   .hero-stats { gap: 8px; }
   .stat { padding: 12px 8px; }
-  .hero-ctas { margin-bottom: 16px; }
-  .hero-tagline { margin-bottom: 12px; }
+  .hero-ctas { margin-bottom: 10px; }
+  .hero-tagline { margin-bottom: 8px; }
 
   .hero-eyebrow, .hero-name, .hero-role, .hero-tagline { flex: 0 0 auto; }
-  .hero-tagline { font-size: 0.78rem; line-height: 1.4; margin-bottom: 8px; }
+  .hero-eyebrow { font-size: 0.78rem; padding: 6px 14px; margin-bottom: 10px; }
+  .hero-tagline { font-size: 0.78rem; line-height: 1.4; margin-bottom: 20px; }
   .hero-stats { flex: 1 1 0; min-height: 0; align-content: center; grid-template-columns: repeat(2, 1fr); }
-  .hero-ctas { flex: 0 0 auto; margin-bottom: 12px; }
-  .hero-name { font-size: 2.4rem; line-height: 1.05; margin: 6px 0; }
+  .hero-ctas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 0 0 auto; margin-bottom: 6px; }
+  .hero-ctas > a, .hero-ctas > button { width: 100%; justify-content: center; }
+  .hero-name .first, .hero-name .surname { display: inline; }
+  .hero-name { font-size: clamp(2rem, 12vw, 3rem); line-height: 1; margin: 20px 0 4px; white-space: nowrap; overflow: visible; letter-spacing: -0.02em; }
   .stat { padding: 8px 6px; }
   .stat-num { font-size: 1.4rem; }
   .stat-label { font-size: 0.6rem; }
 
   .skills-software-split #skills .section-head { margin-bottom: 6px; }
-  .section-head .section-title { font-size: 0.85rem; }
-  .section-head .section-sub { font-size: 0.7rem; }
-  .section-head .section-eyebrow { margin-bottom: 4px; padding: 3px 8px; font-size: 0.6rem; }
+  .skills-software-split #software .section-head { margin-top: 28px; }
+  .section-head { margin-bottom: 10px; }
+  .section-head .section-title { font-size: 1.15rem; }
+  .section-head .section-sub { font-size: 0.72rem; line-height: 1.4; }
+  .section-head .section-eyebrow { margin-bottom: 4px; padding: 3px 8px; font-size: 0.8rem; }
   .skills-software-split .skills-grid .skill-pill { padding: 4px 8px; font-size: 0.75rem; }
 
-  #campaigns .card-grid:nth-of-type(2) { flex: 0 0 auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-content: start; }
-  #campaigns .card-grid:nth-of-type(2) .campaign-col { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
-  #campaigns .card-grid:nth-of-type(2) .content-card { flex: 0 0 auto; min-height: 0; }
-  #campaigns .card-grid:nth-of-type(3) { flex: 0 0 auto; margin-top: 8px; }
-  #campaigns .card-grid:nth-of-type(3) .content-card { flex: 0 0 auto; padding: 10px 36px 10px 14px; }
+  #campaigns .container > *:not(.section-head) { flex: 0 0 auto; min-height: 0; }
+  #campaigns .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; align-content: start; }
+  #campaigns .campaign-col { display: flex; flex-direction: column; gap: 6px; min-height: 0; }
+  #campaigns .content-card { flex: 0 0 auto; min-height: 0; padding: 8px 36px 8px 12px; }
+  .campaigns-subhead { text-align: center; margin: 12px 0 8px; flex: 0 0 auto; }
+  .campaigns-subhead .section-eyebrow { margin-bottom: 0; padding: 3px 10px; font-size: 0.72rem; }
 
-  #government .card-grid { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
-  #government .campaign-col { display: flex; flex-direction: column; gap: 4px; flex: 1 1 0; min-height: 0; }
-  #government .content-card { padding: 10px 36px 10px 14px; flex: 1 1 0; min-height: 0; }
-  #government .content-card__title { font-size: 0.82rem; }
+  #work-edu-grid { display: flex; flex-direction: column; gap: 6px; min-height: 0; width: 100%; flex: 1 1 0; }
 
-  #education .card-grid { display: block !important; max-width: 100% !important; width: 100% !important; min-height: 0; padding: 0; margin: 0; }
-  #education .content-card { display: block !important; width: 100% !important; max-width: 100% !important; min-height: 0; margin: 0 0 10px 0 !important; padding: 16px 36px 16px 16px !important; box-sizing: border-box !important; float: none !important; }
-  #education .content-card__title { font-size: 1rem; }
-  #education .edu-school { font-size: 0.75rem; margin-top: 2px; }
+  .work-item--edu .work-company, .work-item--rec .work-company { color: var(--gold-500); }
 
-  .contact-grid { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(0, 1fr); gap: 8px; }
-  .contact-item { flex: 0 0 auto; min-height: 0; padding: 8px 10px; gap: 6px; }
+  .contact-grid { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: 1fr; gap: 8px; align-content: stretch; }
+  .contact-item { flex: 1 1 0; min-height: 0; padding: 10px 12px; gap: 8px; }
   .contact-value { font-size: 0.75rem; }
   .contact-label { font-size: 0.6rem; }
 }
@@ -1540,7 +1617,7 @@ body.show-draft .anim-draft { display: block; }
       <a class="nav-link" href="#skills" data-section="skills">Skills</a>
       <a class="nav-link" href="#animation-work" data-section="animation-work">Work</a>
       <a class="nav-link" href="#campaigns" data-section="campaigns">Campaigns</a>
-      <a class="nav-link" href="#education" data-section="education">Education</a>
+      <a class="nav-link" href="#work" data-section="work">Experience</a>
       <a class="nav-link" href="#contact" data-section="contact">Contact</a>
     </div>
     <a class="nav-cta" href="https://drive.google.com/drive/folders/1_SLbZgKhBZWUzWbMosAAZ0lenxpSD07Q?usp=drive_link" target="_blank" rel="noopener">
@@ -1558,7 +1635,7 @@ body.show-draft .anim-draft { display: block; }
   <div class="hero-inner">
     <div class="hero-eyebrow">
       <span class="pulse" aria-hidden="true"></span>
-      Available for work · Canberra, Australia
+      Available for work
     </div>
     <h1 class="hero-name">
       <span class="first">John</span>
@@ -1568,7 +1645,7 @@ body.show-draft .anim-draft { display: block; }
     <p class="hero-tagline">
       I think laterally and push assets to their absolute limit.
       When something's missing, I use every tool at my disposal to make it real.
-      I don't deliever exactly what clients ask for - <em>I deliever what they couldn't have thought themselves.</em>
+      I don't deliver exactly what clients ask for - <em>I deliver what they couldn't have thought themselves.</em>
     </p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="https://drive.google.com/drive/folders/1_SLbZgKhBZWUzWbMosAAZ0lenxpSD07Q?usp=drive_link" target="_blank" rel="noopener">
@@ -1618,6 +1695,7 @@ body.show-draft .anim-draft { display: block; }
     <div class="section-head reveal-stagger">
       <span class="eyebrow section-eyebrow">Skills</span>
       <h2 class="title section-title" id="skills-title">What I do day-to-day</h2>
+      <p class="sub section-sub">A mix of post-production, motion design and 2D animation. Adobe apps I lean on every day, plus extra tools for the jobs that need them.</p>
     </div>
     <div class="skills-grid reveal-stagger" id="skills-grid">
       <div class="skill-pill skill-pill--primary" data-group="primary">After Effects</div>
@@ -1645,55 +1723,55 @@ body.show-draft .anim-draft { display: block; }
   <div class="container">
     <div class="section-head reveal-stagger">
       <span class="eyebrow section-eyebrow">Software</span>
-      <h2 class="title section-title" id="software-title">Adobe Creative Suite</h2>
+      <h2 class="title section-title" id="software-title">Adobe Creative Skillset</h2>
     </div>
     <div class="skill-bars reveal-stagger" id="skill-bars">
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 95%" data-name="After Effects">
         <span class="skill-bar__name">After Effects</span>
         <div class="skill-bar__track" role="img" aria-label="After Effects proficiency">
-          <div class="skill-bar__fill" style="--fill: 95%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 95%" data-name="Premiere Pro">
         <span class="skill-bar__name">Premiere Pro</span>
         <div class="skill-bar__track" role="img" aria-label="Premiere Pro proficiency">
-          <div class="skill-bar__fill" style="--fill: 95%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 80%" data-name="Photoshop">
         <span class="skill-bar__name">Photoshop</span>
         <div class="skill-bar__track" role="img" aria-label="Photoshop proficiency">
-          <div class="skill-bar__fill" style="--fill: 80%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 75%" data-name="Illustrator">
         <span class="skill-bar__name">Illustrator</span>
         <div class="skill-bar__track" role="img" aria-label="Illustrator proficiency">
-          <div class="skill-bar__fill" style="--fill: 75%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 90%" data-name="Animate">
         <span class="skill-bar__name">Animate</span>
         <div class="skill-bar__track" role="img" aria-label="Animate proficiency">
-          <div class="skill-bar__fill" style="--fill: 90%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 65%" data-name="InDesign">
         <span class="skill-bar__name">InDesign</span>
         <div class="skill-bar__track" role="img" aria-label="InDesign proficiency">
-          <div class="skill-bar__fill" style="--fill: 65%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 70%" data-name="Audition">
         <span class="skill-bar__name">Audition</span>
         <div class="skill-bar__track" role="img" aria-label="Audition proficiency">
-          <div class="skill-bar__fill" style="--fill: 70%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
-      <div class="skill-bar">
+      <div class="skill-bar" style="--fill: 70%" data-name="Lightroom">
         <span class="skill-bar__name">Lightroom</span>
         <div class="skill-bar__track" role="img" aria-label="Lightroom proficiency">
-          <div class="skill-bar__fill" style="--fill: 70%"></div>
+          <div class="skill-bar__fill"></div>
         </div>
       </div>
     </div>
@@ -1713,7 +1791,8 @@ body.show-draft .anim-draft { display: block; }
   <div class="container">
     <div class="section-head reveal-stagger">
       <span class="eyebrow section-eyebrow">Animation &amp; Motion</span>
-      <h2 class="title section-title" id="anim-work-title">Broadcast animation, motion graphics &amp; VFX</h2>
+      <h2 class="title section-title" id="anim-work-title">Logos, broadcast graphics &amp; VFX</h2>
+      <p class="sub section-sub">Logos, broadcast graphics, motion tracking, TVCs, and 2D/3D animation for brand clients and national networks.</p>
     </div>
 
     <div class="project-list reveal-stagger" id="anim-project-list">
@@ -1728,7 +1807,7 @@ body.show-draft .anim-draft { display: block; }
       <div class="project-row" data-mobile-detail='{"title":"McGrath Leap Year Sale","sub":"Automotive dealer group","body":"Frog-themed motion graphics and TVC animation assets delivered within campaign deadlines.","eyebrow":"Project"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
-          <div class="project-name">McGrath Leap Year Sale</div>
+          <div class="project-name">John McGrath</div>
           <div class="project-meta">Automotive dealer group</div>
           <p class="project-desc">Frog-themed motion graphics and TVC animation assets delivered within campaign deadlines.</p>
         </div>
@@ -1776,9 +1855,6 @@ body.show-draft .anim-draft { display: block; }
           <li>Broadcast-quality deliverables for all major networks</li>
         </ul>
       </div>
-    </div>
-
-    <div class="card-grid card-grid--2 reveal-stagger" style="margin-top: 14px;">
       <div class="content-card content-card--gold" data-mobile-detail='{"title":"Television Commercial Production","sub":"Hip Pocket Christmas, Promotional Retail, Brand Advertising, End-tag Animations","body":"30 to 60 minute revision turnaround. 60 to 90 minute sessions for complex multi-revision work.","eyebrow":"Service"}'>
         <h3 class="content-card__title">Television Commercial Production</h3>
         <div class="tag-row">
@@ -1802,16 +1878,17 @@ body.show-draft .anim-draft { display: block; }
 </section>
 
 <!-- ============================================================
-     MAJOR TV & MEDIA CAMPAIGNS  (4-page doc, section 4)
+     CAMPAIGNS
      ============================================================ -->
 <section class="section" id="campaigns" aria-labelledby="campaigns-title">
   <div class="container">
     <div class="section-head reveal-stagger">
       <span class="eyebrow section-eyebrow">Campaigns</span>
-      <h2 class="title section-title" id="campaigns-title">Major TV &amp; media campaigns</h2>
+      <h2 class="title section-title" id="campaigns-title">TV &amp; brand work</h2>
+      <p class="sub section-sub">TVCs, automotive, broadcast and brand campaigns for national networks.</p>
     </div>
 
-    <div class="card-grid card-grid--2 reveal-stagger">
+    <div class="card-grid card-grid--2 reveal-stagger" id="campaigns-grid">
       <div class="campaign-col">
         <div class="content-card content-card--red" data-mobile-detail='{"title":"Automotive","sub":"KIA, MG, Mercedes-Benz","body":"TVC post-production, graphics and campaign delivery.","eyebrow":"Campaign"}'>
           <h3 class="content-card__title">Automotive</h3>
@@ -1828,68 +1905,42 @@ body.show-draft .anim-draft { display: block; }
         </div>
       </div>
       <div class="campaign-col">
-        <div class="content-card content-card--teal" data-mobile-detail='{"title":"Entertainment &amp; Media","body":"<ul class=\"content-list\"><li><strong>LiSTNR:</strong> Metropolitan CAD compliance and national media distribution</li><li><strong>Disney x Gogglebox:</strong> End-tag edits and branded deliverables</li><li><strong>Greenwood:</strong> Over 50s lifestyle TVC production with client preview alignment</li></ul>","eyebrow":"Campaign"}'>
-          <h3 class="content-card__title">Entertainment &amp; Media</h3>
-          <ul class="content-list">
-            <li><strong>LiSTNR:</strong> Metropolitan CAD compliance and national media distribution</li>
-            <li><strong>Disney x Gogglebox:</strong> End-tag edits and branded deliverables</li>
-            <li><strong>Greenwood:</strong> Over 50s lifestyle TVC production with client preview alignment</li>
-          </ul>
+        <div class="content-card content-card--blue content-card--center" data-mobile-detail='{"title":"SCA Brandworks - multi-city internal campaign","sub":"Canberra, Wagga Wagga, Wollongong, Port Macquarie, Mackay","body":"12 bookings across 6 cities. ~34 hours including full shoot days. Edited client testimonial content - clients discussing why they chose SCA. Campaign generated measurable new business for SCA.","eyebrow":"Campaign"}'>
+          <h3 class="content-card__title">SCA Brandworks</h3>
+          <div class="tag-row tag-row--center">
+            <span class="content-tag">Canberra</span>
+            <span class="content-tag">Wagga Wagga</span>
+            <span class="content-tag">Wollongong</span>
+            <span class="content-tag">Port Macquarie</span>
+            <span class="content-tag">Mackay</span>
+          </div>
+          <p class="content-card__line">12 bookings across 6 cities. ~34 hours including full shoot days. Edited client testimonial content - clients discussing why they chose SCA. Campaign generated measurable new business for SCA.</p>
         </div>
-        <div class="content-card content-card--gold" data-mobile-detail='{"title":"Sports &amp; Community","body":"<ul class=\"content-list\"><li><strong>Canberra Raiders:</strong> Merchandise TVCs and Presentation Night video packages with custom song integration</li><li><strong>Foodbank Australia:</strong> TVC production and post-production support for a national charity</li></ul>","eyebrow":"Campaign"}'>
-          <h3 class="content-card__title">Sports &amp; Community</h3>
-          <ul class="content-list">
-            <li><strong>Canberra Raiders:</strong> Merchandise TVCs and Presentation Night video packages with custom song integration</li>
-            <li><strong>Foodbank Australia:</strong> TVC production and post-production support for a national charity</li>
-          </ul>
+        <div class="content-card content-card--blue content-card--center" data-mobile-detail='{"title":"Broadcast network promotions","sub":"Network 10, Nine Network, Seven Network, AFL, AFLW, NRL, Cricket, BBL, NFL","body":"Short-form editing, promo cutdowns, channel branding across all three networks.","eyebrow":"Campaign"}'>
+          <h3 class="content-card__title">Broadcast network promotions</h3>
+          <div class="tag-row tag-row--center">
+            <span class="content-tag content-tag--blue">Network 10</span>
+            <span class="content-tag content-tag--blue">Nine Network</span>
+            <span class="content-tag content-tag--blue">Seven Network</span>
+          </div>
+          <div class="tag-row tag-row--center">
+            <span class="content-tag">AFL</span>
+            <span class="content-tag">AFLW</span>
+            <span class="content-tag">NRL</span>
+            <span class="content-tag">Cricket</span>
+            <span class="content-tag">BBL</span>
+            <span class="content-tag">NFL</span>
+          </div>
+          <p class="content-card__line">Short-form editing, promo cutdowns, channel branding across all three networks.</p>
         </div>
       </div>
     </div>
 
-    <div class="card-grid card-grid--2 reveal-stagger" style="margin-top: 14px;">
-      <div class="content-card content-card--blue content-card--center" data-mobile-detail='{"title":"SCA Brandworks &mdash; multi-city internal campaign","sub":"Canberra, Wagga Wagga, Wollongong, Port Macquarie, Mackay","body":"12 bookings across 6 cities. ~34 hours including full shoot days. Edited client testimonial content &mdash; clients discussing why they chose SCA. Campaign generated measurable new business for SCA.","eyebrow":"Campaign"}'>
-        <h3 class="content-card__title">SCA Brandworks - multi-city internal campaign</h3>
-        <div class="tag-row tag-row--center">
-          <span class="content-tag">Canberra</span>
-          <span class="content-tag">Wagga Wagga</span>
-          <span class="content-tag">Wollongong</span>
-          <span class="content-tag">Port Macquarie</span>
-          <span class="content-tag">Mackay</span>
-        </div>
-        <p class="content-card__line">12 bookings across 6 cities. ~34 hours including full shoot days. Edited client testimonial content - clients discussing why they chose SCA. Campaign generated measurable new business for SCA.</p>
-      </div>
-      <div class="content-card content-card--blue content-card--center" data-mobile-detail='{"title":"Broadcast network promotions","sub":"Network 10, Nine Network, Seven Network, AFL, AFLW, NRL, Cricket, BBL, NFL","body":"Short-form editing, promo cutdowns, channel branding across all three networks.","eyebrow":"Campaign"}'>
-        <h3 class="content-card__title">Broadcast network promotions</h3>
-        <div class="tag-row tag-row--center">
-          <span class="content-tag content-tag--blue">Network 10</span>
-          <span class="content-tag content-tag--blue">Nine Network</span>
-          <span class="content-tag content-tag--blue">Seven Network</span>
-        </div>
-        <div class="tag-row tag-row--center">
-          <span class="content-tag">AFL</span>
-          <span class="content-tag">AFLW</span>
-          <span class="content-tag">NRL</span>
-          <span class="content-tag">Cricket</span>
-          <span class="content-tag">BBL</span>
-          <span class="content-tag">NFL</span>
-        </div>
-        <p class="content-card__line">Short-form editing, promo cutdowns, channel branding across all three networks.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     GOVERNMENT & PUBLIC SECTOR  (4-page doc, section 5)
-     ============================================================ -->
-<section class="section" id="government" aria-labelledby="gov-title">
-  <div class="container">
-    <div class="section-head reveal-stagger">
+    <div class="campaigns-subhead reveal-stagger">
       <span class="eyebrow section-eyebrow">Government</span>
-      <h2 class="title section-title" id="gov-title">Public sector &amp; government campaigns</h2>
     </div>
 
-    <div class="card-grid card-grid--2 reveal-stagger">
+    <div class="card-grid card-grid--2 reveal-stagger" id="government-grid">
       <div class="campaign-col">
         <div class="content-card content-card--teal" data-mobile-detail='{"title":"Taronga Zoo","body":"Advertising and content production for the NSW Government wildlife conservation authority.","eyebrow":"Government"}'>
           <h3 class="content-card__title">Taronga Zoo</h3>
@@ -1931,70 +1982,48 @@ body.show-draft .anim-draft { display: block; }
   <canvas id="work-dot-grid" aria-hidden="true"></canvas>
   <div class="container">
     <div class="section-head reveal-stagger">
-      <span class="eyebrow section-eyebrow">Work</span>
-      <h2 class="title section-title" id="work-title">Where I've worked</h2>
+      <span class="eyebrow section-eyebrow">Experience</span>
+      <h2 class="title section-title" id="work-title">Work &amp; background</h2>
+      <p class="sub section-sub">Sole editor on 100+ commercials across national networks. Freelance contractor, brand identity, and award-recognised interactive media.</p>
     </div>
-    <div class="work-timeline reveal-stagger" id="work-timeline">
-      <article class="work-item" data-mobile-detail='{"title":"Freelance Editor / Contractor","sub":"Self-employed &#183; Feb 2026 - Present","body":"Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.","eyebrow":"Work"}'>
-        <div class="work-num">01</div>
-        <div>
-          <div class="work-role">Freelance Editor / Contractor</div>
-          <div class="work-company">Self-employed</div>
-          <p class="work-desc">Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.</p>
-        </div>
-        <div class="work-when">Feb 2026 - Present</div>
-      </article>
-      <article class="work-item" data-mobile-detail='{"title":"Senior Production Editor","sub":"Southern Cross Austereo / Channel 10 &#183; Apr 2023 - Dec 2025","body":"Sole editor. 100+ commercials. Editing, sound design, motion graphics, client revisions and scripting. Trained my own successor before I left.","eyebrow":"Work"}'>
-        <div class="work-num">02</div>
-        <div>
-          <div class="work-role">Senior Production Editor</div>
-          <div class="work-company">Southern Cross Austereo <span class="work-dash">-</span> Channel 10</div>
-          <p class="work-desc">Sole editor. 100+ commercials. Editing, sound design, motion graphics, client revisions and scripting. Trained my own successor before I left.</p>
-        </div>
-        <div class="work-when">Apr 2023 - Dec 2025</div>
-      </article>
-      <article class="work-item" data-mobile-detail='{"title":"Produce Team Member","sub":"Woolworths Metro Pyrmont &#183; Oct 2019 - Aug 2020","body":"Night shift, customer service, stocktake, cleaning. Fast-paced environment.","eyebrow":"Work"}'>
-        <div class="work-num">03</div>
-        <div>
-          <div class="work-role">Produce Team Member</div>
-          <div class="work-company">Woolworths Metro <span class="work-dash">-</span> Pyrmont</div>
-          <p class="work-desc">Night shift, customer service, stocktake, cleaning. Fast-paced environment.</p>
-        </div>
-        <div class="work-when">Oct 2019 - Aug 2020</div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================
-     EDUCATION & RECOGNITION  (4-page doc, section 9)
-     ============================================================ -->
-<section class="section" id="education" aria-labelledby="edu-title">
-  <div class="container">
-    <div class="section-head reveal-stagger">
-      <span class="eyebrow section-eyebrow">Education &amp; Recognition</span>
-      <h2 class="title section-title" id="edu-title">Background &amp; awards</h2>
-    </div>
-    <div class="card-grid card-grid--2 reveal-stagger">
-      <div class="content-card content-card--blue" data-mobile-detail='{"title":"Education","body":"<div class=\"edu-entry\"><div class=\"edu-degree\">Bachelor of Interactive Media</div><div class=\"edu-school\">Academy of Interactive Technology &#183; 2019&#8211;2022</div></div><div class=\"edu-entry\"><div class=\"edu-degree\">Higher School Certificate</div><div class=\"edu-school\">Batemans Bay High School &#183; 2013&#8211;2018</div></div>","eyebrow":"Background"}'>
-        <h3 class="content-card__title">Education</h3>
-        <div class="edu-entry">
-          <div class="edu-degree">Bachelor of Interactive Media</div>
-          <div class="edu-school">Academy of Interactive Technology &middot; 2019–2022</div>
-        </div>
-        <div class="edu-entry">
-          <div class="edu-degree">Higher School Certificate</div>
-          <div class="edu-school">Batemans Bay High School &middot; 2013–2018</div>
-        </div>
+    <div class="work-split">
+      <div class="work-timeline reveal-stagger" id="work-timeline">
+        <article class="work-item" data-mobile-detail='{"title":"Freelance Editor / Contractor","sub":"Self-employed &#183; Feb 2026 - Present","body":"Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.","eyebrow":"Work"}'>
+          <div class="work-num">01</div>
+          <div>
+            <div class="work-role">Freelance Editor / Contractor</div>
+            <div class="work-company">Self-employed</div>
+            <p class="work-desc">Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.</p>
+          </div>
+          <div class="work-when">Feb 2026 - Present</div>
+        </article>
+        <article class="work-item" data-mobile-detail='{"title":"Senior Production Editor","sub":"Southern Cross Austereo / Channel 10 &#183; Apr 2023 - Dec 2025","body":"Sole editor. 100+ commercials. Editing, sound design, motion graphics, client revisions and scripting. Trained my own successor before I left.","eyebrow":"Work"}'>
+          <div class="work-num">02</div>
+          <div>
+            <div class="work-role">Senior Production Editor</div>
+            <div class="work-company">Southern Cross Austereo <span class="work-dash">-</span> Channel 10</div>
+            <p class="work-desc">Sole editor. 100+ commercials. Editing, sound design, motion graphics, client revisions and scripting. Trained my own successor before I left.</p>
+          </div>
+          <div class="work-when">Apr 2023 - Dec 2025</div>
+        </article>
       </div>
-      <div class="content-card content-card--gold" data-mobile-detail='{"title":"Recognition","body":"<ul class=\"content-list\"><li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong> &#8211; Bachelor of Interactive Media</li><li>Taught Adobe Animate to a Year 10 IT class at Batemans Bay High School</li><li><em>Dream Dome</em> &#8211; university short film (AIT 2022)</li><li>Youth Frontiers Award &#8211; animated mental health film</li></ul>","eyebrow":"Background"}'>
-        <h3 class="content-card__title">Recognition</h3>
-        <ul class="content-list">
-          <li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong> - Bachelor of Interactive Media</li>
-          <li>Taught Adobe Animate to a Year 10 IT class at Batemans Bay High School</li>
-          <li><em>Dream Dome</em> - university short film (AIT 2022)</li>
-          <li>Youth Frontiers Award - animated mental health film</li>
-        </ul>
+      <div class="work-edu reveal-stagger" id="work-edu-grid">
+        <article class="work-item work-item--edu" data-mobile-detail='{"title":"Education","sub":"Bachelor of Interactive Media &#183; 2019-2022","body":"<div class=\"edu-entry\"><div class=\"edu-degree\">Bachelor of Interactive Media</div><div class=\"edu-school\">Academy of Interactive Technology &middot; 2019&#8211;2022</div></div><div class=\"edu-entry\"><div class=\"edu-degree\">Higher School Certificate</div><div class=\"edu-school\">Batemans Bay High School &middot; 2013&#8211;2018</div></div>","eyebrow":"Background"}'>
+          <div>
+            <div class="work-role">Education</div>
+            <div class="work-company">Bachelor of Interactive Media &middot; AIT 2019-2022</div>
+            <p class="work-desc">Bachelor of Interactive Media (AIT 2019-2022). Higher School Certificate (Batemans Bay High School 2013-2018).</p>
+          </div>
+          <div class="work-when">2013 - 2022</div>
+        </article>
+        <article class="work-item work-item--rec" data-mobile-detail='{"title":"Recognition","body":"<ul class=\"content-list\"><li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong> &#8211; Bachelor of Interactive Media</li><li>Taught Adobe Animate to a Year 10 IT class at Batemans Bay High School</li><li><em>Dream Dome</em> &#8211; university short film (AIT 2022)</li><li>Youth Frontiers Award &#8211; animated mental health film</li></ul>","eyebrow":"Background"}'>
+          <div>
+            <div class="work-role">Recognition</div>
+            <div class="work-company">8 High Distinctions &middot; 9 Distinctions</div>
+            <p class="work-desc">8 High Distinctions &amp; 9 Distinctions in Bachelor of Interactive Media. Taught Adobe Animate to a Year 10 IT class. Dream Dome university short film (AIT 2022). Youth Frontiers Award.</p>
+          </div>
+          <div class="work-when">Awards</div>
+        </article>
       </div>
     </div>
   </div>
@@ -2220,6 +2249,7 @@ body.show-draft .anim-draft { display: block; }
     const fill    = o.fill    != null ? o.fill    : "rgba(255,255,255,0.18)";
 
     const isCoarse = matchMedia("(pointer: coarse)").matches;
+    const isMobile = matchMedia("(max-width: 859px)").matches;
 
     let W = 0, H = 0, DPR = 1;
     let dots = [];
@@ -2261,11 +2291,17 @@ body.show-draft .anim-draft { display: block; }
       ctx.clearRect(0, 0, W, H);
       const tt = t * 0.001;
 
+      if (isMobile) {
+        mouse.x = (0.5 + Math.sin(tt * 0.30) * 0.45 + Math.sin(tt * 0.72) * 0.18 + Math.sin(tt * 1.1) * 0.10) * W;
+        mouse.y = (0.5 + Math.cos(tt * 0.35) * 0.42 + Math.cos(tt * 0.62) * 0.20 + Math.cos(tt * 0.95) * 0.10) * H;
+        mouse.active = true;
+      }
+
       for (let i = 0; i < dots.length; i++) {
         const d = dots[i];
         let tx = d.bx, ty = d.by;
 
-        if (mouse.active && !isCoarse) {
+        if (mouse.active && (!isCoarse || isMobile)) {
           const dx = d.x - mouse.x;
           const dy = d.y - mouse.y;
           const dist = Math.hypot(dx, dy);
@@ -2402,6 +2438,19 @@ body.show-draft .anim-draft { display: block; }
       }
     }, { threshold: 0.25, rootMargin: "-64px 0px -40% 0px" });
     navSections.forEach((v, id) => navIo.observe(v.el));
+
+    // Hero in view -> clear all active nav links
+    const heroEl = document.querySelector(".hero");
+    if (heroEl) {
+      const heroIo = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(l => l.classList.remove("is-active"));
+          }
+        }
+      }, { threshold: 0.15 });
+      heroIo.observe(heroEl);
+    }
   }
 
   /* =================================================================
