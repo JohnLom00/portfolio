@@ -572,6 +572,7 @@ ul { list-style: none; }
 .content-tag--teal  { background: var(--soft-teal); color: #0d7c6b; }
 .content-tag--gold  { background: var(--soft-gold); color: #8b6308; }
 .content-tag--red   { background: var(--soft-red);  color: #c0392b; }
+button.content-tag[data-youtube]:hover::before { content: "▶ "; }
 
 /* CONTENT LIST (ul) - matches 4-page doc style */
 .content-list {
@@ -629,6 +630,20 @@ ul { list-style: none; }
   margin-top: 6px;
   flex-shrink: 0;
 }
+.project-watch {
+  flex-shrink: 0;
+  align-self: center;
+  margin-left: auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--cyan-500);
+  color: var(--navy-900);
+  transition: background var(--t-base) var(--ease);
+}
+.project-watch:hover { background: var(--cyan-400); }
+.project-watch:hover::before { content: "▶ "; }
 .project-dot--cyan { background: var(--cyan-500); }
 .project-name {
   font-size: 0.95rem;
@@ -1491,7 +1506,8 @@ ul { list-style: none; }
   .skills-software-split > .section { flex: 0 0 auto; min-height: 0; overflow: hidden; height: auto; scroll-snap-align: none; }
   .skills-software-split > .section > .container { height: auto; min-height: 0; }
   .skills-software-split > #skills { padding-top: 72px; scroll-margin-top: 0; }
-  #software .section-head { display: none; }
+  #software .section-head { display: block; }
+  #software .section-head .section-eyebrow { display: none; }
   .skills-software-split .skills-grid { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 4px; min-height: auto !important; align-items: flex-start; flex: 0 0 auto !important; }
   .skills-software-split .skills-grid .skill-pill { flex: 0 0 calc(33.33% - 4px); min-width: 80px; transition: opacity 800ms var(--ease), transform 800ms var(--ease); }
   .skills-software-split .skills-grid .skill-pill:nth-child(1) { transition-delay: 0ms; }
@@ -1508,7 +1524,7 @@ ul { list-style: none; }
   .skills-software-split .skills-grid .skill-pill:nth-child(12) { transition-delay: 1100ms; }
   .skills-software-split .skills-grid .skill-pill:nth-child(13) { transition-delay: 1200ms; }
   .skills-software-split .skills-grid .skill-pill:nth-child(14) { transition-delay: 1300ms; }
-  #software .section-head { margin-bottom: 6px; }
+  #software .section-head { margin-bottom: 20px; }
   #software .section-eyebrow { font-size: 0.72rem; padding: 3px 10px; margin-bottom: 4px; }
   #software .section-title { font-size: 1.15rem; margin-bottom: 0; }
   #software .skill-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; width: 100%; min-height: auto !important; flex: 0 0 auto !important; }
@@ -1564,6 +1580,7 @@ ul { list-style: none; }
     transform: translateY(-50%); font-size: 1.1rem;
     color: var(--cyan-500); font-weight: 700; line-height: 1;
   }
+  .project-watch { display: none; }
   .project-row:active { background: var(--chip); }
   .project-name { font-size: 0.95rem; }
 
@@ -1580,6 +1597,8 @@ ul { list-style: none; }
   #animation-work .card-grid { display: flex; flex-direction: column; gap: 8px; height: auto; align-items: center; }
   #animation-work .project-row { flex: 0 0 auto; min-height: 36px; padding: 3px 10px; display: flex; align-items: center; }
   #animation-work .content-card { flex: 0 0 auto; min-height: 44px; padding: 6px 14px; height: auto; }
+  #animation-work .card-grid--2 .content-card:nth-child(1),
+  #animation-work .card-grid--2 .content-card:nth-child(4) { width: calc(100% + 2 * var(--container-px)); margin-left: calc(-1 * var(--container-px)); margin-right: calc(-1 * var(--container-px)); border-radius: 0; max-width: none; }
   #animation-work .section-head { margin-bottom: 6px; }
   #animation-work .section-sub { font-size: 0.62rem; line-height: 1.3; }
   #animation-work .project-name { font-size: 0.78rem; }
@@ -1732,7 +1751,7 @@ ul { list-style: none; }
   .stat-label { font-size: 0.6rem; }
 
   .skills-software-split #skills .section-head { margin-bottom: 6px; }
-  .skills-software-split #software .section-head { margin-top: 20px; }
+  .skills-software-split #software .section-head { margin-top: 6px; }
   .section-head { margin-bottom: 10px; }
   .section-head .section-title { font-size: 1.15rem; }
   .section-head .section-sub { font-size: 0.72rem; line-height: 1.4; }
@@ -1798,6 +1817,27 @@ ul { list-style: none; }
 }
 
 /* Mobile detail popup styles (same for desktop but behaves differently via JS) */
+.video-popup .popup__panel {
+  max-width: 800px;
+  width: calc(100% - 32px);
+}
+.video-popup .popup__title {
+  margin-bottom: 12px;
+}
+.video-popup__container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #000;
+}
+.video-popup__iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 .mobile-detail-popup .popup__panel {
   max-width: 480px; max-height: 80vh; overflow-y: auto;
 }
@@ -1955,7 +1995,7 @@ ul { list-style: none; }
   <div class="container">
     <div class="section-head reveal-stagger">
       <span class="eyebrow section-eyebrow">Software</span>
-      <h2 class="title section-title" id="software-title">Adobe Creative Skillset</h2>
+      <h2 class="title section-title" id="software-title" style="display:flex;justify-content:center;align-items:center;gap:10px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54.424461 14.339843" fill="#fa0c00" style="height:1.2em;display:block;"><g><path d="M 5.996094,0 H 0 v 14.339843 z m 0,0"/><path d="m 10.214844,0 h 5.988281 v 14.339843 z m 0,0"/><path d="m 8.105469,5.285156 3.816406,9.054687 H 9.417969 L 8.277344,11.457031 H 5.484375 Z m 0,0"/></g><g><path d="m 25.985303,9.11922 0.707031,2.027344 c 0.02344,0.05078 0.05859,0.07422 0.121094,0.07422 h 1.359375 c 0.07422,0 0.08594,-0.03516 0.07422,-0.109375 L 25.438428,3.310627 c -0.01172,-0.0625 -0.02344,-0.074219 -0.08594,-0.074219 h -1.6875 c -0.04687,0 -0.07422,0.035156 -0.07422,0.085937 -0.02344,0.410157 -0.05859,0.535157 -0.109375,0.65625 l -2.503906,7.121094 c -0.01172,0.08594 0.01563,0.121094 0.08594,0.121094 h 1.214843 c 0.07422,0 0.109375,-0.02344 0.136719,-0.09766 L 23.082959,9.11922 Z M 23.469678,7.795002 c 0.367187,-1.109375 0.851562,-2.53125 1.046875,-3.34375 h 0.01172 c 0.242188,0.851562 0.8125,2.539062 1.070313,3.34375 z m 0,0"/><path d="m 31.857666,11.341877 c 0.730469,0 1.507813,-0.132813 2.296875,-0.472657 0.0625,-0.02344 0.07422,-0.05078 0.07422,-0.109375 -0.02344,-0.21875 -0.05078,-0.535156 -0.05078,-0.777343 v -7.34375 c 0,-0.046875 0,-0.070313 -0.05859,-0.070313 h -1.324219 c -0.05078,0 -0.07422,0.023438 -0.07422,0.085938 V 5.142658 C 32.513916,5.11922 32.369385,5.107502 32.19751,5.107502 c -2.136719,0 -3.449219,1.410156 -3.449219,3.171875 0,2.042968 1.347656,3.0625 3.109375,3.0625 z m 0.863281,-1.359375 c -0.21875,0.070312 -0.460937,0.097656 -0.707031,0.097656 -0.96875,0 -1.761719,-0.546875 -1.761719,-1.875 0,-1.175781 0.816407,-1.871094 1.898438,-1.871094 0.21875,0 0.410156,0.023438 0.570312,0.085938 z m 0,0"/><path d="m 38.453285,5.107502 c -1.824219,0 -2.953125,1.398437 -2.953125,3.125 0,1.542968 0.898438,3.109375 2.925781,3.109375 1.714844,0 2.917969,-1.261719 2.917969,-3.148438 0,-1.664062 -1.019531,-3.085937 -2.890625,-3.085937 z m -0.07422,1.226562 c 1.03125,0 1.46875,0.886719 1.46875,1.898438 0,1.25 -0.644531,1.871093 -1.394531,1.871093 -0.925781,0 -1.472656,-0.777343 -1.472656,-1.898437 0,-1.152344 0.582031,-1.871094 1.398437,-1.871094 z m 0,0"/><path d="m 42.712968,2.568439 c -0.05078,0 -0.08594,0.023438 -0.08594,0.085938 v 8.3125 c 0,0.03516 0.03516,0.09766 0.08594,0.109375 0.582031,0.179687 1.191406,0.265625 1.820312,0.265625 1.800781,0 3.550781,-1.117188 3.550781,-3.367188 0,-1.628906 -1.117187,-2.867187 -2.867187,-2.867187 -0.402344,0 -0.777344,0.0625 -1.105469,0.171875 L 44.09578,2.666095 c 0,-0.085937 -0.02344,-0.097656 -0.109375,-0.097656 z m 3.875,5.554688 c 0,1.347656 -0.921875,1.980468 -1.917969,1.980468 -0.207031,0 -0.390625,-0.01172 -0.558594,-0.0625 V 6.49422 c 0.191406,-0.074218 0.421875,-0.136718 0.847656,-0.136718 0.960938,0 1.628907,0.609375 1.628907,1.765625 z m 0,0"/><path d="m 53.026024,8.560627 c 0.59375,0 1.082031,-0.011719 1.25,-0.050782 0.0625,-0.011718 0.08594,-0.035156 0.09766,-0.085937 0.03516,-0.132813 0.05078,-0.410156 0.05078,-0.75 0,-1.15625 -0.695312,-2.566406 -2.492187,-2.566406 -1.835938,0 -2.855469,1.496093 -2.855469,3.183593 0,1.496094 0.789063,3.050782 3,3.050782 0.828125,0 1.363281,-0.132813 1.824219,-0.351563 0.04687,-0.02344 0.07031,-0.0625 0.07031,-0.132812 V 9.845783 c 0,-0.058594 -0.03516,-0.070313 -0.07031,-0.046875 -0.460938,0.195312 -0.960938,0.292969 -1.507813,0.292969 -1.238281,0 -1.800781,-0.683594 -1.835937,-1.53125 z m -2.46875,-1.046875 c 0.09766,-0.59375 0.472656,-1.238282 1.3125,-1.238282 0.925781,0 1.167969,0.777344 1.167969,1.128907 0,0.011718 0,0.0625 0,0.097656 -0.05078,0.011719 -0.207032,0.011719 -0.667969,0.011719 z m 0,0"/></g></svg>Creative Skillset</h2>
     </div>
     <div class="skill-bars reveal-stagger" id="skill-bars">
       <div class="skill-bar" style="--fill: 95%" data-name="After Effects">
@@ -2024,35 +2064,38 @@ ul { list-style: none; }
     </div>
 
     <div class="project-list reveal-stagger" id="anim-project-list">
-      <div class="project-row" data-mobile-detail='{"title":"Kirra Services","sub":"ICT provider, Indigenous-owned (Supply Nation Certified)","body":"Dedicated animation project from concept to final production output.","eyebrow":"Project"}'>
+      <div class="project-row" data-youtube="I8pDqJ8KZLQ" data-video-title="Kirra Services  - Animation Project" data-mobile-detail='{"title":"Kirra Services","sub":"ICT provider, Indigenous-owned (Supply Nation Certified)","body":"Dedicated animation project from concept to final production output.","eyebrow":"Project","videoId":"I8pDqJ8KZLQ"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">Kirra Services</div>
           <div class="project-meta">ICT provider, Indigenous-owned (Supply Nation Certified)</div>
           <p class="project-desc">Dedicated animation project from concept to final production output.</p>
         </div>
+        <button class="project-watch" type="button" title="Click to watch video" aria-label="Watch video">Watch</button>
       </div>
-      <div class="project-row" data-mobile-detail='{"title":"McGrath Leap Year Sale","sub":"Automotive dealer group","body":"Frog-themed motion graphics and TVC animation assets delivered within campaign deadlines.","eyebrow":"Project"}'>
+      <div class="project-row" data-youtube="kadqJ1_mv6Q" data-video-title="John McGrath Auto Group  - Campaign Video" data-mobile-detail='{"title":"McGrath Leap Year Sale","sub":"Automotive dealer group","body":"Motion graphics and TVC animation assets delivered within campaign deadlines.","eyebrow":"Project","videoId":"kadqJ1_mv6Q"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">John McGrath</div>
           <div class="project-meta">Automotive dealer group</div>
-          <p class="project-desc">Frog-themed motion graphics and TVC animation assets delivered within campaign deadlines.</p>
+          <p class="project-desc">Motion graphics and TVC animation assets delivered within campaign deadlines.</p>
         </div>
+        <button class="project-watch" type="button" title="Click to watch video" aria-label="Watch video">Watch</button>
       </div>
-      <div class="project-row" data-mobile-detail='{"title":"Kingsley&#39;s Chicken","sub":"Fast food restaurant chain","body":"Multi-platform social campaign motion graphics. YouTube video grew from under 1,000 views to 880,000+ views.","eyebrow":"Project"}'>
+      <div class="project-row" data-youtube="2o5FkMsyCqw" data-video-title="Kingsley's Chicken  - Campaign Video" data-mobile-detail='{"title":"Kingsley&#39;s Chicken","sub":"Fast food restaurant chain","body":"Multi-platform social campaign motion graphics. YouTube video grew from under 1,000 views to 880,000+ views.","eyebrow":"Project","videoId":"2o5FkMsyCqw"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">Kingsley's Chicken</div>
           <div class="project-meta">Fast food restaurant chain</div>
           <p class="project-desc">Multi-platform social campaign motion graphics. YouTube video grew from under 1,000 views to 880,000+ views.</p>
         </div>
+        <button class="project-watch" type="button" title="Click to watch video" aria-label="Watch video">Watch</button>
       </div>
-      <div class="project-row" data-mobile-detail='{"title":"Alexander Watson","sub":"Real estate agency","body":"Led an eight-email stakeholder discussion on storyboard development and creative direction.","eyebrow":"Project"}'>
+      <div class="project-row" data-mobile-detail='{"title":"Alexander Watson","sub":"Home Insulation","body":"Led an eight-email stakeholder discussion on storyboard development and creative direction.","eyebrow":"Project"}'>
         <div class="project-dot project-dot--cyan"></div>
         <div>
           <div class="project-name">Alexander Watson</div>
-          <div class="project-meta">Real estate agency</div>
+          <div class="project-meta">Home Insulation</div>
           <p class="project-desc">Led an eight-email stakeholder discussion on storyboard development and creative direction.</p>
         </div>
       </div>
@@ -2062,7 +2105,7 @@ ul { list-style: none; }
       <div class="content-card content-card--blue" data-mobile-detail='{"title":"Logo Animation &amp; Motion Design","body":"<ul class=\"content-list\"><li>Animated logo assets and podcast production for a finance broker</li><li>Logo renders and sequences for digital and broadcast</li><li>Brand-consistent motion language across all deliverables</li><li>Logo reveals for social media and TVC campaigns</li><li>Reusable motion templates for streamlined delivery</li></ul>","eyebrow":"Service"}'>
         <h3 class="content-card__title">Logo Animation &amp; Motion Design</h3>
         <div class="tag-row">
-          <span class="content-tag">My Seeker Loans</span>
+          <button class="content-tag content-tag--blue" type="button" data-youtube="YgEJXb60fM0" data-video-title="My Seeker Loans - Logo Animation">My Seeker Loans</button>
           <span class="content-tag">Xhibit Interiors</span>
         </div>
         <ul class="content-list">
@@ -2476,6 +2519,25 @@ ul { list-style: none; }
   </div>
 </div>
 
+<!-- ============================================================
+     YOUTUBE VIDEO POP-UP
+     ============================================================ -->
+<div class="popup video-popup" id="video-popup" role="dialog" aria-modal="true" aria-labelledby="video-popup-title" hidden>
+  <div class="popup__backdrop" data-video-close></div>
+  <div class="popup__panel" role="document">
+    <button class="popup__close" type="button" data-video-close aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <h3 class="popup__title" id="video-popup-title"></h3>
+    <div class="video-popup__container">
+      <iframe class="video-popup__iframe" id="video-popup-iframe" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
 <script>
 (function () {
   "use strict";
@@ -2748,7 +2810,13 @@ ul { list-style: none; }
       if (eyeEl)  eyeEl.textContent = data.eyebrow || "";
       if (titleEl) titleEl.innerHTML = data.title || "";
       if (subEl)  subEl.innerHTML  = data.sub || "";
-      if (bodyEl) bodyEl.innerHTML = data.body || "";
+      if (bodyEl) {
+        var html = data.body || "";
+        if (data.videoId) {
+          html += '<div style="margin-top:12px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;background:#000;"><iframe style="position:absolute;inset:0;width:100%;height:100%;" src="https://www.youtube.com/embed/' + data.videoId + '?autoplay=1&si=oVIlcnvQvEbjVUef" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe></div>';
+        }
+        bodyEl.innerHTML = html;
+      }
       lastFocus = document.activeElement;
       popup.hidden = false;
       popup.classList.remove("is-open");
@@ -2780,6 +2848,58 @@ ul { list-style: none; }
 
     popup.addEventListener("click", (e) => {
       if (e.target && e.target.closest("[data-popup-close]")) close();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !popup.hidden) close();
+    });
+  })();
+
+  /* =================================================================
+     YOUTUBE VIDEO POP-UP
+     ================================================================= */
+  (function videoPopup() {
+    const popup     = document.getElementById("video-popup");
+    const iframe    = document.getElementById("video-popup-iframe");
+    const titleEl   = document.getElementById("video-popup-title");
+    if (!popup || !iframe) return;
+    let lastFocus = null;
+
+    function open(videoId, title) {
+      lastFocus = document.activeElement;
+      iframe.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&si=oVIlcnvQvEbjVUef";
+      if (titleEl) titleEl.innerHTML = title || "Campaign Video";
+      popup.hidden = false;
+      popup.classList.remove("is-open");
+      void popup.offsetWidth;
+      requestAnimationFrame(() => popup.classList.add("is-open"));
+      document.body.style.overflow = "hidden";
+      const closeBtn = popup.querySelector(".popup__close");
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function close() {
+      popup.hidden = true;
+      popup.classList.remove("is-open");
+      iframe.src = "";
+      document.body.style.overflow = "";
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+
+    // Click on .project-watch button (desktop) or standalone [data-youtube]
+    document.addEventListener("click", (e) => {
+      const btn = e.target && e.target.closest(".project-watch");
+      const row = e.target && e.target.closest("[data-youtube]");
+      // Row with mobile-detail tapped directly (not via Watch button) -> mobile detail handles it
+      if (!btn && row && row.hasAttribute("data-mobile-detail")) return;
+      const targetRow = btn ? btn.closest("[data-youtube]") : row;
+      const id = targetRow && targetRow.getAttribute("data-youtube");
+      if (!id) return;
+      e.preventDefault();
+      open(id, targetRow.getAttribute("data-video-title"));
+    });
+
+    popup.addEventListener("click", (e) => {
+      if (e.target && e.target.closest("[data-video-close]")) close();
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !popup.hidden) close();
