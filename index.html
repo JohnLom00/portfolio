@@ -125,6 +125,7 @@ ul { list-style: none; }
 
 .container { max-width: var(--container-max); margin: 0 auto; padding-inline: var(--container-px); }
 .section   { padding-block: clamp(2rem, 4vw, 3.5rem); position: relative; z-index: 1; background: var(--bg); }
+.skills-software-split { scroll-snap-align: start; }
 
 .hero-inner { align-items: center; }
 
@@ -430,8 +431,8 @@ ul { list-style: none; }
   bottom: 24px;
   transform: translateX(-50%);
   z-index: 40;            /* below the topnav (z-50) but above the canvas */
-  width: 44px;
-  height: 44px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -446,7 +447,7 @@ ul { list-style: none; }
 }
 .hero-scroll:hover { background: rgba(93, 212, 212, 0.18); border-color: rgba(93, 212, 212, 0.5); }
 .hero-scroll:focus-visible { outline: 2px solid var(--cyan-500); outline-offset: 3px; }
-.hero-scroll svg { width: 18px; height: 18px; }
+.hero-scroll svg { width: 22px; height: 22px; }
 .hero-scroll.is-hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(8px); animation: none; }
 @keyframes hero-scroll-bounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
@@ -891,12 +892,24 @@ body.show-draft .anim-draft { display: block; }
   max-width: 1100px;
   margin: 0 auto;
 }
-.work-edu { display: flex; flex-direction: column; gap: 14px; align-items: stretch; }
+.work-edu { display: flex; flex-direction: column; gap: 20px; align-items: stretch; justify-content: flex-start; }
+.work-edu .section-head { display: none; }
+.work-edu .work-item { flex: 1 1 0; }
 /* Edu/rec items use 1-column grid, so .work-when must not target grid-column 3 */
-.work-item--edu .work-when, .work-item--rec .work-when { grid-column: 1; grid-row: auto; }
+.work-item--edu .work-when, .work-item--rec .work-when { grid-column: 2; grid-row: 1; margin: 0; padding-top: 4px; }
 /* Edu/rec items have no .work-num circle, so override the 3-col desktop grid */
-.work-item--edu, .work-item--rec { grid-template-columns: 1fr; }
+.work-item--edu, .work-item--rec { grid-template-columns: 1fr auto; align-items: start; padding: 18px 24px; }
 .work-item--edu .work-company, .work-item--rec .work-company { color: var(--gold-500); }
+/* Desktop top accent line for all work items */
+.work-item::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--cyan-500);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.work-item--edu::before, .work-item--rec::before { background: var(--gold-500); }
 
 /* Campaigns + Government sub-head (Government merged into Campaigns) */
 .campaigns-subhead { text-align: center; margin: 6px 0 4px; }
@@ -912,7 +925,16 @@ body.show-draft .anim-draft { display: block; }
 /* =================================================================
    CONTACT (dark)
    ================================================================= */
-.contact-section { position: relative; z-index: 2; background: var(--navy-700); color: var(--on-dark); }
+.contact-section { position: relative; z-index: 1; background: var(--navy-700); color: var(--on-dark); overflow: hidden; }
+#contact-dot-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+.contact-section .contact-card { position: relative; z-index: 2; }
 .contact-section::after {
   content: "";
   position: absolute;
@@ -1014,8 +1036,11 @@ body.show-draft .anim-draft { display: block; }
    FOOTER
    ================================================================= */
 .footer {
-  background: var(--navy-900);
-  color: var(--on-dark-soft);
+  position: relative;
+  z-index: 3;
+  background: #FFFFFF;
+  color: var(--text);
+  border-top: 1px solid var(--border);
   padding: 24px 0;
   font-size: 0.85rem;
 }
@@ -1026,7 +1051,7 @@ body.show-draft .anim-draft { display: block; }
   justify-content: space-between;
   gap: 12px;
 }
-.footer a { color: var(--cyan-300); }
+.footer a { color: var(--cyan-500); }
 .footer a:hover { color: var(--cyan-400); }
 .footer-links { display: flex; gap: 16px; flex-wrap: wrap; }
 
@@ -1140,6 +1165,85 @@ body.show-draft .anim-draft { display: block; }
   min-width: 90px;
   text-align: center;
   font-family: var(--font-mono);
+}
+
+/* =================================================================
+   RESUME FULLSCREEN OVERLAY
+   ================================================================= */
+.resume-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.resume-fullscreen[hidden] { display: none; }
+.resume-fullscreen__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 42, 71, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.resume-fullscreen__img {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.35);
+  animation: fullscreen-pop 240ms var(--ease);
+}
+@keyframes fullscreen-pop {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: none; }
+}
+.resume-fullscreen__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background var(--t-base) var(--ease), transform var(--t-base) var(--ease);
+}
+.resume-fullscreen__close:hover { background: rgba(255,255,255,0.2); transform: scale(1.05); }
+.resume-fullscreen__close svg { width: 22px; height: 22px; }
+.resume-fullscreen__arrow {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background var(--t-base) var(--ease), transform var(--t-base) var(--ease), opacity var(--t-base) var(--ease);
+}
+.resume-fullscreen__arrow:hover:not(:disabled) { background: rgba(255,255,255,0.2); transform: translateY(-50%) scale(1.05); }
+.resume-fullscreen__arrow:disabled { opacity: 0.35; cursor: not-allowed; }
+.resume-fullscreen__arrow svg { width: 22px; height: 22px; }
+.resume-fullscreen__arrow--prev { left: 16px; }
+.resume-fullscreen__arrow--next { right: 16px; }
+@media (prefers-reduced-motion: reduce) {
+  .resume-fullscreen__img { animation: none; }
 }
 
 /* =================================================================
@@ -1394,6 +1498,8 @@ body.show-draft .anim-draft { display: block; }
            no-scroll pages, tappable detail pop-ups
    ================================================================= */
 @media (max-width: 859px) {
+  html { scroll-snap-type: y mandatory; }
+  body { scroll-snap-type: y mandatory; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
   /* Nav: hide name, keep JL icon only */
   .brand-name { display: none; }
 
@@ -1407,10 +1513,13 @@ body.show-draft .anim-draft { display: block; }
   #dot-grid { height: 100%; bottom: auto; }
   #work-dot-grid { height: 100%; bottom: auto; }
 
-  .skills-software-split { display: flex; flex-direction: column; gap: 6px; min-height: 0; padding-block: 0; }
-  .skills-software-split > .section { flex: 0 0 auto; min-height: 0; overflow: hidden; height: auto; }
+  .hero, .skills-software-split, #animation-work, #campaigns, #work, #resume-pages, .contact-section, .footer { scroll-snap-align: start; }
+
+  .skills-software-split { display: flex; flex-direction: column; gap: 6px; min-height: 0; padding-block: 0; margin-top: 0; scroll-margin-top: 0; }
+  .skills-software-split > .section { flex: 0 0 auto; min-height: 0; overflow: hidden; height: auto; scroll-snap-align: none; }
   .skills-software-split > .section > .container { height: auto; min-height: 0; }
-  .skills-software-split > #skills { padding-top: 56px; }
+  .skills-software-split > #skills { padding-top: 72px; scroll-margin-top: 0; }
+  #software .section-head { display: none; }
   .skills-software-split .skills-grid { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 4px; min-height: auto !important; align-items: flex-start; flex: 0 0 auto !important; }
   .skills-software-split .skills-grid .skill-pill { flex: 0 0 calc(33.33% - 4px); min-width: 80px; transition: opacity 800ms var(--ease), transform 800ms var(--ease); }
   .skills-software-split .skills-grid .skill-pill:nth-child(1) { transition-delay: 0ms; }
@@ -1472,14 +1581,14 @@ body.show-draft .anim-draft { display: block; }
   /* --- Project rows: compact, tappable, taller to fill space --- */
   .project-list { gap: 6px; margin-bottom: 0; display: flex; flex-direction: column; height: 100%; }
   .project-row {
-    cursor: pointer; padding: 12px 36px 12px 14px; gap: 10px;
+    cursor: pointer; padding: 12px 14px; gap: 10px;
     position: relative; border-radius: var(--radius-pill);
     flex: 1 1 0; min-height: 0; display: flex; align-items: center;
   }
   .project-row .project-meta,
   .project-row .project-desc { display: none; }
   .project-row::after {
-    content: "+"; position: absolute; right: 14px; top: 50%;
+    content: "+"; position: absolute; right: 8px; top: 50%;
     transform: translateY(-50%); font-size: 1.1rem;
     color: var(--cyan-500); font-weight: 700; line-height: 1;
   }
@@ -1496,9 +1605,9 @@ body.show-draft .anim-draft { display: block; }
   #animation-work .container > .project-list { flex: 0 0 auto !important; min-height: 0; height: auto !important; }
   #animation-work .container > .card-grid { flex: 0 0 auto !important; min-height: 0; height: auto !important; overflow: hidden; margin-top: 14px; }
   #animation-work .project-list { display: grid !important; grid-template-columns: 1fr 1fr; grid-template-rows: 36px 36px !important; gap: 6px; height: auto !important; }
-  #animation-work .card-grid { display: flex; flex-direction: column; gap: 8px; height: auto; }
-  #animation-work .project-row { flex: 0 0 auto; min-height: 36px; padding: 3px 28px 3px 10px; display: flex; align-items: center; }
-  #animation-work .content-card { flex: 0 0 auto; min-height: 44px; padding: 6px 28px 6px 12px; height: auto; }
+  #animation-work .card-grid { display: flex; flex-direction: column; gap: 8px; height: auto; align-items: center; }
+  #animation-work .project-row { flex: 0 0 auto; min-height: 36px; padding: 3px 10px; display: flex; align-items: center; }
+  #animation-work .content-card { flex: 0 0 auto; min-height: 44px; padding: 6px 14px; height: auto; }
   #animation-work .section-head { margin-bottom: 6px; }
   #animation-work .section-sub { font-size: 0.62rem; line-height: 1.3; }
   #animation-work .project-name { font-size: 0.78rem; }
@@ -1507,15 +1616,16 @@ body.show-draft .anim-draft { display: block; }
 
   /* --- Content cards: compact tappable title bars, grow to fill --- */
   .content-card {
-    cursor: pointer; padding: 8px 36px 8px 14px;
+    cursor: pointer; padding: 10px 14px;
     position: relative; flex: 1 1 0; min-height: 0;
-    display: flex; align-items: center;
+    display: flex; align-items: center; justify-content: center;
   }
+  .content-card__title { width: 100%; text-align: center; }
   .content-card .content-card__line,
   .content-card .content-list { display: none; }
   .content-card .tag-row { display: none; }
   .content-card::after {
-    content: "+"; position: absolute; right: 14px; top: 50%;
+    content: "+"; position: absolute; right: 8px; top: 50%;
     transform: translateY(-50%); font-size: 1.1rem;
     color: var(--accent, var(--cyan-500)); font-weight: 700; line-height: 1;
   }
@@ -1523,13 +1633,30 @@ body.show-draft .anim-draft { display: block; }
   .content-card__title { font-size: 0.85rem; margin-bottom: 0; }
 
   /* --- Work items: compact, date below role --- */
-  .work-split { display: flex; flex-direction: column; gap: 6px; flex: 1 1 0; min-height: 0; overflow: hidden; }
-  .work-timeline { gap: 6px; display: flex; flex-direction: column; flex: 0 0 auto; min-height: 0; }
-  .work-edu { gap: 6px; display: flex; flex-direction: column; flex: 0 0 auto; min-height: 0; }
+  .work-split { display: flex; flex-direction: column; gap: 10px; flex: 1 1 0; min-height: 0; overflow: hidden; }
+  .work-timeline {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 auto;
+    min-height: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    align-self: stretch;
+  }
+  .work-edu { gap: 12px; display: flex; flex-direction: column; flex: 0 0 auto; min-height: 0; align-items: stretch; max-width: 760px; margin: 0 auto; width: 100%; }
   .work-item {
-    padding: 8px 12px; grid-template-columns: 28px 1fr; grid-template-rows: auto auto;
-    gap: 4px; cursor: pointer; flex: 0 0 auto; min-height: 0;
-    display: grid; align-items: center; position: relative;
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 6px 12px;
+    cursor: pointer;
+    flex: 0 0 auto;
+    min-height: 0;
+    align-items: start;
+    position: relative;
     overflow: hidden;
   }
   .work-item::before {
@@ -1540,23 +1667,38 @@ body.show-draft .anim-draft { display: block; }
   .work-item--edu::before, .work-item--rec::before { background: var(--gold-500); }
   .work-timeline { padding-bottom: 10px; }
   .work-item .work-num { width: 28px; height: 28px; font-size: 0.65rem; }
+  .work-edu .work-item { flex: 0 0 auto; min-height: auto; }
   .work-item--edu, .work-item--rec { grid-template-columns: 1fr; }
-  .work-item--edu .work-when, .work-item--rec .work-when { padding-left: 0; grid-column: 1; grid-row: auto; }
-  .work-role { font-size: 0.88rem; }
-  .work-company { font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .work-when { font-size: 0.65rem; white-space: nowrap; grid-column: 1 / 3; grid-row: 2; padding-left: 36px; }
+  .work-item--edu .work-when, .work-item--rec .work-when { padding-left: 0; grid-column: 1; grid-row: auto; margin-top: 0; font-size: 0.88rem; color: var(--muted); }
+  .work-role { font-size: 0.98rem; margin-bottom: 4px; line-height: 1.3; }
+  .work-company { font-size: clamp(0.78rem, 2.1vw, 0.92rem); color: var(--gold-500); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 400; }
+  .work-when { font-size: 0.82rem; font-style: italic; font-weight: 400; white-space: normal; grid-column: 2; grid-row: 3; justify-self: end; align-self: end; padding-left: 0; color: var(--muted); margin-top: 0; }
+  .work-item--edu .content-list, .work-item--rec .content-list { display: none; }
   .work-item .work-desc { display: none; }
   .work-item::after { display: none; }
 
-  /* --- Resume pages: hide viewer, show download --- */
-  #resume-pages .section-head { margin-bottom: 8px; }
-  .page-viewer { display: none; }
-  .resume-download-link { display: inline-flex; align-items: center; gap: 8px; margin: 0 auto; padding: 12px 24px; background: var(--cyan-500); color: var(--navy-900); font-weight: 700; font-size: 0.95rem; border-radius: var(--radius-pill); text-decoration: none; transition: background var(--t-base) var(--ease), transform var(--t-base) var(--ease); }
-  .resume-download-link:hover { background: var(--cyan-400); transform: translateY(-1px); }
-  .resume-download-link svg { width: 18px; height: 18px; }
+  /* --- Resume pages: show compact viewer on mobile --- */
+  #resume-pages { display: flex; flex-direction: column; }
+  #resume-pages .container { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; }
+  #resume-pages .section-head { margin-bottom: 8px; flex: 0 0 auto; }
+  #resume-pages .section-head .section-sub { display: none; }
+  .resume-download-link { display: none; }
+  .page-viewer { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; }
+  .page-viewer__stage { flex: 1 1 0; min-height: 0; }
+  .page-viewer__nav { margin-top: 10px; flex: 0 0 auto; }
+  .page-viewer__label { display: none; }
+  .page-viewer__btn { width: 36px; height: 36px; }
+  .page-viewer__dot { width: 10px; height: 10px; }
+  .page-viewer__stage { cursor: pointer; }
+  .resume-fullscreen__arrow { width: 40px; height: 40px; }
+  .resume-fullscreen__arrow svg { width: 18px; height: 18px; }
+  .resume-fullscreen__close { width: 40px; height: 40px; }
+  .resume-fullscreen__close svg { width: 18px; height: 18px; }
 
   /* --- Contact: compact --- */
-  .contact-card { padding: 14px; }
+  .contact-section { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  .contact-section .container { width: 100%; display: flex; flex-direction: column; justify-content: center; flex: 1 1 0; }
+  .contact-card { padding: 14px; margin-top: 72px; margin-bottom: 40px; }
   .contact-head { margin-bottom: 12px; }
   .contact-item { padding: 10px 14px; gap: 10px; }
   .contact-icon { width: 32px; height: 32px; }
@@ -1565,15 +1707,46 @@ body.show-draft .anim-draft { display: block; }
   .availability { margin-top: 10px; }
   .availability-pill { padding: 8px 14px; font-size: 0.78rem; }
 
+  /* --- Ensure every mobile page snaps and fills viewport --- */
+  header.hero, .section, .contact-section, .skills-software-split, .footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    scroll-margin-top: 72px;
+  }
+  header.hero { scroll-margin-top: 0; }
+  .section, .contact-section, .skills-software-split { min-height: 100dvh; }
+  .footer { min-height: auto; }
+  .section { margin-bottom: 22px; }
+  .contact-section { margin-bottom: 80px; }
+  .footer { margin-top: 16px; }
+  #resume-pages .container { text-align: center; }
+
   /* --- Hero: stats grid 2x2 on mobile, fills space --- */
-  .hero { padding-top: 76px; }
-  .hero-stats { gap: 8px; }
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 56px;
+    padding-bottom: 72px;
+    bottom: auto;
+    scroll-snap-align: start;
+  }
+  .hero-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100vh - 56px - 72px);
+    padding-bottom: 84px;
+    gap: 18px;
+  }
+  .hero-stats { gap: 8px; align-self: stretch; }
+  .hero-scroll { width: 68px; height: 68px; bottom: 36px; }
+  .hero-scroll svg { width: 28px; height: 28px; }
   .stat { padding: 12px 8px; }
   .hero-ctas { margin-bottom: 10px; }
   .hero-tagline { margin-bottom: 8px; }
 
   .hero-eyebrow, .hero-name, .hero-role, .hero-tagline { flex: 0 0 auto; }
-  .hero-eyebrow { font-size: 0.78rem; padding: 6px 14px; margin-bottom: 10px; }
+  .hero-eyebrow { font-size: 0.78rem; padding: 6px 14px; margin-bottom: 10px; position: relative; top: 28px; }
   .hero-tagline { font-size: 0.78rem; line-height: 1.4; margin-bottom: 20px; }
   .hero-stats { flex: 1 1 0; min-height: 0; align-content: center; grid-template-columns: repeat(2, 1fr); }
   .hero-ctas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 0 0 auto; margin-bottom: 6px; }
@@ -1585,7 +1758,7 @@ body.show-draft .anim-draft { display: block; }
   .stat-label { font-size: 0.6rem; }
 
   .skills-software-split #skills .section-head { margin-bottom: 6px; }
-  .skills-software-split #software .section-head { margin-top: 28px; }
+  .skills-software-split #software .section-head { margin-top: 20px; }
   .section-head { margin-bottom: 10px; }
   .section-head .section-title { font-size: 1.15rem; }
   .section-head .section-sub { font-size: 0.72rem; line-height: 1.4; }
@@ -1596,13 +1769,19 @@ body.show-draft .anim-draft { display: block; }
   #campaigns .section-head { margin-bottom: 0; }
 #campaigns .section-head .section-eyebrow { margin-bottom: 2px; }
 #campaigns .section-head .section-title { margin-bottom: 2px; }
-  #campaigns .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; align-content: start; }
-  #campaigns .campaign-col { display: flex; flex-direction: column; gap: 4px; min-height: 0; }
-  #campaigns .content-card { flex: 0 0 auto; min-height: 0; padding: 4px 36px 4px 12px; }
+  #campaigns .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
+  #campaigns .campaign-col { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+  #campaigns .content-card { flex: 0 0 auto; min-height: 0; padding: 10px 20px; }
   .campaigns-subhead { text-align: center; margin: 0; flex: 0 0 auto; }
   .campaigns-subhead .section-eyebrow { margin-bottom: 0; padding: 3px 10px; font-size: 0.72rem; }
 
+  /* --- Government: same layout as Campaigns --- */
+  #government-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-content: start; }
+  #government-grid .campaign-col { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+  #government-grid .content-card { flex: 0 0 auto; min-height: 0; padding: 10px 20px; }
+
   #work-edu-grid { display: flex; flex-direction: column; gap: 6px; min-height: 0; width: 100%; flex: 1 1 0; }
+  .work-item--edu .work-company, .work-item--rec .work-company { white-space: normal; overflow: visible; }
 
 .work-item--edu .work-company, .work-item--rec .work-company { color: #C47F17; }
 
@@ -1610,6 +1789,38 @@ body.show-draft .anim-draft { display: block; }
   .contact-item { padding: 10px 12px; gap: 8px; }
   .contact-value { font-size: 0.75rem; }
   .contact-label { font-size: 0.6rem; }
+
+  /* Education & Recognition rows styled like other work items */
+  #work-edu-grid { display: flex; flex-direction: column; gap: 12px; width: 100%; flex: none; min-height: auto; align-items: stretch; }
+  #work-edu-grid .work-item--edu,
+  #work-edu-grid .work-item--rec { width: 100%; }
+  .work-edu .section-head { display: block; margin-bottom: 6px; }
+  .work-edu .section-head .section-eyebrow { margin-bottom: 4px; padding: 3px 10px; font-size: 0.72rem; }
+  .work-edu .section-head .section-title { font-size: 1.15rem; margin-bottom: 0; }
+  #work-edu-grid .work-item--edu,
+  #work-edu-grid .work-item--rec {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 18px;
+    gap: 6px;
+    cursor: pointer;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  #work-edu-grid .work-item--edu::before { background: var(--gold-500); }
+  #work-edu-grid .work-item--rec::before { background: var(--gold-500); }
+  #work-edu-grid .work-item--edu::before,
+  #work-edu-grid .work-item--rec::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
 }
 
 /* Mobile detail popup styles (same for desktop but behaves differently via JS) */
@@ -1892,7 +2103,7 @@ body.show-draft .anim-draft { display: block; }
           <li>Broadcast-quality deliverables for all major networks</li>
         </ul>
       </div>
-      <div class="content-card content-card--gold" data-mobile-detail='{"title":"Television Commercial Production","sub":"Hip Pocket Christmas, Promotional Retail, Brand Advertising, End-tag Animations","body":"30 to 60 minute revision turnaround. 60 to 90 minute sessions for complex multi-revision work.","eyebrow":"Service"}'>
+      <div class="content-card content-card--gold" data-mobile-detail='{"title":"Television Commercial Production","sub":"Hip Pocket Christmas, Promotional Retail, Brand Advertising, End-tag Animations","body":"<ul class=\"content-list\"><li>30 to 60 minute revision turnaround.</li><li>60 to 90 minute sessions for complex multi-revision work.</li></ul>","eyebrow":"Service"}'>
         <h3 class="content-card__title">Television Commercial Production</h3>
         <div class="tag-row">
           <span class="content-tag content-tag--gold">Hip Pocket Christmas</span>
@@ -1969,8 +2180,10 @@ body.show-draft .anim-draft { display: block; }
       </div>
     </div>
 
-    <div class="campaigns-subhead reveal-stagger">
+    <div class="section-head reveal-stagger" style="margin: 24px 0 10px;">
       <span class="eyebrow section-eyebrow">Government</span>
+      <h2 class="title section-title">Public sector &amp; advocacy</h2>
+      <p class="sub section-sub">Government campaigns, wildlife conservation, utilities and political advertising for state and local bodies.</p>
     </div>
 
     <div class="card-grid card-grid--2 reveal-stagger" id="government-grid">
@@ -2021,17 +2234,8 @@ body.show-draft .anim-draft { display: block; }
     </div>
     <div class="work-split">
       <div class="work-timeline reveal-stagger" id="work-timeline">
-        <article class="work-item" data-mobile-detail='{"title":"Freelance Editor / Contractor","sub":"Self-employed &#183; Feb 2026 - Present","body":"Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.","eyebrow":"Work"}'>
-          <div class="work-num">01</div>
-          <div>
-            <div class="work-role">Freelance Editor / Contractor</div>
-            <div class="work-company">Self-employed</div>
-            <p class="work-desc">Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.</p>
-          </div>
-          <div class="work-when">Feb 2026 - Present</div>
-        </article>
         <article class="work-item" data-mobile-detail='{"title":"Senior Production Editor","sub":"Southern Cross Austereo / Channel 10 &#183; Apr 2023 - Dec 2025","body":"Sole editor. 100+ commercials. Editing, sound design, motion graphics, client revisions and scripting. Trained my own successor before I left.","eyebrow":"Work"}'>
-          <div class="work-num">02</div>
+          <div class="work-num">01</div>
           <div>
             <div class="work-role">Senior Production Editor</div>
             <div class="work-company">Southern Cross Austereo <span class="work-dash">-</span> Channel 10</div>
@@ -2039,23 +2243,41 @@ body.show-draft .anim-draft { display: block; }
           </div>
           <div class="work-when">Apr 2023 - Dec 2025</div>
         </article>
+        <article class="work-item" data-mobile-detail='{"title":"Freelance Editor / Contractor","sub":"Self-employed &#183; Feb 2026 - Present","body":"Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.","eyebrow":"Work"}'>
+          <div class="work-num">02</div>
+          <div>
+            <div class="work-role">Freelance Editor / Contractor</div>
+            <div class="work-company">Self-employed</div>
+            <p class="work-desc">Retained as contractor at Southern Cross Austereo after the full-time role ended. Full VFX, video editing, SFX, ad assembly and file handover. Brand identity work for Eurobodalla Support Services and Coastal Edge.</p>
+          </div>
+          <div class="work-when">Feb 2026 - Present</div>
+        </article>
       </div>
       <div class="work-edu reveal-stagger" id="work-edu-grid">
-        <article class="work-item work-item--edu" data-mobile-detail='{"title":"Education","sub":"Bachelor of Interactive Media &#183; 2019-2022","body":"<div class=\"edu-entry\"><div class=\"edu-degree\">Bachelor of Interactive Media</div><div class=\"edu-school\">Academy of Interactive Technology &middot; 2019&#8211;2022</div></div><div class=\"edu-entry\"><div class=\"edu-degree\">Higher School Certificate</div><div class=\"edu-school\">Batemans Bay High School &middot; 2013&#8211;2018</div></div>","eyebrow":"Background"}'>
+        <div class="section-head">
+          <span class="eyebrow section-eyebrow">Education</span>
+        </div>
+        <article class="work-item work-item--edu" data-mobile-detail='{"title":"Bachelor of Interactive Media","sub":"Academy of Interactive Technology &#183; 2019-2022","body":"<ul class=\"content-list\"><li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong></li><li><em>Dream Dome</em> &#8211; university short film (AIT 2022)</li></ul>","eyebrow":"Education"}'>
           <div>
-            <div class="work-role">Education</div>
-            <div class="work-company">Bachelor of Interactive Media &middot; AIT 2019-2022</div>
-            <p class="work-desc">Bachelor of Interactive Media (AIT 2019-2022). Higher School Certificate (Batemans Bay High School 2013-2018).</p>
-          </div>
-          <div class="work-when">2013 - 2022</div>
-        </article>
-        <article class="work-item work-item--rec" data-mobile-detail='{"title":"Recognition","body":"<ul class=\"content-list\"><li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong> &#8211; Bachelor of Interactive Media</li><li>Taught Adobe Animate to a Year 10 IT class at Batemans Bay High School</li><li><em>Dream Dome</em> &#8211; university short film (AIT 2022)</li><li>Youth Frontiers Award &#8211; animated mental health film</li></ul>","eyebrow":"Background"}'>
-          <div>
-            <div class="work-role">Recognition</div>
-            <div class="work-company">8 High Distinctions &middot; 9 Distinctions</div>
-            <p class="work-desc">8 High Distinctions &amp; 9 Distinctions in Bachelor of Interactive Media. Taught Adobe Animate to a Year 10 IT class. Dream Dome university short film (AIT 2022). Youth Frontiers Award.</p>
+            <div class="work-role">Bachelor of Interactive Media</div>
+            <div class="work-company">Academy of Interactive Technology</div>
+            <ul class="content-list">
+              <li><strong>8 High Distinctions</strong> &amp; <strong>9 Distinctions</strong></li>
+              <li><em>Dream Dome</em> &#8211; university short film (AIT 2022)</li>
+            </ul>
           </div>
           <div class="work-when">2019 - 2022</div>
+        </article>
+        <article class="work-item work-item--rec" data-mobile-detail='{"title":"Higher School Certificate","sub":"Batemans Bay High School &#183; 2013-2018","body":"<ul class=\"content-list\"><li>Taught Adobe Animate to a Year 10 IT class</li><li>Youth Frontiers Award &#8211; animated mental health film</li></ul>","eyebrow":"Education"}'>
+          <div>
+            <div class="work-role">Higher School Certificate</div>
+            <div class="work-company">Batemans Bay High School</div>
+            <ul class="content-list">
+              <li>Taught Adobe Animate to a Year 10 IT class</li>
+              <li>Youth Frontiers Award &#8211; animated mental health film</li>
+            </ul>
+          </div>
+          <div class="work-when">2013 - 2018</div>
         </article>
       </div>
     </div>
@@ -2077,7 +2299,7 @@ body.show-draft .anim-draft { display: block; }
       Download full resume (PDF)
     </a>
     <div class="page-viewer reveal-stagger">
-      <div class="page-viewer__stage">
+      <div class="page-viewer__stage" id="page-viewer-stage">
         <img class="page-viewer__img" id="page-viewer-img" src="resume-page-1.svg" alt="Resume page 1" decoding="async">
       </div>
       <div class="page-viewer__nav" role="group" aria-label="Page navigation">
@@ -2091,6 +2313,20 @@ body.show-draft .anim-draft { display: block; }
         </button>
       </div>
     </div>
+    <!-- Fullscreen overlay -->
+    <div class="resume-fullscreen" id="resume-fullscreen" hidden>
+      <div class="resume-fullscreen__backdrop" id="resume-fullscreen-close"></div>
+      <button class="resume-fullscreen__close" type="button" aria-label="Close fullscreen" id="resume-fullscreen-close-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button class="resume-fullscreen__arrow resume-fullscreen__arrow--prev" type="button" aria-label="Previous page" id="resume-fullscreen-prev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18 L9 12 L15 6"/></svg>
+      </button>
+      <button class="resume-fullscreen__arrow resume-fullscreen__arrow--next" type="button" aria-label="Next page" id="resume-fullscreen-next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18 L15 12 L9 6"/></svg>
+      </button>
+      <img class="resume-fullscreen__img" id="resume-fullscreen-img" src="" alt="" decoding="async">
+    </div>
   </div>
 </section>
 
@@ -2098,6 +2334,7 @@ body.show-draft .anim-draft { display: block; }
      CONTACT
      ============================================================ -->
 <div class="section contact-section" id="contact" aria-labelledby="contact-title">
+  <canvas id="contact-dot-grid" aria-hidden="true"></canvas>
     <div class="contact-card">
       <div class="contact-head">
         <span class="contact-eyebrow">Contact</span>
@@ -2402,6 +2639,12 @@ body.show-draft .anim-draft { display: block; }
     dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
   });
 
+  // Contact section dot grid
+  initDotGrid(document.getElementById("contact-dot-grid"), {
+    tile: 28, radius: 140, push: 24, ambient: 1.2,
+    dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
+  });
+
   /* =================================================================
      HERO SCROLL-DOWN ARROW
      - Click: smooth-scroll to first section after the hero, hide permanently
@@ -2434,6 +2677,20 @@ body.show-draft .anim-draft { display: block; }
     }
     window.addEventListener("scroll", updateArrow, { passive: true });
     updateArrow();
+
+    // Enforce hero-to-skills snap when manually scrolling down from the fixed hero.
+    const skillsTarget = document.querySelector("#skills");
+    let isScrollingToSkills = false;
+    if (skillsTarget) {
+      window.addEventListener("wheel", (event) => {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        if (isScrollingToSkills || event.deltaY <= 0 || scrollY > 24) return;
+        event.preventDefault();
+        isScrollingToSkills = true;
+        skillsTarget.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+        window.setTimeout(() => { isScrollingToSkills = false; }, 800);
+      }, { passive: false });
+    }
   }
 
   /* =================================================================
@@ -2597,6 +2854,13 @@ body.show-draft .anim-draft { display: block; }
     const next  = document.getElementById("page-viewer-next");
     const dots  = document.getElementById("page-viewer-dots");
     const label = document.getElementById("page-viewer-label");
+    const stage = document.getElementById("page-viewer-stage");
+    const fs    = document.getElementById("resume-fullscreen");
+    const fsImg = document.getElementById("resume-fullscreen-img");
+    const fsClose = document.getElementById("resume-fullscreen-close");
+    const fsCloseBtn = document.getElementById("resume-fullscreen-close-btn");
+    const fsPrev = document.getElementById("resume-fullscreen-prev");
+    const fsNext = document.getElementById("resume-fullscreen-next");
     if (!img || !dots) return;
     let current = 1;
 
@@ -2621,20 +2885,55 @@ body.show-draft .anim-draft { display: block; }
       });
       if (prev) prev.disabled = current === 1;
       if (next) next.disabled = current === total;
+      if (fsImg) {
+        fsImg.src = "resume-page-" + current + ".svg";
+        fsImg.alt = "Resume page " + current;
+      }
+      if (fsPrev) fsPrev.disabled = current === 1;
+      if (fsNext) fsNext.disabled = current === total;
     }
 
     if (prev) prev.addEventListener("click", () => show(current - 1));
     if (next) next.addEventListener("click", () => show(current + 1));
+    if (fsPrev) fsPrev.addEventListener("click", () => show(current - 1));
+    if (fsNext) fsNext.addEventListener("click", () => show(current + 1));
     dots.addEventListener("click", (e) => {
       const b = e.target && e.target.closest(".page-viewer__dot");
       if (b && b.dataset.page) show(Number(b.dataset.page));
     });
+
+    function openFs() {
+      if (!fs) return;
+      fs.hidden = false;
+      document.body.style.overflow = "hidden";
+      if (fsImg) {
+        fsImg.src = "resume-page-" + current + ".svg";
+        fsImg.alt = "Resume page " + current;
+      }
+      if (fsPrev) fsPrev.disabled = current === 1;
+      if (fsNext) fsNext.disabled = current === total;
+    }
+    function closeFs() {
+      if (!fs) return;
+      fs.hidden = true;
+      document.body.style.overflow = "";
+    }
+    if (stage) stage.addEventListener("click", openFs);
+    if (fsClose) fsClose.addEventListener("click", closeFs);
+    if (fsCloseBtn) fsCloseBtn.addEventListener("click", closeFs);
     document.addEventListener("keydown", (e) => {
       const t = e.target;
       if (t && (t.matches("input, textarea, [contenteditable]"))) return;
-      if (e.key === "ArrowLeft")  show(current - 1);
+      if (fs && !fs.hidden) {
+        if (e.key === "ArrowLeft") show(current - 1);
+        else if (e.key === "ArrowRight") show(current + 1);
+        else if (e.key === "Escape") closeFs();
+        return;
+      }
+      if (e.key === "ArrowLeft") show(current - 1);
       else if (e.key === "ArrowRight") show(current + 1);
     });
+
     show(1);
   })();
 
@@ -2665,7 +2964,7 @@ body.show-draft .anim-draft { display: block; }
     // so for nested layouts (e.g. .card-grid > .campaign-col > .content-card)
     // we also need to mark the inner cards visible. The CSS already defines
     // a transition for .content-card.is-visible.
-    el.querySelectorAll(".content-card, .project-row").forEach((c) => {
+    el.querySelectorAll(".content-card, .project-row, .section-head, .work-item").forEach((c) => {
       if (!c.classList.contains("is-visible")) c.classList.add("is-visible");
     });
   }
