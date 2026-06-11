@@ -1408,7 +1408,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
    top edge aligns with the viewport top and the sticky nav covers the
    eyebrow. scroll-margin-top makes the scroll target land below the nav.
    (Other sections have natural padding-block so they clear the nav already.) */
-#skills, #animation-work, #campaigns, #work { scroll-margin-top: 90px; }
+#skills, #animation-work, #campaigns, #work, #resume-pages, #contact { scroll-margin-top: 90px; }
 
 /* =================================================================
    SKILL BARS  (single fill bar, matches the SVG style)
@@ -1632,6 +1632,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
 @media (max-width: 859px) {
   html { scroll-snap-type: y mandatory; }
   body { scroll-snap-type: y mandatory; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+
   /* Nav: hide name, keep JL icon only */
   .brand-name { display: none; }
 
@@ -3031,6 +3032,36 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
 
   requestAnimationFrame(updateDotsRing);
   setTimeout(updateDotsRing, 300);
+
+  // Gentle scroll-end snap: snaps to nearest section when scrolling stops
+  if (!reduced && dotsContainer) {
+    let scrollTimer;
+    const snapToSection = function() {
+      const sy = window.pageYOffset || document.documentElement.scrollTop;
+      const vh = window.innerHeight;
+      if (sy < vh * 0.4) return;
+      const offset = sy + 90;
+      let bestId = null, bestDist = Infinity;
+      for (const id of trackedIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top + sy;
+        const dist = Math.abs(top - offset);
+        if (dist < bestDist) { bestDist = dist; bestId = id; }
+      }
+      if (bestId && bestDist > 10 && bestDist < vh * 0.10) {
+        var target = document.getElementById(bestId);
+        if (target) target.scrollIntoView({ block: "start" });
+      }
+    };
+    if ("onscrollend" in window) {
+      window.addEventListener("scrollend", snapToSection, { passive: true });
+    }
+    window.addEventListener("scroll", function() {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(snapToSection, 200);
+    }, { passive: true });
+  }
 
   /* =================================================================
      MOBILE DETAIL POP-UP  (tappable project rows, content cards, work items)
