@@ -467,6 +467,151 @@ ul { list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll { animation: none; }
 }
+
+/* =================================================================
+   FLOATING SECTION DOTS NAVIGATION (left side)
+   Inspired by aurasens.com — no box, animated indicator ring,
+   no stroke on inactive dots, connector line.
+   ================================================================= */
+.section-dots {
+  position: fixed;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 400ms var(--ease);
+  --dot-color: rgba(130, 130, 145, 0.85);
+  --dot-line: rgba(120, 120, 135, 0.2);
+  --dot-hover: rgba(90, 90, 105, 0.95);
+}
+.section-dots.is-on-hero {
+  --dot-color: rgba(255, 255, 255, 0.75);
+  --dot-line: rgba(255, 255, 255, 0.18);
+  --dot-hover: rgba(255, 255, 255, 0.9);
+}
+
+/* Animated ring that slides between active dots */
+.section-dots__indicator {
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--cyan-500);
+  border: 2.5px solid var(--cyan-500);
+  box-shadow: 0 0 0 6px rgba(93, 212, 212, 0.18);
+  z-index: 3;
+  pointer-events: none;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1), opacity 400ms var(--ease);
+  animation: dot-pulse 2.4s ease-in-out infinite;
+}
+@keyframes dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 6px rgba(93, 212, 212, 0.18); }
+  50%      { box-shadow: 0 0 0 12px rgba(93, 212, 212, 0.08); }
+}
+
+.section-dot {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  position: relative;
+  padding: 16px 0;
+  outline: none;
+}
+/* Connector line connects dot centers (center of 20px indicator) */
+.section-dot::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 1px;
+  height: 48px;
+  background: var(--dot-line);
+}
+.section-dot:last-child::after { display: none; }
+
+/* Radio button indicator: invisible unless active */
+.section-dot__indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: transparent;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+/* Radio leave animation element: expands and fades out */
+.section-dot__anim {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--cyan-500);
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%) scale(1);
+}
+.section-dot__anim.is-animating {
+  animation: radio-leave 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes radio-leave {
+  0%   { opacity: 0.9; transform: translateY(-50%) scale(1); }
+  100% { opacity: 0;   transform: translateY(-50%) scale(2.5); }
+}
+.section-dot:focus-visible {
+  outline: 2px solid var(--cyan-500);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.section-dot__label {
+  margin-left: 22px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--dot-color);
+  transition: color 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  white-space: nowrap;
+  line-height: 1;
+}
+.section-dot:hover .section-dot__label {
+  color: var(--dot-hover);
+}
+.section-dot.is-active .section-dot__label {
+  color: var(--cyan-500);
+}
+
+/* Hide the active dot ring when hero is in view */
+.section-dots.is-hidden .section-dots__indicator { opacity: 0; }
+
+@media (max-width: 859px) {
+  .section-dots { left: 4px; }
+  .section-dot { padding: 9px 0; }
+  .section-dot::after { height: 28px; left: 7px; }
+  .section-dots__indicator { width: 12px; height: 12px; border-width: 1.5px; left: 1px; }
+  .section-dot__indicator { width: 14px; height: 14px; border-width: 1.5px; }
+  .section-dot__anim { width: 14px; height: 14px; }
+  .section-dot__label { display: none; }
+}
+@media (max-width: 479px) {
+  .section-dots { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .section-dots__indicator { transition: none; animation: none; }
+  .section-dot__label { transition: none; }
+  .section-dot__anim { animation: none !important; }
+}
+
 .stat {
   border-radius: var(--radius-lg);
   padding: 18px 12px;
@@ -1892,6 +2037,38 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
 </nav>
 
 <!-- ============================================================
+     FLOATING SECTION DOTS NAVIGATION (left side)
+     ============================================================ -->
+<nav class="section-dots is-hidden" id="section-dots" aria-label="Section navigation">
+  <span class="section-dots__indicator" aria-hidden="true"></span>
+  <a class="section-dot" href="#skills" data-section="skills">
+    <span class="section-dot__indicator"></span>
+    <span class="section-dot__anim"></span>
+    <span class="section-dot__label">Skills</span>
+  </a>
+  <a class="section-dot" href="#animation-work" data-section="animation-work">
+    <span class="section-dot__indicator"></span>
+    <span class="section-dot__anim"></span>
+    <span class="section-dot__label">Work</span>
+  </a>
+  <a class="section-dot" href="#campaigns" data-section="campaigns">
+    <span class="section-dot__indicator"></span>
+    <span class="section-dot__anim"></span>
+    <span class="section-dot__label">Campaigns</span>
+  </a>
+  <a class="section-dot" href="#work" data-section="work">
+    <span class="section-dot__indicator"></span>
+    <span class="section-dot__anim"></span>
+    <span class="section-dot__label">Experience</span>
+  </a>
+  <a class="section-dot" href="#contact" data-section="contact">
+    <span class="section-dot__indicator"></span>
+    <span class="section-dot__anim"></span>
+    <span class="section-dot__label">Contact</span>
+  </a>
+</nav>
+
+<!-- ============================================================
      HERO
      ============================================================ -->
 <header class="hero" id="top">
@@ -1924,7 +2101,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         Watch showreel
       </a>
-      <a class="btn btn-secondary" href="mailto:lomjohn@pm.me">
+      <a class="btn btn-secondary" href="mailto:hire@johnlom.com.au">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
           <polyline points="22,6 12,13 2,6"/>
@@ -2367,7 +2544,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         <h2 class="contact-title" id="contact-title">Get in touch</h2>
       </div>
       <div class="contact-grid">
-        <a class="contact-item" href="mailto:lomjohn@pm.me">
+        <a class="contact-item" href="mailto:hire@johnlom.com.au">
           <div class="contact-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
@@ -2376,7 +2553,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
           </div>
           <div>
             <div class="contact-label">Email</div>
-            <div class="contact-value">lomjohn@pm.me</div>
+            <div class="contact-value">hire@johnlom.com.au</div>
           </div>
         </a>
         <a class="contact-item" href="tel:+61406012354">
@@ -2748,6 +2925,9 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
     const vh = window.innerHeight;
     nav.classList.toggle("is-scrolled", scrollY > vh * 0.5);
+    // Show dots ring when scrolled past hero (hero is position:fixed, so use scroll position)
+    const sd = document.getElementById("section-dots");
+    if (sd) { sd.classList.toggle("is-hidden", scrollY < vh * 0.4); sd.classList.toggle("is-on-hero", scrollY < vh * 0.5); }
     // Blur hero: increase to 12px then taper back to 0 at contact
     const contactEl = document.getElementById("contact");
     const contactOff = contactEl ? contactEl.offsetTop : 99999;
@@ -2776,22 +2956,81 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
      NAV: active link tracking (highlight section in view)
      ================================================================= */
   const navLinks = document.querySelectorAll(".nav-link[data-section]");
-  const navSections = new Map();
-  navLinks.forEach(link => {
-    const id = link.dataset.section;
-    const el = document.getElementById(id);
-    if (el) navSections.set(id, { el, link });
-  });
-  if (navSections.size && "IntersectionObserver" in window) {
-    const navIo = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          navLinks.forEach(l => l.classList.toggle("is-active", l.dataset.section === entry.target.id));
-        }
-      }
-    }, { threshold: 0.25, rootMargin: "-64px 0px -40% 0px" });
-    navSections.forEach((v, id) => navIo.observe(v.el));
+  const sectionDots = document.querySelectorAll(".section-dot[data-section]");
+  // Animated indicator that slides between dots
+  const dotsContainer = document.getElementById("section-dots");
+  const dotsRing = dotsContainer ? dotsContainer.querySelector(".section-dots__indicator") : null;
+  function updateDotsRing() {
+    if (!dotsRing || !dotsContainer) return;
+    const activeDot = dotsContainer.querySelector(".section-dot.is-active");
+    if (!activeDot) return;
+    const dotRect = activeDot.getBoundingClientRect();
+    const ringSize = dotsRing.offsetHeight;
+    const translateY = dotRect.top - dotsContainer.getBoundingClientRect().top + (dotRect.height - ringSize) / 2;
+    dotsRing.style.transform = "translateY(" + Math.round(translateY) + "px)";
   }
+
+  const allNavTargets = [...navLinks, ...sectionDots];
+  const trackedIds = Array.from(navLinks, link => link.dataset.section);
+  if (!trackedIds.includes("resume-pages")) trackedIds.push("resume-pages");
+
+  let navTracking = false;
+  let prevActiveId = null;
+
+  function triggerRadioAnim(dot) {
+    const anim = dot && dot.querySelector(".section-dot__anim");
+    if (!anim) return;
+    anim.classList.remove("is-animating");
+    void anim.offsetWidth;
+    anim.classList.add("is-animating");
+  }
+
+  function setActiveSection(id) {
+    if (dotsContainer && prevActiveId && prevActiveId !== id) {
+      const prevDot = dotsContainer.querySelector('.section-dot[data-section="' + prevActiveId + '"]');
+      triggerRadioAnim(prevDot);
+    }
+    prevActiveId = id;
+    allNavTargets.forEach(function(el) { el.classList.toggle("is-active", el.dataset.section === id); });
+  }
+
+  function clearActiveSection() {
+    if (dotsContainer && prevActiveId) {
+      const prevDot = dotsContainer.querySelector('.section-dot[data-section="' + prevActiveId + '"]');
+      triggerRadioAnim(prevDot);
+    }
+    prevActiveId = null;
+    allNavTargets.forEach(function(el) { el.classList.remove("is-active"); });
+  }
+
+  function updateActiveNav() {
+    if (!navTracking) return;
+    const sy = window.pageYOffset || document.documentElement.scrollTop;
+    const vh = window.innerHeight;
+    if (sy < vh * 0.25) { clearActiveSection(); updateDotsRing(); return; }
+    const offset = sy + 90;
+    let bestId = null, bestDist = Infinity;
+    for (const id of trackedIds) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      const top = el.getBoundingClientRect().top + sy;
+      const dist = Math.abs(top - offset);
+      if (dist < bestDist) { bestDist = dist; bestId = id; }
+    }
+    if (bestId) {
+      setActiveSection(bestId);
+    }
+    updateDotsRing();
+  }
+
+  window.addEventListener("scroll", () => { if (!navTracking) { navTracking = true; updateActiveNav(); } }, { once: true, passive: true });
+
+  const scrollOpts = { passive: true };
+  window.addEventListener("scroll", updateActiveNav, scrollOpts);
+  window.addEventListener("resize", updateActiveNav, scrollOpts);
+
+  requestAnimationFrame(updateDotsRing);
+  setTimeout(updateDotsRing, 300);
 
   /* =================================================================
      MOBILE DETAIL POP-UP  (tappable project rows, content cards, work items)
