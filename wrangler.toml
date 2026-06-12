@@ -1,1 +1,2 @@
 name = "john-lomnicki-portfolio"
+pages_build_output_dir = "."
