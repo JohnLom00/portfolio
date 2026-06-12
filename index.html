@@ -60,7 +60,7 @@
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Consolas, monospace;
 
-  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-display: clamp(3.2rem, 8vw, 5.5rem);
   --text-h1:      clamp(1.75rem, 3vw, 2.5rem);
   --text-h2:      1.5rem;
   --text-h3:      1.125rem;
@@ -307,6 +307,18 @@ ul { list-style: none; }
   z-index: 0;
   pointer-events: none;
 }
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+  filter: blur(7px);
+}
 .hero-inner {
   position: relative;
   z-index: 2;
@@ -319,7 +331,7 @@ ul { list-style: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -381,27 +393,15 @@ ul { list-style: none; }
   50% { opacity: 0; }
 }
 .hero-role {
-  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  font-size: clamp(1.15rem, 1.8vw, 1.4rem);
   font-weight: 500;
   color: var(--on-dark-soft);
   letter-spacing: 0.02em;
   display: inline-block;
-  padding: 6px 16px;
+  padding: 8px 20px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-pill);
-  margin-bottom: var(--space-lg);
-}
-.hero-tagline {
-  font-size: clamp(0.98rem, 1.5vw, 1.1rem);
-  color: var(--on-dark-soft);
-  max-width: 56ch;
-  margin: 0 auto var(--space-xl);
-  line-height: 1.7;
-}
-.hero-tagline em {
-  font-style: normal;
-  color: var(--cyan-300);
-  font-weight: 500;
+  margin-bottom: var(--space-xl);
 }
 
 .hero-ctas {
@@ -483,6 +483,7 @@ ul { list-style: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-scroll { animation: none; }
+  .hero-video { display: none; }
 }
 
 /* =================================================================
@@ -611,8 +612,13 @@ ul { list-style: none; }
   color: var(--cyan-500);
 }
 
-/* Hide the active dot ring when hero is in view */
+/* Fade entire sidebar when hero is in view */
+.section-dots.is-hidden { opacity: 0; pointer-events: none; }
 .section-dots.is-hidden .section-dots__indicator { opacity: 0; }
+
+@media (max-width: 1280px) {
+  .section-dot__label { display: none; }
+}
 
 @media (max-width: 859px) {
   .section-dots { left: 4px; }
@@ -621,7 +627,6 @@ ul { list-style: none; }
   .section-dots__indicator { width: 12px; height: 12px; border-width: 1.5px; left: 1px; }
   .section-dot__indicator { width: 14px; height: 14px; border-width: 1.5px; }
   .section-dot__anim { width: 14px; height: 14px; }
-  .section-dot__label { display: none; }
 }
 @media (max-width: 479px) {
   .section-dots { display: none; }
@@ -1988,16 +1993,14 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   .hero-scroll svg { width: 28px; height: 28px; }
   .stat { padding: 12px 8px; }
   .hero-ctas { margin-bottom: 10px; }
-  .hero-tagline { margin-bottom: 8px; }
 
-  .hero-eyebrow, .hero-name, .hero-role, .hero-tagline { flex: 0 0 auto; }
+  .hero-eyebrow, .hero-name, .hero-role { flex: 0 0 auto; }
   .hero-eyebrow { font-size: 0.78rem; padding: 6px 14px; margin-bottom: 10px; position: relative; top: 28px; }
-  .hero-tagline { font-size: 0.78rem; line-height: 1.4; margin-bottom: 20px; }
   .hero-stats { flex: 1 1 0; min-height: 0; align-content: center; grid-template-columns: repeat(2, 1fr); }
   .hero-ctas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 0 0 auto; margin-bottom: 6px; }
   .hero-ctas > a, .hero-ctas > button { width: 100%; justify-content: center; }
-  .hero-name .first, .hero-name .surname { display: inline; }
-  .hero-name { font-size: clamp(2rem, 12vw, 3rem); line-height: 1; margin: 20px 0 4px; white-space: nowrap; overflow: visible; letter-spacing: -0.02em; }
+  .hero-name .first, .hero-name .surname { display: block; }
+  .hero-name { font-size: clamp(2rem, 12vw, 3rem); line-height: 1; margin: 20px 0 4px; overflow: visible; letter-spacing: -0.02em; }
   .stat { padding: 8px 6px; }
   .stat-num { font-size: 1.4rem; }
   .stat-label { font-size: 0.6rem; }
@@ -2187,6 +2190,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
       Content is fully accessible without it.
     </div>
   </noscript>
+  <video id="hero-video" class="hero-video" muted playsinline preload="auto" aria-hidden="true"></video>
   <canvas id="dot-grid" aria-hidden="true"></canvas>
   <div class="hero-inner">
     <div class="hero-eyebrow">
@@ -2203,11 +2207,6 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
       </span>
     </h1>
     <div class="hero-role">Production Editor &amp; Motion Designer</div>
-    <p class="hero-tagline">
-      I think laterally and push assets to their absolute limit.
-      When something's missing, I use every tool at my disposal to make it real.
-      I don't deliver exactly what clients ask for - <em>I deliver what they couldn't have thought themselves.</em>
-    </p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="https://drive.google.com/drive/folders/1_SLbZgKhBZWUzWbMosAAZ0lenxpSD07Q?usp=drive_link" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
@@ -2843,6 +2842,8 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   const skipFx = /[?&]nofx=1\b/.test(location.search);
   /* Shared motion preference - referenced by both the dot-grid and the stat counter */
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* Set to true when the browser blocks video autoplay (NotAllowedError) */
+  var videoBlocked = false;
 
   /* =================================================================
      DOT GRID CANVAS  (cursor-tracking, reusable for any section)
@@ -2859,6 +2860,22 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
     const ambient = o.ambient != null ? o.ambient : 1.6;
     const dotR    = o.dotR    != null ? o.dotR    : [1.6, 2.4];
     const fill    = o.fill    != null ? o.fill    : "rgba(255,255,255,0.18)";
+    const videoMode = o.videoMode || false;
+
+    let videoEl = null;
+    let sampleCanvas = null;
+    let sampleCtx = null;
+    const SAMPLE_W = 64;
+    const SAMPLE_H = 36;
+    if (videoMode) {
+      videoEl = document.getElementById("hero-video");
+      if (videoEl) {
+        sampleCanvas = document.createElement("canvas");
+        sampleCtx = sampleCanvas.getContext("2d");
+        sampleCanvas.width = SAMPLE_W;
+        sampleCanvas.height = SAMPLE_H;
+      }
+    }
 
     const isCoarse = matchMedia("(pointer: coarse)").matches;
     const isMobile = matchMedia("(max-width: 859px)").matches;
@@ -2883,7 +2900,8 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
             bx: baseX + ox, by: baseY + oy,
             x:  baseX + ox, y:  baseY + oy,
             phase: Math.random() * Math.PI * 2,
-            r: dotR[0] + Math.random() * (dotR[1] - dotR[0])
+            r: dotR[0] + Math.random() * (dotR[1] - dotR[0]),
+            pushAngle: Math.random() * Math.PI * 2
           });
         }
       }
@@ -2909,10 +2927,43 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         mouse.active = true;
       }
 
+      // Sample video frame for dot push (hero only).
+      // Skips entirely if autoplay was blocked.
+      let imageData = null;
+      if (videoMode && !videoBlocked && videoEl) {
+        try {
+          sampleCtx.drawImage(videoEl, 0, 0, SAMPLE_W, SAMPLE_H);
+          imageData = sampleCtx.getImageData(0, 0, SAMPLE_W, SAMPLE_H);
+        } catch (e) {}
+      }
+
+      // Fallback: simulated cursor when video sampling is unavailable (file://, etc.)
+      if (videoMode && !imageData && !isMobile) {
+        mouse.x = (0.5 + Math.sin(tt * 0.30) * 0.45 + Math.sin(tt * 0.72) * 0.18 + Math.sin(tt * 1.1) * 0.10) * W;
+        mouse.y = (0.5 + Math.cos(tt * 0.35) * 0.42 + Math.cos(tt * 0.62) * 0.20 + Math.cos(tt * 0.95) * 0.10) * H;
+        mouse.active = true;
+      }
+
       for (let i = 0; i < dots.length; i++) {
         const d = dots[i];
         let tx = d.bx, ty = d.by;
 
+        // Video luminance-based push
+        if (imageData) {
+          const sx = Math.min(SAMPLE_W - 1, Math.max(0, Math.floor((d.bx / W) * SAMPLE_W)));
+          const sy = Math.min(SAMPLE_H - 1, Math.max(0, Math.floor((d.by / H) * SAMPLE_H)));
+          const idx = (sy * SAMPLE_W + sx) * 4;
+          const r = imageData.data[idx] / 255;
+          const g = imageData.data[idx + 1] / 255;
+          const b = imageData.data[idx + 2] / 255;
+          const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          if (luma > 0.02) {
+            tx += Math.cos(d.pushAngle) * push * 10 * luma;
+            ty += Math.sin(d.pushAngle) * push * 10 * luma;
+          }
+        }
+
+        // Mouse-based push (always attached, works as fallback + secondary effect)
         if (mouse.active && (!isCoarse || isMobile)) {
           const dx = d.x - mouse.x;
           const dy = d.y - mouse.y;
@@ -2921,8 +2972,8 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
             const f = 1 - dist / radius;
             const inf = f * f;
             const ux = dx / dist, uy = dy / dist;
-            tx = d.bx + ux * push * inf;
-            ty = d.by + uy * push * inf;
+            tx += ux * push * inf;
+            ty += uy * push * inf;
           }
         }
 
@@ -2971,8 +3022,8 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
     return { resize, stop: () => cancelAnimationFrame(rafId) };
   }
 
-  // Hero dot grid
-  initDotGrid(document.getElementById("dot-grid"));
+  // Hero dot grid - driven by video red channel instead of mouse
+  initDotGrid(document.getElementById("dot-grid"), { tile: 44, videoMode: true });
   // Work section dot grid (mirrors the hero)
   initDotGrid(document.getElementById("work-dot-grid"), {
     tile: 28, radius: 140, push: 24, ambient: 1.2,
@@ -2986,6 +3037,70 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   });
 
   /* =================================================================
+     HERO VIDEO BACKGROUND  (auto-detect format + resolution)
+     ================================================================= */
+  (function videoBg() {
+    var video = document.getElementById("hero-video");
+    if (!video || reduced) return;
+
+    // Detect best format: WebM (Chrome/Firefox) or MP4 (Safari)
+    var fmt = (video.canPlayType('video/webm; codecs="vp9"') || video.canPlayType("video/webm")) ? "webm" : "mp4";
+
+    // Detect mobile for lower resolution
+    var isMobile = matchMedia("(max-width: 859px)").matches;
+    var res = isMobile ? "-480" : "";
+    var basePath = "videos/" + fmt + res + "/clip-";
+    var ext = fmt;
+
+    var nums = [1,2,3,4,5,6,8,9,10,11,12,13,14,15,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,35,36,37,38,39,40,41,42,43,44,45,46];
+
+    function pad(n) { return n < 10 ? "0" + n : "" + n; }
+
+    var clips = [];
+    for (var i = 0; i < nums.length; i++) {
+      clips.push(basePath + pad(nums[i]) + "." + ext);
+    }
+
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+      }
+      return a;
+    }
+
+    shuffle(clips);
+    var idx = 0;
+
+    function playNext() {
+      var src = clips[idx % clips.length];
+      idx++;
+      video.style.opacity = 0;
+      video.src = src;
+      var p = video.play();
+      if (p !== undefined) {
+        p["catch"](function (err) {
+          if (err.name === "NotAllowedError") {
+            videoBlocked = true;
+            video.style.display = "none";
+          }
+        });
+      }
+      video.addEventListener("canplay", function () {
+        video.style.opacity = 0.4;
+      }, { once: true });
+    }
+
+    video.addEventListener("ended", playNext);
+
+    if (video.readyState >= 2) {
+      video.style.opacity = 0.4;
+    }
+
+    playNext();
+  })();
+
+  /* =================================================================
      TYPEWRITER  (John Lomnicki on hero)
      ================================================================= */
   (function typewriter() {
@@ -2995,7 +3110,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
     const surnameEl = textEl && textEl.querySelector(".surname__text");
     if (!first || !surnameEl || !cursor) return;
     const name = "John Lomnicki";
-    if (reduced || skipFx) {
+      if (reduced || skipFx) {
       first.textContent    = "John";
       surnameEl.textContent = "Lomnicki";
       cursor.style.display = "none";
