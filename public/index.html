@@ -3024,16 +3024,16 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   }
 
   // Hero dot grid - driven by video red channel instead of mouse
-  initDotGrid(document.getElementById("dot-grid"), { tile: 44, videoMode: true });
+  initDotGrid(document.getElementById("dot-grid"), { tile: 44, videoMode: true, push: 12, ambient: 1.0 });
   // Work section dot grid (mirrors the hero)
   initDotGrid(document.getElementById("work-dot-grid"), {
-    tile: 28, radius: 140, push: 24, ambient: 1.2,
+    tile: 28, radius: 140, push: 14, ambient: 0.8,
     dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
   });
 
   // Contact section dot grid
   initDotGrid(document.getElementById("contact-dot-grid"), {
-    tile: 28, radius: 140, push: 24, ambient: 1.2,
+    tile: 28, radius: 140, push: 14, ambient: 0.8,
     dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
   });
 
