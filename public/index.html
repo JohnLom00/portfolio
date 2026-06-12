@@ -2959,8 +2959,8 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
           const b = imageData.data[idx + 2] / 255;
           const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
           if (luma > 0.02) {
-            tx += Math.cos(d.pushAngle) * push * 10 * luma;
-            ty += Math.sin(d.pushAngle) * push * 10 * luma;
+            tx += Math.cos(d.pushAngle) * push * 3 * luma;
+            ty += Math.sin(d.pushAngle) * push * 3 * luma;
           }
         }
 
@@ -3024,16 +3024,16 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   }
 
   // Hero dot grid - driven by video red channel instead of mouse
-  initDotGrid(document.getElementById("dot-grid"), { tile: 44, videoMode: true, push: 12, ambient: 1.0 });
+  initDotGrid(document.getElementById("dot-grid"), { tile: 44, videoMode: true, push: 5, ambient: 0.5 });
   // Work section dot grid (mirrors the hero)
   initDotGrid(document.getElementById("work-dot-grid"), {
-    tile: 28, radius: 140, push: 14, ambient: 0.8,
+    tile: 28, radius: 140, push: 6, ambient: 0.4,
     dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
   });
 
   // Contact section dot grid
   initDotGrid(document.getElementById("contact-dot-grid"), {
-    tile: 28, radius: 140, push: 14, ambient: 0.8,
+    tile: 28, radius: 140, push: 6, ambient: 0.4,
     dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
   });
 
