@@ -2949,7 +2949,9 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         const d = dots[i];
         let tx = d.bx, ty = d.by;
 
-        // Video luminance-based push
+        // Video luminance-based push + sizing
+        let luma = 0;
+        let hasLuma = false;
         if (imageData) {
           const sx = Math.min(SAMPLE_W - 1, Math.max(0, Math.floor((d.bx / W) * SAMPLE_W)));
           const sy = Math.min(SAMPLE_H - 1, Math.max(0, Math.floor((d.by / H) * SAMPLE_H)));
@@ -2957,7 +2959,8 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
           const r = imageData.data[idx] / 255;
           const g = imageData.data[idx + 1] / 255;
           const b = imageData.data[idx + 2] / 255;
-          const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          hasLuma = true;
           if (luma > 0.02) {
             tx += Math.cos(d.pushAngle) * push * 3 * luma;
             ty += Math.sin(d.pushAngle) * push * 3 * luma;
@@ -2986,10 +2989,11 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         d.x += (tx - d.x) * lerp;
         d.y += (ty - d.y) * lerp;
 
-        const pulseR = d.baseR * (2.25 + 1.25 * Math.sin(tt * 0.3 + d.phase * 2));
+        // Dot radius: grows up to 350% with luminance, stays at baseR without video
+        const drawR = hasLuma ? d.baseR * (1 + 2.5 * luma) : d.baseR;
 
         ctx.beginPath();
-        ctx.arc(d.x, d.y, pulseR, 0, Math.PI * 2);
+        ctx.arc(d.x, d.y, drawR, 0, Math.PI * 2);
         ctx.fillStyle = fill;
         ctx.fill();
       }
