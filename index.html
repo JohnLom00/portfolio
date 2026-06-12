@@ -3049,17 +3049,14 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         const dist = Math.abs(top - offset);
         if (dist < bestDist) { bestDist = dist; bestId = id; }
       }
-      if (bestId && bestDist > 10 && bestDist < vh * 0.10) {
+      if (bestId && bestDist > 10 && bestDist < vh * 0.17) {
         var target = document.getElementById(bestId);
         if (target) target.scrollIntoView({ block: "start" });
       }
     };
-    if ("onscrollend" in window) {
-      window.addEventListener("scrollend", snapToSection, { passive: true });
-    }
     window.addEventListener("scroll", function() {
       clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(snapToSection, 200);
+      scrollTimer = setTimeout(snapToSection, 500);
     }, { passive: true });
   }
 
