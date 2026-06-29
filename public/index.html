@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- deploy: 12-jun-2026 -->
+<!-- deploy: 24-jun-2026 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -191,7 +191,7 @@ ul { list-style: none; }
   transition: background var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
 }
 .topnav.is-scrolled {
-  background: rgba(255, 255, 255, 0.85);
+  background: #fff;
   border-color: var(--border);
 }
 .topnav-inner {
@@ -225,10 +225,10 @@ ul { list-style: none; }
   font-size: 0.85rem;
   letter-spacing: 0.02em;
 }
-.brand-name { letter-spacing: -0.01em; }
-.brand-role { font-weight: 500; font-size: 0.8rem; margin-left: 4px; color: var(--on-dark-soft); display: none; }
+.brand-name { letter-spacing: -0.01em; display: block; }
+.brand-role { font-weight: 500; font-size: 0.8rem; color: var(--on-dark-soft); display: none; }
 .topnav.is-scrolled .brand-role { color: var(--muted); }
-@media (min-width: 720px) { .brand-role { display: inline; } }
+@media (min-width: 720px) { .brand-role { display: block; } }
 
 .nav-links { display: none; gap: 4px; }
 @media (min-width: 860px) { .nav-links { display: flex; } }
@@ -341,7 +341,7 @@ ul { list-style: none; }
   border: 1px solid rgba(93, 212, 212, 0.25);
   padding: 8px 16px;
   border-radius: var(--radius-pill);
-  margin-bottom: var(--space-lg);
+  margin-bottom: 2.5rem;
 }
 .hero-eyebrow .pulse {
   width: 6px;
@@ -372,7 +372,7 @@ ul { list-style: none; }
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.04em;
-  margin-bottom: var(--space-md);
+  margin-bottom: 1.5rem;
 }
 .hero-name .first  { color: var(--on-dark); display: block; }
 .hero-name .surname { color: var(--cyan-500); display: block; }
@@ -402,7 +402,7 @@ ul { list-style: none; }
   padding: 8px 20px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: var(--radius-pill);
-  margin-bottom: var(--space-xl);
+  margin-bottom: 3rem;
 }
 
 .hero-ctas {
@@ -410,7 +410,7 @@ ul { list-style: none; }
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-bottom: var(--space-3xl);
+  margin-bottom: 7rem;
 }
 .btn {
   display: inline-flex;
@@ -1682,6 +1682,39 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
 }
 
 /* =================================================================
+   COMPACT LANDSCAPE (wider ~1024x600 tablets): shrink hero + kill
+   the preview-chevron pattern so cards show full content inline.
+   ================================================================= */
+@media (max-height: 700px) {
+  /* --- Hero: shrink large heads so 4 stats are visible --- */
+  .hero { min-height: auto; height: auto; padding-top: 76px; overflow: visible; }
+  .hero-year { font-size: clamp(2.8rem, 7vw, 5rem); }
+  .hero-name { font-size: clamp(1.7rem, 4.5vw, 2.4rem); }
+  .hero-role { font-size: 0.85rem; }
+  .hero-tagline { font-size: 0.85rem; margin-bottom: 12px; }
+  .hero-eyebrow { position: relative; top: 14px; }
+  .hero-ctas { margin-bottom: 12px; }
+  .hero-ctas .btn { padding: 10px 16px; font-size: 0.85rem; }
+  .hero-name .first, .hero-name .surname { display: inline; }
+  .hero-stats { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .stat { padding: 10px 8px; }
+  .stat-value { font-size: 1.2rem; }
+  .stat-label { font-size: 0.62rem; }
+
+  /* --- Kill the "+" preview chevron on cards + rows --- */
+  .content-card::after, .project-row::after,
+  .work-item::after, .campaign-col .content-card::after { display: none; }
+  .content-card .content-card__line, .content-card .content-list,
+  .content-card .tag-row { display: revert; }
+  .project-row .project-meta, .project-row .project-desc { display: revert; }
+  .work-item .work-desc { display: revert; }
+
+  /* --- No scroll-snap cut-off --- */
+  .hero, .section, .skills-software-split { scroll-snap-align: none; height: auto; min-height: 0; overflow: visible; }
+  .hero-inner, .section > .container, .skills-software-split > .section > .container { height: auto; }
+}
+
+/* =================================================================
    MOBILE: snap-scroll, compact nav, dot-grid 25%, skills 2-col,
            no-scroll pages, tappable detail pop-ups
    ================================================================= */
@@ -1705,7 +1738,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   .hero, .skills-software-split, #animation-work, #campaigns, #work, #resume-pages, .contact-section, .footer { scroll-snap-align: start; }
 
   .skills-software-split { display: flex; flex-direction: column; gap: 6px; min-height: 0; padding-block: 0; margin-top: 0; scroll-margin-top: 0; }
-  .skills-software-split > .section { flex: 0 0 auto; min-height: 0; overflow: hidden; height: auto; scroll-snap-align: none; }
+  .skills-software-split > .section { flex: 0 0 auto; min-height: 0; height: auto; scroll-snap-align: none; }
   .skills-software-split > .section > .container { height: auto; min-height: 0; }
   .skills-software-split > #skills { padding-top: 72px; scroll-margin-top: 0; }
   #software .section-head { display: block; }
@@ -1796,11 +1829,9 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   #animation-work .container > .project-list { flex: 0 0 auto !important; min-height: 0; height: auto !important; }
   #animation-work .container > .card-grid { flex: 0 0 auto !important; min-height: 0; height: auto !important; overflow: hidden; margin-top: 14px; }
   #animation-work .project-list { display: grid !important; grid-template-columns: 1fr 1fr; grid-template-rows: 36px 36px !important; gap: 6px; height: auto !important; }
-  #animation-work .card-grid { display: flex; flex-direction: column; gap: 8px; height: auto; align-items: center; }
-  #animation-work .project-row { flex: 0 0 auto; min-height: 36px; padding: 3px 10px; display: flex; align-items: center; }
-  #animation-work .content-card { flex: 0 0 auto; min-height: 44px; padding: 6px 14px; height: auto; }
-  #animation-work .card-grid--2 .content-card:nth-child(1),
-  #animation-work .card-grid--2 .content-card:nth-child(4) { width: calc(100% + 2 * var(--container-px)); margin-left: calc(-1 * var(--container-px)); margin-right: calc(-1 * var(--container-px)); border-radius: 0; max-width: none; }
+  #animation-work .card-grid { display: flex; flex-direction: column; gap: 8px; height: auto; width: 100%; }
+  #animation-work .project-row { flex: 1 0 auto; min-height: 36px; padding: 3px 10px; display: flex; align-items: center; }
+  #animation-work .content-card { flex: 1 0 auto; min-height: 44px; padding: 6px 14px; height: auto; width: 100%; }
   #animation-work .section-head { margin-bottom: 6px; }
   #animation-work .section-sub { font-size: 0.62rem; line-height: 1.3; }
   #animation-work .project-name { font-size: 0.78rem; }
@@ -1826,7 +1857,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   .content-card__title { font-size: 0.85rem; margin-bottom: 0; }
 
   /* --- Work items: compact, date below role --- */
-  .work-split { display: flex; flex-direction: column; gap: 10px; flex: 1 1 0; min-height: 0; overflow: hidden; }
+  .work-split { display: flex; flex-direction: column; gap: 10px; flex: 1 1 0; min-height: 0; overflow-y: auto; }
   .work-timeline {
     gap: 10px;
     display: flex;
@@ -1975,7 +2006,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   .hero {
     position: relative;
     min-height: 100vh;
-    padding-top: 56px;
+    padding-top: 80px;
     padding-bottom: 72px;
     bottom: auto;
     scroll-snap-align: start;
@@ -2130,7 +2161,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
       <span class="brand-mark">JL</span>
       <span>
         <span class="brand-name">John Lomnicki</span>
-        <span class="brand-role">- Production Editor &amp; Motion Designer</span>
+        <span class="brand-role">Production Editor &amp; Motion Designer</span>
       </span>
     </a>
     <div class="nav-links" role="navigation">
@@ -2901,7 +2932,7 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
             bx: baseX + ox, by: baseY + oy,
             x:  baseX + ox, y:  baseY + oy,
             phase: Math.random() * Math.PI * 2,
-            r: dotR[0] + Math.random() * (dotR[1] - dotR[0]),
+            baseR: dotR[0] + Math.random() * (dotR[1] - dotR[0]),
             pushAngle: Math.random() * Math.PI * 2
           });
         }
@@ -2949,7 +2980,9 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         const d = dots[i];
         let tx = d.bx, ty = d.by;
 
-        // Video luminance-based push
+        // Video luminance-based push + sizing
+        let luma = 0;
+        let hasLuma = false;
         if (imageData) {
           const sx = Math.min(SAMPLE_W - 1, Math.max(0, Math.floor((d.bx / W) * SAMPLE_W)));
           const sy = Math.min(SAMPLE_H - 1, Math.max(0, Math.floor((d.by / H) * SAMPLE_H)));
@@ -2957,10 +2990,11 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
           const r = imageData.data[idx] / 255;
           const g = imageData.data[idx + 1] / 255;
           const b = imageData.data[idx + 2] / 255;
-          const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+          hasLuma = true;
           if (luma > 0.02) {
-            tx += Math.cos(d.pushAngle) * push * 10 * luma;
-            ty += Math.sin(d.pushAngle) * push * 10 * luma;
+            tx += Math.cos(d.pushAngle) * push * 3 * luma;
+            ty += Math.sin(d.pushAngle) * push * 3 * luma;
           }
         }
 
@@ -2986,8 +3020,11 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
         d.x += (tx - d.x) * lerp;
         d.y += (ty - d.y) * lerp;
 
+        // Dot radius: grows up to 350% with luminance, stays at baseR without video
+        const drawR = hasLuma ? d.baseR * (1 + 2.5 * luma) : d.baseR;
+
         ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.arc(d.x, d.y, drawR, 0, Math.PI * 2);
         ctx.fillStyle = fill;
         ctx.fill();
       }
@@ -3024,16 +3061,16 @@ button.content-tag[data-youtube]:hover::before { content: "▶ "; }
   }
 
   // Hero dot grid - driven by video red channel instead of mouse
-  initDotGrid(document.getElementById("dot-grid"), { tile: 44, videoMode: true });
+  initDotGrid(document.getElementById("dot-grid"), { tile: 62, videoMode: true, push: 5, ambient: 0.5 });
   // Work section dot grid (mirrors the hero)
   initDotGrid(document.getElementById("work-dot-grid"), {
-    tile: 28, radius: 140, push: 24, ambient: 1.2,
+    tile: 40, radius: 140, push: 6, ambient: 0.4,
     dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
   });
 
   // Contact section dot grid
   initDotGrid(document.getElementById("contact-dot-grid"), {
-    tile: 28, radius: 140, push: 24, ambient: 1.2,
+    tile: 40, radius: 140, push: 6, ambient: 0.4,
     dotR: [1.4, 2.0], fill: "rgba(255,255,255,0.16)"
   });
 
